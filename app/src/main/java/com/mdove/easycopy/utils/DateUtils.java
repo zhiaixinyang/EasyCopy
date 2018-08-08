@@ -144,6 +144,16 @@ public class DateUtils {
         }
     }
 
+    public static String getDateChineseYMD(Date time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(time);
+    }
+
+    public static String getDateChineseYMD(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(time);
+    }
+
     /**
      * get the day of week
      *

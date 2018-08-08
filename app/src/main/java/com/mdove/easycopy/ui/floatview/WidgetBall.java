@@ -60,6 +60,6 @@ public class WidgetBall extends FrameLayout implements IFloatView {
     }
 
     public void showWeather() {
-        mWeatherIcon.setImageResource(R.mipmap.ic_launcher);
+        mWeatherIcon.setImageResource(R.mipmap.ic_float_view);
     }
 }

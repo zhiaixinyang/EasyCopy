@@ -1,10 +1,11 @@
-package com.mdove.easycopy;
+package com.mdove.easycopy.home;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.mdove.easycopy.R;
 import com.mdove.easycopy.ui.floatview.FloatWeatherWidget;
 import com.mdove.easycopy.ui.floatview.WidgetBall;
 import com.mdove.easycopy.utils.ToastHelper;

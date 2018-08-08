@@ -6,5 +6,31 @@
 
     <color name="cross_default">#ffffff</color>
     <color name="cross_overlapped">#ffffff</color>
+
+
     <color name="white">#ffffff</color>
+    <color name="white_normal_bottom">#ccffffff</color>
+    <color name="white_t_80">#ccffffff</color>
+    <color name="white_t_50">#80ffffff</color>
+    <color name="white_t_30">#4dffffff</color>
+    <color name="white_t_10">#1c91d4</color>
+
+
+    <color name="main_start_color">@color/gray_light</color>
+    <color name="bg_color_all">@color/gray_light</color>
+    <!--<color name="bg_color_all">#8495c9</color>-->
+    <!--<color name="main_end_color">#edb6d5</color>-->
+    <!--<color name="main_start_color">#1A1B36</color>-->
+    <!--<color name="main_end_color">#544769</color>-->
+    <color name="black">#000000</color>
+    <color name="black_light">#1d1d1d</color>
+
+    <color name="trans">#00ffffff</color>
+    <color name="trans_gray">#28dedede</color>
+    <color name="blue">#303F9F</color>
+    <color name="color_tv_main_option_btn">#000000</color>
+    <color name="gray">#a4a4a4</color>
+    <color name="gray_light">#e2e2e2</color>
+    <color name="gray_50">#80cccacc</color>
+    <color name="gray_new_home">#EEF2F3</color>
 </resources>

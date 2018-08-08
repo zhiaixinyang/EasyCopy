@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EasyCopy</string>
+
+    <string name="string_rlv_empty">空空如也</string>
 </resources>

@@ -11,4 +11,9 @@
     <style name="TextAppearanceSmall" parent="android:TextAppearance">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="AppBarLayout" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
 </resources>

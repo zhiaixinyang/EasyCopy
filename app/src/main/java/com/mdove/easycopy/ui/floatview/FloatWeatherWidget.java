@@ -163,6 +163,9 @@ public class FloatWeatherWidget {
         mVisibleRemoveWidgetPos.set(removeViewX, removeViewVisibleY);
 
         try {
+            if (mFloatView instanceof WidgetBall) {
+                ((WidgetBall) mFloatView).showWeather();
+            }
             show(mRemoveWidgetView, mHiddenRemoveWidgetPos.x, mHiddenRemoveWidgetPos.y);
         } catch (Exception e) {
             e.printStackTrace();
