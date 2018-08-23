@@ -49,6 +49,8 @@ greendao {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    implementation files('libs/ocr-sdk.jar')
+
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     Map<String, String> dependencies = rootProject.ext.dependencies
@@ -63,6 +65,8 @@ dependencies {
     implementation dependencies.retrofit
     implementation dependencies.retrofitConverterGson
     implementation dependencies.retrofitAdapterRxJava
+    implementation dependencies.glide
+    implementation 'com.google.android.gms:play-services-vision:10.0.1'
 
     implementation 'org.greenrobot:greendao:3.2.0'
 }

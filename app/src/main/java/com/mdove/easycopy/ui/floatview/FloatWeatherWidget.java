@@ -65,7 +65,7 @@ public class FloatWeatherWidget {
         this.mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         this.mScreenSize = new Point();
         this.mWindowManager.getDefaultDisplay().getSize(mScreenSize);
-        this.mScreenSize.y -= StatusBarUtils.getStatusBarHeight(context) /*+ (NavigationBarUtils.hasNavigationBar(context) ? NavigationBarUtils.getNavigationBarHeight(context) : 0)*/;
+        this.mScreenSize.y -= StatusBarUtils.getStatusBarHeight(context);
 
         if (configuration == null) {
             configuration = prepareConfiguration();

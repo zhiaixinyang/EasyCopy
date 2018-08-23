@@ -1,38 +1,49 @@
 package com.mdove.easycopy.home;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 
 import com.mdove.easycopy.R;
-import com.mdove.easycopy.ui.floatview.FloatWeatherWidget;
-import com.mdove.easycopy.ui.floatview.WidgetBall;
+import com.mdove.easycopy.base.BaseActivity;
+import com.mdove.easycopy.databinding.ActivityMainBinding;
+import com.mdove.easycopy.home.model.handle.MainHandler;
+import com.mdove.easycopy.home.presenter.MainPresenter;
+import com.mdove.easycopy.home.presenter.contract.MainContract;
+import com.mdove.easycopy.resultocr.ResultOCRActivity;
+import com.mdove.easycopy.ui.ResultOCRDialog;
+import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements MainContract.MvpView {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 100;
-    private FloatWeatherWidget mWidget;
+    private ActivityMainBinding mBinding;
+    private MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        mWidget = new FloatWeatherWidget(this, new WidgetBall(this), null);
-        findViewById(R.id.btn_float).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initBall();
-            }
-        });
+        mPresenter = new MainPresenter();
+        mPresenter.subscribe(this);
+
+        mBinding.setHandler(new MainHandler(mPresenter));
     }
+
+    @Override
+    protected boolean isNeedCustomLayout() {
+        return true;
+    }
+
 
     private void initBall() {
         boolean overlaysPermission = PermissionUtils.hasOverlaysPermission(this);
         if (overlaysPermission) {
-            mWidget.show(0, 0);
+            BallWidgetService.showWeatherBall(this);
         } else {
             checkOverlaysPermission(false);
         }
@@ -45,8 +56,34 @@ public class MainActivity extends AppCompatActivity {
                     OVERLAY_PERMISSION_REQUEST_CODE);
         } else if (!overlaysPermission) {
             ToastHelper.shortToast("未授予悬浮权限");
-        } else if (result) {
-            mWidget.show(0, 0);
         }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void showResultOCR(String content) {
+//        ResultOCRDialog.show(this, content);
+        ResultOCRActivity.start(this, content, ResultOCRActivity.INTENT_TYPE_RESULT_OCR);
+    }
+
+    @Override
+    public void onClickShowBall() {
+        initBall();
+    }
+
+    @Override
+    public void onClickOpenPhoto() {
+
     }
 }

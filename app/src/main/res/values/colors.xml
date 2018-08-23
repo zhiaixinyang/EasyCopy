@@ -14,7 +14,7 @@
     <color name="white_t_50">#80ffffff</color>
     <color name="white_t_30">#4dffffff</color>
     <color name="white_t_10">#1c91d4</color>
-
+    <color name="transparent">#00000000</color>
 
     <color name="main_start_color">@color/gray_light</color>
     <color name="bg_color_all">@color/gray_light</color>

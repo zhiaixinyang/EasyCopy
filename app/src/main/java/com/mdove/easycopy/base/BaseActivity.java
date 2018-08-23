@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.ui.ProgressDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView mLayoutEmpty;
     private FrameLayout mContentContainer;
     private List<IBackHandler> mBackHandlers = new ArrayList<>();
+    protected ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -213,6 +216,29 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void showLoading(String msg) {
+        if (isFinishing()) {
+            return;
+        }
+
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.setMessage(msg);
+        progressDialog.show();
+    }
+
+    public void dismissLoading() {
+        if (isFinishing()) {
+            return;
+        }
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     protected final void callSuperOnBackPressed() {
