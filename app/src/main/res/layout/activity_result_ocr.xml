@@ -14,22 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".home.MainActivity">
-
-        <ScrollView
+        <ImageView
+            android:id="@+id/iv_bg"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@{vm.mContent}"
-                android:textColor="@color/black"
-                android:textIsSelectable="true"
-                android:textSize="16sp" />
-
-        </ScrollView>
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{vm.mContent}"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="16sp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

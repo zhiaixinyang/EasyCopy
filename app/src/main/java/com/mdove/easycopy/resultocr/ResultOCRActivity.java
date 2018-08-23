@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.base.BaseActivity;
+import com.mdove.easycopy.crop.Crop;
 import com.mdove.easycopy.databinding.ActivityResultOcrBinding;
 import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.resultocr.presenter.ResultOCRPresenter;
 import com.mdove.easycopy.resultocr.presenter.contract.ResultOCRContract;
+import com.mdove.easycopy.utils.ToastHelper;
+
+import java.io.File;
 
 public class ResultOCRActivity extends BaseActivity implements ResultOCRContract.MvpView {
     public static final int INTENT_TYPE_RESULT_OCR = 1;
@@ -80,11 +86,37 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             case ACTION_START_OCR_IMAGE_PATH: {
                 String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
                 mPresenter.startOCR(path);
+                beginCrop(Uri.fromFile(new File(path)));
+//                Crop.pickImage(this);
                 break;
             }
             default: {
+
                 break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped.png"));
+        Crop.of(source, destination).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            Log.d("aaa", Crop.getOutput(result).getPath());
+            mPresenter.startOCR(Crop.getOutput(result).getPath());
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            ToastHelper.shortToast(Crop.getError(result).getMessage());
         }
     }
 

@@ -35,6 +35,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".crop.CropImageActivity" />
+
         <activity
             android:name=".resultocr.ResultOCRActivity"
             android:launchMode="singleTask"
