@@ -13,6 +13,10 @@ import android.util.Log;
 public class ScreenshotContentObserver extends ContentObserver {
     private Context mContext;
     private Handler mHandler;
+    private static final String[] MEDIA_PROJECTIONS = {
+            MediaStore.Images.ImageColumns.DATA,
+            MediaStore.Images.ImageColumns.DATE_TAKEN
+    };
 
     public ScreenshotContentObserver(Context context) {
         super(new Handler());
@@ -32,21 +36,30 @@ public class ScreenshotContentObserver extends ContentObserver {
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, "_data desc");
+        Cursor cursor = mContext.getContentResolver().query(uri, MEDIA_PROJECTIONS, null, null,
+                MediaStore.Images.ImageColumns.DATE_ADDED + " desc limit 1");
 
-        if (cursor != null) {
-
-            while (cursor.moveToNext()) {
-                String fileName = cursor.getString(cursor.getColumnIndex("_data"));
-                if (mHandler != null) {
-                    mHandler.obtainMessage(0x110, fileName).sendToTarget();
-                }
-                Intent intent = new Intent(ScreenshotReceiver.ACTION_SCREEN_SHOT_HAS_NEW);
-                intent.putExtra(ScreenshotReceiver.EXTRA_SCREEN_SHOT_HAS_NEW_PATH, fileName);
-                LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
-            }
-            cursor.close();
-
+        if (cursor == null) {
+            return;
         }
+
+        if (!cursor.moveToFirst()) {
+            return;
+        }
+
+        int dataIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        int dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN);
+        String data = cursor.getString(dataIndex);
+        long dateTaken = cursor.getLong(dateTakenIndex);
+
+        if (mHandler != null) {
+            mHandler.obtainMessage(0x110, data).sendToTarget();
+        }
+        Intent intent = new Intent(ScreenshotReceiver.ACTION_SCREEN_SHOT_HAS_NEW);
+        intent.putExtra(ScreenshotReceiver.EXTRA_SCREEN_SHOT_HAS_NEW_PATH, data);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+
+        cursor.close();
+
     }
 }
