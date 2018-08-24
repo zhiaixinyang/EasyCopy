@@ -6,6 +6,9 @@
     <dimen name="_12dp">12dp</dimen>
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_8dp">8dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
 
     <dimen name="crop_bar_height">56dp</dimen>
+    <dimen name="_16sp">16sp</dimen>
+    <dimen name="_5dp">5dp</dimen>
 </resources>

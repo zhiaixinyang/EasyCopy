@@ -81,9 +81,4 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     public void onClickShowBall() {
         initBall();
     }
-
-    @Override
-    public void onClickOpenPhoto() {
-
-    }
 }

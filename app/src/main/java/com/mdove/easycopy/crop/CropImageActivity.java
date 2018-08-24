@@ -30,12 +30,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.config.ImageConfig;
+import com.mdove.easycopy.utils.FileUtils;
+import com.mdove.easycopy.utils.ImageUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -95,6 +100,9 @@ public class CropImageActivity extends MonitoredActivity {
     private void setupViews() {
         setContentView(R.layout.activity_crop);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.string_activity_crop_title));
+
         imageView = (CropImageView) findViewById(R.id.crop_image);
         imageView.context = this;
         imageView.setRecycler(new ImageViewTouchBase.Recycler() {
@@ -106,13 +114,22 @@ public class CropImageActivity extends MonitoredActivity {
         });
 
         findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
                 finish();
             }
         });
 
+        findViewById(R.id.btn_quick_ocr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onQuickOCR();
+            }
+        });
+
         findViewById(R.id.btn_done).setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 onSaveClicked();
             }
@@ -266,6 +283,15 @@ public class CropImageActivity extends MonitoredActivity {
         }
     }
 
+    private void onQuickOCR() {
+        Bitmap bitmap = ImageUtil.decodeFile(sourceUri.getPath());
+        String path = ImageConfig.CONSTANT_IMAGE_PATH + "Haha.jpg";
+        if (ImageUtil.compressImage(bitmap, 65, path, true)) {
+            setResultUri(Uri.fromFile(new File(path)));
+            finish();
+        }
+    }
+
     private void onSaveClicked() {
         if (cropView == null || isSaving) {
             return;
@@ -311,6 +337,7 @@ public class CropImageActivity extends MonitoredActivity {
             final Bitmap b = croppedImage;
             CropUtil.startBackgroundJob(this, null, getResources().getString(R.string.crop__saving),
                     new Runnable() {
+                        @Override
                         public void run() {
                             saveOutput(b);
                         }

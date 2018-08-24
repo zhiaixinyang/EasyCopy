@@ -28,7 +28,5 @@ public interface MainContract {
         void showResultOCR(String content);
 
         void onClickShowBall();
-
-        void onClickOpenPhoto();
     }
 }

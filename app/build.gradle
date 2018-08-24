@@ -26,6 +26,7 @@ android {
         versionCode getVersionCodeProperty()
         versionName getVersionNameProperty()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {

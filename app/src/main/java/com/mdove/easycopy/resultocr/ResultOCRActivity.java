@@ -64,6 +64,7 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getString(R.string.string_activity_result_ocr_title));
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_result_ocr);
         mPresenter = new ResultOCRPresenter();
         mPresenter.subscribe(this);
@@ -85,9 +86,7 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             }
             case ACTION_START_OCR_IMAGE_PATH: {
                 String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
-                mPresenter.startOCR(path);
                 beginCrop(Uri.fromFile(new File(path)));
-//                Crop.pickImage(this);
                 break;
             }
             default: {
@@ -113,7 +112,6 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-            Log.d("aaa", Crop.getOutput(result).getPath());
             mPresenter.startOCR(Crop.getOutput(result).getPath());
         } else if (resultCode == Crop.RESULT_ERROR) {
             ToastHelper.shortToast(Crop.getError(result).getMessage());

@@ -6,13 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
+import com.mdove.easycopy.crop.Crop;
+import com.mdove.easycopy.home.TransparentActivity;
 import com.mdove.easycopy.home.presenter.contract.MainContract;
 import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
 import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
 import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
+import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.utils.BitmapUtil;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.StringUtil;
@@ -52,7 +58,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickOpenPhoto() {
-        mView.onClickOpenPhoto();
+        Crop.pickImage((Activity) mView.getContext());
     }
 
     private void openSystemCamera(Context context) {
@@ -67,27 +73,24 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == -1 && requestCode == TAKE_PHOTO_REQUEST_CODE) {
-            mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
-            Observable.create(new Action1<Emitter<String>>() {
-                @Override
-                public void call(Emitter<String> emitter) {
-                    BitmapUtil.saveToFile(BitmapUtil.decodeToBitmap(mImageFile.getPath(), 1440, 960), mImageFile.getPath());
-                    emitter.onNext(mImageFile.getPath());
+        if (resultCode == -1) {
+            switch (requestCode) {
+                case TAKE_PHOTO_REQUEST_CODE: {
+                    ResultOCRActivity.start(mView.getContext(), mImageFile.getPath(), ResultOCRActivity.INTENT_TYPE_START_OCR);
+                    break;
                 }
-            }, Emitter.BackpressureMode.BUFFER).subscribeOn(Schedulers.io())
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            PreOcrManager.baiduOcrFromPath(mView.getContext(), mImageFile.getPath(), new PreOcrManager.RecognizeResultListener() {
-                                @Override
-                                public void onRecognizeResult(RecognizeResultModel model) {
-                                    mView.dismissLoading();
-                                    mView.showResultOCR(ResultOCRHelper.getStringFromModel(model));
-                                }
-                            });
-                        }
-                    });
+                case Crop.REQUEST_PICK: {
+                    String path = data.getData().getPath();
+                    path = path.replace("/raw/", "");
+                    if (!TextUtils.isEmpty(path)) {
+                        ResultOCRActivity.start(mView.getContext(), path, ResultOCRActivity.INTENT_TYPE_START_OCR);
+                    }
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
         }
     }
 }

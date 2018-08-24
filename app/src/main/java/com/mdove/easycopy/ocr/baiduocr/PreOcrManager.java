@@ -10,25 +10,8 @@ import com.mdove.easycopy.utils.BitmapUtil;
 import com.mdove.easycopy.utils.JsonUtil;
 
 public class PreOcrManager {
-
-    public static void baiduOcrFromBitmap(Context context, Bitmap bitmap, final RecognizeResultListener listener) {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/test/" + "haha.jpg";
-        BitmapUtil.saveToFile(bitmap, path);
-        RecognizeManager.recGeneral(context, path,
-                new RecognizeManager.ServiceListener() {
-                    @Override
-                    public void onResult(String result) {
-                        RecognizeResultModel model = JsonUtil.decode(result, RecognizeResultModel.class);
-                        for (RecognizeResultModel.RealResultModel realResultModel : model.mResultArr) {
-                            Log.d("aaa", realResultModel.mWorlds);
-                        }
-                    }
-                });
-    }
-
     public static void baiduOcrFromPath(Context context, String path, final RecognizeResultListener listener) {
-        RecognizeManager.recGeneral(context, path,
+        RecognizeManager.recGeneralBasic(context, path,
                 new RecognizeManager.ServiceListener() {
                     @Override
                     public void onResult(String result) {
