@@ -10,24 +10,44 @@
             type="com.mdove.easycopy.resultocr.model.ResultOCRModelVM" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".home.MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppBarLayout">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/black"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </android.support.design.widget.AppBarLayout>
+
         <ImageView
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="200dp"
+            android:layout_below="@+id/app_bar"
+            app:loadBgFormPath="@{vm.mPath}" />
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/iv_bg"
             android:gravity="center"
             android:text="@{vm.mContent}"
             android:textColor="@color/black"
             android:textIsSelectable="true"
             android:textSize="16sp" />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 </layout>

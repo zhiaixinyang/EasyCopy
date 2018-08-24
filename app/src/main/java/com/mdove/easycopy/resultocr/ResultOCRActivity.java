@@ -18,6 +18,7 @@ import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.resultocr.presenter.ResultOCRPresenter;
 import com.mdove.easycopy.resultocr.presenter.contract.ResultOCRContract;
+import com.mdove.easycopy.utils.StatusBarUtils;
 import com.mdove.easycopy.utils.ToastHelper;
 
 import java.io.File;
@@ -64,8 +65,9 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(getString(R.string.string_activity_result_ocr_title));
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_result_ocr);
+        StatusBarUtils.setColor(this,R.color.black);
+        mBinding.toolbar.setTitle(getString(R.string.string_activity_result_ocr_title));
         mPresenter = new ResultOCRPresenter();
         mPresenter.subscribe(this);
         intentHandle(getIntent());
@@ -80,7 +82,7 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             case ACTION_RESULT_OCR_CONTENT: {
                 String content = intent.getStringExtra(EXTRA_RESULT_OCR_CONTENT);
                 if (!TextUtils.isEmpty(content)) {
-                    mBinding.setVm(new ResultOCRModelVM(new ResultOCRModel(content)));
+                    mBinding.setVm(new ResultOCRModelVM(new ResultOCRModel(content, "")));
                 }
                 break;
             }
@@ -119,8 +121,8 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     }
 
     @Override
-    public void showResult(String content) {
-        mBinding.setVm(new ResultOCRModelVM(new ResultOCRModel(content)));
+    public void showResult(ResultOCRModel model) {
+        mBinding.setVm(new ResultOCRModelVM(model));
     }
 
     @Override

@@ -7,17 +7,22 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
+import com.mdove.easycopy.App;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
+import com.mdove.easycopy.greendao.ResultOCRDao;
+import com.mdove.easycopy.greendao.entity.ResultOCR;
 import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
 import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
 import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
+import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.resultocr.presenter.contract.ResultOCRContract;
 import com.mdove.easycopy.utils.BitmapUtil;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.StringUtil;
 
 import java.io.File;
+import java.util.Date;
 
 import rx.Emitter;
 import rx.Observable;
@@ -26,7 +31,11 @@ import rx.schedulers.Schedulers;
 
 public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     private ResultOCRContract.MvpView mView;
-    private File mImageFile;
+    private ResultOCRDao mResultOCRDao;
+
+    public ResultOCRPresenter() {
+        mResultOCRDao = App.getDaoSession().getResultOCRDao();
+    }
 
     @Override
     public void subscribe(ResultOCRContract.MvpView view) {
@@ -39,13 +48,20 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     }
 
     @Override
-    public void startOCR(String path) {
+    public void startOCR(final String path) {
         mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
         PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
             @Override
             public void onRecognizeResult(RecognizeResultModel model) {
                 mView.dismissLoading();
-                mView.showResult(ResultOCRHelper.getStringFromModel(model));
+                String content = ResultOCRHelper.getStringFromModel(model);
+                ResultOCRModel realModel = new ResultOCRModel(content, path);
+                mView.showResult(realModel);
+
+                ResultOCR resultOCR = new ResultOCR();
+                resultOCR.mResultOCR = content;
+                resultOCR.mResultOCRTime = System.currentTimeMillis();
+                mResultOCRDao.insert(resultOCR);
             }
         });
     }
