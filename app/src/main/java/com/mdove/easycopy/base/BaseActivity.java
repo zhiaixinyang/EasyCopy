@@ -3,6 +3,7 @@ package com.mdove.easycopy.base;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -43,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.setColor(this, R.color.colorPrimaryDark);
+        StatusBarUtils.setColor(this, Color.BLACK);
 
         //hideStatusBar();
         if (!isNeedCustomLayout()) {

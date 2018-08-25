@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -39,6 +40,7 @@ import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.ImageUtil;
+import com.mdove.easycopy.utils.StatusBarUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,6 +141,7 @@ public class CropImageActivity extends MonitoredActivity {
     }
 
     private void initToolbar(Toolbar toolbar) {
+        StatusBarUtils.setColor(this, Color.BLACK);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

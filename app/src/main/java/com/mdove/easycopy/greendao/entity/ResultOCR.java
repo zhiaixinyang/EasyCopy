@@ -7,11 +7,11 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity
 public class ResultOCR {
     @Id(autoincrement = true)
-    public long id;
+    public Long id;
     public long mResultOCRTime;
     public String mResultOCR;
-    @Generated(hash = 1037180132)
-    public ResultOCR(long id, long mResultOCRTime, String mResultOCR) {
+    @Generated(hash = 716807662)
+    public ResultOCR(Long id, long mResultOCRTime, String mResultOCR) {
         this.id = id;
         this.mResultOCRTime = mResultOCRTime;
         this.mResultOCR = mResultOCR;
@@ -19,10 +19,10 @@ public class ResultOCR {
     @Generated(hash = 1472249724)
     public ResultOCR() {
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public long getMResultOCRTime() {
@@ -37,5 +37,6 @@ public class ResultOCR {
     public void setMResultOCR(String mResultOCR) {
         this.mResultOCR = mResultOCR;
     }
+
     
 }

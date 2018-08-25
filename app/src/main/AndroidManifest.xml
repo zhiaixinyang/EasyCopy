@@ -38,7 +38,8 @@
         <activity
             android:name=".crop.CropImageActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
             android:name=".history.HistoryResultOCRActivity"

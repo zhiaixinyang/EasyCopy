@@ -66,10 +66,21 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_result_ocr);
-        mBinding.toolbar.setTitle(getString(R.string.string_activity_result_ocr_title));
+        initToolbar();
         mPresenter = new ResultOCRPresenter();
         mPresenter.subscribe(this);
         intentHandle(getIntent());
+    }
+
+    private void initToolbar() {
+        mBinding.toolbar.setTitle(getString(R.string.string_activity_result_ocr_title));
+        setSupportActionBar(mBinding.toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void intentHandle(Intent intent) {

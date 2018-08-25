@@ -24,7 +24,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property MResultOCRTime = new Property(1, long.class, "mResultOCRTime", false, "M_RESULT_OCRTIME");
         public final static Property MResultOCR = new Property(2, String.class, "mResultOCR", false, "M_RESULT_OCR");
     }
@@ -42,7 +42,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"RESULT_OCR\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"M_RESULT_OCRTIME\" INTEGER NOT NULL ," + // 1: mResultOCRTime
                 "\"M_RESULT_OCR\" TEXT);"); // 2: mResultOCR
     }
@@ -56,7 +56,11 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ResultOCR entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getMResultOCRTime());
  
         String mResultOCR = entity.getMResultOCR();
@@ -68,7 +72,11 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, ResultOCR entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getMResultOCRTime());
  
         String mResultOCR = entity.getMResultOCR();
@@ -79,13 +87,13 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ResultOCR readEntity(Cursor cursor, int offset) {
         ResultOCR entity = new ResultOCR( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // mResultOCRTime
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // mResultOCR
         );
@@ -94,7 +102,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
      
     @Override
     public void readEntity(Cursor cursor, ResultOCR entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setMResultOCRTime(cursor.getLong(offset + 1));
         entity.setMResultOCR(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
@@ -116,7 +124,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
 
     @Override
     public boolean hasKey(ResultOCR entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override
