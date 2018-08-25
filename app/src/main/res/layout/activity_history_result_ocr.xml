@@ -27,6 +27,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rlv"
             android:layout_width="match_parent"
+            android:paddingTop="@dimen/_5dp"
             android:layout_height="match_parent"
             android:layout_below="@+id/app_bar" />
 

@@ -11,23 +11,30 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/_5dp"
+        android:layout_marginRight="@dimen/_5dp"
+        android:layout_marginBottom="@dimen/_5dp"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/tv_content"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@{vm.mResultOCR}"
             android:layout_width="match_parent"
-            tools:text="哈哈哈哈哈哈哈"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@{vm.mResultOCR}"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="16sp"
+            tools:text="哈哈哈哈哈哈哈" />
+
         <TextView
             android:id="@+id/tv_time"
-            android:textColor="@color/black"
-            android:layout_below="@+id/tv_content"
-            android:textSize="16sp"
-            android:text="@{vm.mResultOCRTime}"
-            tools:text="哈哈哈哈哈哈哈"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginTop="@dimen/_5dp"
+            android:text="@{vm.mResultOCRTime}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="哈哈哈哈哈哈哈" />
     </RelativeLayout>
 </layout>
