@@ -25,6 +25,7 @@
     </string>
     <string name="string_result_ocr_title">提取文字结果</string>
     <string name="string_activity_result_ocr_title">提取文字结果</string>
+    <string name="string_activity_history_result_ocr_title">历史提取记录</string>
 
     <string name="crop__saving">正在保存照片…</string>
     <string name="crop__wait">请等待…</string>

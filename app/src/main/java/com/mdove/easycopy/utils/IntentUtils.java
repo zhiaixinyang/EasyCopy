@@ -59,6 +59,14 @@ public class IntentUtils {
 //        }
 //    }
 
+    public static void startActivity(Context context, Class activity) {
+        Intent intent = new Intent(context, activity);
+        if (!(context instanceof Activity)) {
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        context.startActivity(intent);
+    }
+
     public static void launchSystemShareDialog(@NonNull Context context, @NonNull String shareContent, String
             shareDialogTitle) {
         Intent intent = new Intent(Intent.ACTION_SEND);

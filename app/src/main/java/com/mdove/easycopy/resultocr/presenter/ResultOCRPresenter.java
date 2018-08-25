@@ -56,12 +56,13 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
                 mView.dismissLoading();
                 String content = ResultOCRHelper.getStringFromModel(model);
                 ResultOCRModel realModel = new ResultOCRModel(content, path);
-                mView.showResult(realModel);
 
                 ResultOCR resultOCR = new ResultOCR();
                 resultOCR.mResultOCR = content;
                 resultOCR.mResultOCRTime = System.currentTimeMillis();
                 mResultOCRDao.insert(resultOCR);
+
+                mView.showResult(realModel);
             }
         });
     }

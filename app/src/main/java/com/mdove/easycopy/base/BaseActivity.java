@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.ui.ProgressDialog;
+import com.mdove.easycopy.utils.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     private List<IBackHandler> mBackHandlers = new ArrayList<>();
     protected ProgressDialog progressDialog;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtils.setColor(this, R.color.colorPrimaryDark);
+
         //hideStatusBar();
         if (!isNeedCustomLayout()) {
             super.setContentView(R.layout.activity_base);

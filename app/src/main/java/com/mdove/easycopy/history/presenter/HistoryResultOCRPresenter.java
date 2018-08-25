@@ -1,28 +1,19 @@
 package com.mdove.easycopy.history.presenter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.text.TextUtils;
-
 import com.mdove.easycopy.App;
-import com.mdove.easycopy.config.ImageConfig;
-import com.mdove.easycopy.crop.Crop;
 import com.mdove.easycopy.greendao.ResultOCRDao;
+import com.mdove.easycopy.greendao.entity.ResultOCR;
+import com.mdove.easycopy.history.model.HistoryResultOCRModel;
 import com.mdove.easycopy.history.presenter.contract.HistoryResultOCRContract;
-import com.mdove.easycopy.resultocr.ResultOCRActivity;
-import com.mdove.easycopy.utils.FileUtils;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-public class HistoryOCRPresenter implements HistoryResultOCRContract.Presenter {
+public class HistoryResultOCRPresenter implements HistoryResultOCRContract.Presenter {
     private HistoryResultOCRContract.MvpView mView;
     private ResultOCRDao mResultOCRDao;
 
-    public HistoryOCRPresenter() {
+    public HistoryResultOCRPresenter() {
         mResultOCRDao = App.getDaoSession().getResultOCRDao();
     }
 
@@ -38,6 +29,11 @@ public class HistoryOCRPresenter implements HistoryResultOCRContract.Presenter {
 
     @Override
     public void initData() {
-
+        List<HistoryResultOCRModel> data = new ArrayList<>();
+        List<ResultOCR> resultOCRList = mResultOCRDao.loadAll();
+        for (ResultOCR resultOCR : resultOCRList) {
+            data.add(new HistoryResultOCRModel(resultOCR));
+        }
+        mView.showData(data);
     }
 }

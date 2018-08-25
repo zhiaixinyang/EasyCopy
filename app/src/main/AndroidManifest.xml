@@ -41,6 +41,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".history.HistoryResultOCRActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity
             android:name=".resultocr.ResultOCRActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

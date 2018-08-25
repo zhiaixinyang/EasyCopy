@@ -66,7 +66,6 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_result_ocr);
-        StatusBarUtils.setColor(this,R.color.black);
         mBinding.toolbar.setTitle(getString(R.string.string_activity_result_ocr_title));
         mPresenter = new ResultOCRPresenter();
         mPresenter.subscribe(this);

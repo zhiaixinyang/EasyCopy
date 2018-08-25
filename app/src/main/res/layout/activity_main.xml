@@ -55,5 +55,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_take_photo" />
+
+        <TextView
+            android:id="@+id/btn_history"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:onClick="@{()->handler.onClickHistory()}"
+            android:text="历史识别记录"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_open_photo" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.crop.Crop;
+import com.mdove.easycopy.history.HistoryResultOCRActivity;
 import com.mdove.easycopy.home.TransparentActivity;
 import com.mdove.easycopy.home.presenter.contract.MainContract;
 import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
@@ -21,6 +22,7 @@ import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.utils.BitmapUtil;
 import com.mdove.easycopy.utils.FileUtils;
+import com.mdove.easycopy.utils.IntentUtils;
 import com.mdove.easycopy.utils.StringUtil;
 
 import java.io.File;
@@ -59,6 +61,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onClickOpenPhoto() {
         Crop.pickImage((Activity) mView.getContext());
+    }
+
+    @Override
+    public void onClickHistory() {
+        IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
     }
 
     private void openSystemCamera(Context context) {

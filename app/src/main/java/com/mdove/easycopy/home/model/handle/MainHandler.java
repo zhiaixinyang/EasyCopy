@@ -20,4 +20,8 @@ public class MainHandler {
     public void onClickOpenPhoto() {
         mPresenter.onClickOpenPhoto();
     }
+
+    public void onClickHistory() {
+        mPresenter.onClickHistory();
+    }
 }

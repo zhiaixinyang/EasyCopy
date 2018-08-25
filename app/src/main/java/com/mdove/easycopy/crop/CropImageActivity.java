@@ -103,6 +103,8 @@ public class CropImageActivity extends MonitoredActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.string_activity_crop_title));
 
+        initToolbar(toolbar);
+
         imageView = (CropImageView) findViewById(R.id.crop_image);
         imageView.context = this;
         imageView.setRecycler(new ImageViewTouchBase.Recycler() {
@@ -134,6 +136,16 @@ public class CropImageActivity extends MonitoredActivity {
                 onSaveClicked();
             }
         });
+    }
+
+    private void initToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void loadInput() {

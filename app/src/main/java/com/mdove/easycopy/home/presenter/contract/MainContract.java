@@ -18,6 +18,8 @@ public interface MainContract {
         void onClickShowBall();
 
         void onClickOpenPhoto();
+
+        void onClickHistory();
     }
 
     interface MvpView extends BaseView<Presenter> {
