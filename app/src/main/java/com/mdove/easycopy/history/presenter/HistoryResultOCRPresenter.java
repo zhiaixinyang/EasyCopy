@@ -1,10 +1,15 @@
 package com.mdove.easycopy.history.presenter;
 
 import com.mdove.easycopy.App;
+import com.mdove.easycopy.R;
 import com.mdove.easycopy.greendao.ResultOCRDao;
 import com.mdove.easycopy.greendao.entity.ResultOCR;
 import com.mdove.easycopy.history.model.HistoryResultOCRModel;
+import com.mdove.easycopy.history.model.vm.HistoryResultOCRModelVM;
 import com.mdove.easycopy.history.presenter.contract.HistoryResultOCRContract;
+import com.mdove.easycopy.utils.ClipboardUtils;
+import com.mdove.easycopy.utils.StringUtil;
+import com.mdove.easycopy.utils.ToastHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +40,20 @@ public class HistoryResultOCRPresenter implements HistoryResultOCRContract.Prese
             data.add(new HistoryResultOCRModel(resultOCR));
         }
         mView.showData(data);
+    }
+
+    @Override
+    public void onClickDelete(HistoryResultOCRModelVM vm) {
+        ResultOCR resultOCR = mResultOCRDao.queryBuilder().where(ResultOCRDao.Properties.Id.eq(vm.mId)).unique();
+        if (resultOCR != null) {
+            mResultOCRDao.delete(resultOCR);
+            mView.onDeleteItemId(vm.mId);
+        }
+    }
+
+    @Override
+    public void onClickCopy(HistoryResultOCRModelVM vm) {
+        ClipboardUtils.copyToClipboard(mView.getContext(), vm.mResultOCR.get());
+        ToastHelper.shortToast(StringUtil.getString(R.string.string_copy_suc));
     }
 }

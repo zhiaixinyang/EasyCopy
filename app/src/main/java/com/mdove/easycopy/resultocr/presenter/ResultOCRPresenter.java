@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 
 import com.mdove.easycopy.App;
 import com.mdove.easycopy.R;
@@ -44,7 +45,6 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
 
     @Override
     public void unSubscribe() {
-
     }
 
     @Override
@@ -55,11 +55,16 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
             public void onRecognizeResult(RecognizeResultModel model) {
                 mView.dismissLoading();
                 String content = ResultOCRHelper.getStringFromModel(model);
+
+                if (TextUtils.isEmpty(content)) {
+                    content = "很抱歉,此图片无法识别并提取出文字。";
+                }
                 ResultOCRModel realModel = new ResultOCRModel(content, path);
 
                 ResultOCR resultOCR = new ResultOCR();
                 resultOCR.mResultOCR = content;
                 resultOCR.mResultOCRTime = System.currentTimeMillis();
+                resultOCR.mPath = path;
                 mResultOCRDao.insert(resultOCR);
 
                 mView.showResult(realModel);

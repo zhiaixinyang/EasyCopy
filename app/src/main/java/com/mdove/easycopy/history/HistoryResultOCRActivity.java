@@ -32,9 +32,9 @@ public class HistoryResultOCRActivity extends BaseActivity implements HistoryRes
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_history_result_ocr);
         initToolbar();
-        mAdapter = new HistoryResultOCRAdapter();
         mPresenter = new HistoryResultOCRPresenter();
         mPresenter.subscribe(this);
+        mAdapter = new HistoryResultOCRAdapter(mPresenter);
 
         mBinding.rlv.setLayoutManager(new LinearLayoutManager(this));
         mBinding.rlv.setAdapter(mAdapter);
@@ -60,5 +60,10 @@ public class HistoryResultOCRActivity extends BaseActivity implements HistoryRes
     @Override
     public void showData(List<HistoryResultOCRModel> data) {
         mAdapter.setData(data);
+    }
+
+    @Override
+    public void onDeleteItemId(long id) {
+        mAdapter.notifyPositionForId(id);
     }
 }

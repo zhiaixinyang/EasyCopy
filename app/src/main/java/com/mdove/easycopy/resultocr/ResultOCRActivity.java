@@ -127,6 +127,8 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             mPresenter.startOCR(Crop.getOutput(result).getPath());
         } else if (resultCode == Crop.RESULT_ERROR) {
             ToastHelper.shortToast(Crop.getError(result).getMessage());
+        }else{
+            finish();
         }
     }
 

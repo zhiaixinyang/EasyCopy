@@ -48,9 +48,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
 
-/*
- * Modified from original in AOSP.
- */
 public class CropImageActivity extends MonitoredActivity {
 
     private static final int SIZE_DEFAULT = 2048;
@@ -143,12 +140,6 @@ public class CropImageActivity extends MonitoredActivity {
     private void initToolbar(Toolbar toolbar) {
         StatusBarUtils.setColor(this, Color.BLACK);
         setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     private void loadInput() {
@@ -229,9 +220,12 @@ public class CropImageActivity extends MonitoredActivity {
         imageView.setImageRotateBitmapResetBase(rotateBitmap, true);
         CropUtil.startBackgroundJob(this, null, getResources().getString(R.string.crop__wait),
                 new Runnable() {
+                    @Override
                     public void run() {
                         final CountDownLatch latch = new CountDownLatch(1);
                         handler.post(new Runnable() {
+
+                            @Override
                             public void run() {
                                 if (imageView.getScale() == 1F) {
                                     imageView.center();
@@ -448,6 +442,7 @@ public class CropImageActivity extends MonitoredActivity {
 
         final Bitmap b = croppedImage;
         handler.post(new Runnable() {
+            @Override
             public void run() {
                 imageView.clear();
                 b.recycle();

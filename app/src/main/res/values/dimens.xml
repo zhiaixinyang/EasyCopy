@@ -2,6 +2,8 @@
 <resources>
     <dimen name="ball_widget_width">48dp</dimen>
     <dimen name="_15dp">15dp</dimen>
+    <dimen name="_24dp">24dp</dimen>
+    <dimen name="_20dp">20dp</dimen>
     <dimen name="_10dp">10dp</dimen>
     <dimen name="_12dp">12dp</dimen>
     <dimen name="_1dp">1dp</dimen>

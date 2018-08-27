@@ -7,13 +7,20 @@ import android.view.ViewGroup;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.databinding.ItemHistoryResultOcrBinding;
 import com.mdove.easycopy.history.model.HistoryResultOCRModel;
+import com.mdove.easycopy.history.model.handler.HistoryResultOCRHandler;
 import com.mdove.easycopy.history.model.vm.HistoryResultOCRModelVM;
+import com.mdove.easycopy.history.presenter.HistoryResultOCRPresenter;
 import com.mdove.easycopy.utils.InflateUtils;
 
 import java.util.List;
 
 public class HistoryResultOCRAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<HistoryResultOCRModel> mData;
+    private HistoryResultOCRPresenter mPresenter;
+
+    public HistoryResultOCRAdapter(HistoryResultOCRPresenter presenter) {
+        mPresenter = presenter;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -22,7 +29,7 @@ public class HistoryResultOCRAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder)holder).bind(mData.get(position));
+        ((ViewHolder) holder).bind(mData.get(position));
     }
 
     @Override
@@ -45,6 +52,24 @@ public class HistoryResultOCRAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public void bind(HistoryResultOCRModel model) {
             mBinding.setVm(new HistoryResultOCRModelVM(model));
+            mBinding.setHandler(new HistoryResultOCRHandler(mPresenter));
         }
+    }
+
+    public void notifyPositionForId(long id) {
+        int position = -1;
+        for (HistoryResultOCRModel model : mData) {
+            if (model.mId == id) {
+                position = mData.indexOf(model);
+            }
+        }
+        if (position != -1) {
+            deleteNotifyPosition(position);
+        }
+    }
+
+    private void deleteNotifyPosition(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
     }
 }

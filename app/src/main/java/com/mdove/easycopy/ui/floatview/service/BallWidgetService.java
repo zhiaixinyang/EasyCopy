@@ -15,11 +15,13 @@ import android.support.annotation.UiThread;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
+import com.mdove.easycopy.home.MainActivity;
 import com.mdove.easycopy.screenshot.ScreenshotObserverService;
 import com.mdove.easycopy.ui.floatview.BallWidgetHelper;
 import com.mdove.easycopy.ui.floatview.FloatWeatherWidget;
 import com.mdove.easycopy.ui.floatview.WidgetBall;
 import com.mdove.easycopy.ui.floatview.config.WidgetBallSp;
+import com.mdove.easycopy.utils.IntentUtils;
 import com.mdove.easycopy.utils.NavigationBarUtils;
 import com.mdove.easycopy.utils.StatusBarUtils;
 
@@ -115,7 +117,7 @@ public class BallWidgetService extends Service {
 
         @Override
         public void onWidgetClicked() {
-
+            IntentUtils.startActivity(BallWidgetService.this, MainActivity.class);
         }
     };
 

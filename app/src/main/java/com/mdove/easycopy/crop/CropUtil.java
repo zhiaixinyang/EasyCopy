@@ -16,7 +16,6 @@
 
 package com.mdove.easycopy.crop;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -27,6 +26,9 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import com.mdove.easycopy.R;
+import com.mdove.easycopy.ui.ProgressDialog;
 
 import java.io.Closeable;
 import java.io.File;
@@ -94,7 +96,7 @@ class CropUtil {
         if (SCHEME_FILE.equals(uri.getScheme())) {
             return new File(uri.getPath());
         } else if (SCHEME_CONTENT.equals(uri.getScheme())) {
-            final String[] filePathColumn = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
+            final String[] filePathColumn = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME};
             Cursor cursor = null;
             try {
                 cursor = resolver.query(uri, filePathColumn, null, null, null);
@@ -158,7 +160,7 @@ class CropUtil {
     }
 
     public static void startBackgroundJob(MonitoredActivity activity,
-            String title, String message, Runnable job, Handler handler) {
+                                          String title, String message, Runnable job, Handler handler) {
         // Make the progress dialog uncancelable, so that we can guarantee
         // the thread will be done before the activity getting destroyed
         ProgressDialog dialog = ProgressDialog.show(
@@ -173,9 +175,14 @@ class CropUtil {
         private final Runnable job;
         private final Handler handler;
         private final Runnable cleanupRunner = new Runnable() {
+            @Override
             public void run() {
                 activity.removeLifeCycleListener(BackgroundJob.this);
-                if (dialog.getWindow() != null) dialog.dismiss();
+                if (dialog.getWindow() != null) {
+                    if (TextUtils.equals(dialog.getMessage(), activity.getResources().getString(R.string.crop__wait))) {
+                        dialog.dismiss();
+                    }
+                }
             }
         };
 
@@ -188,6 +195,7 @@ class CropUtil {
             this.handler = handler;
         }
 
+        @Override
         public void run() {
             try {
                 job.run();

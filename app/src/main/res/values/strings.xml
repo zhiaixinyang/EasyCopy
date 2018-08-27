@@ -34,4 +34,5 @@
     <string name="crop__done">完成</string>
     <string name="crop__cancel" tools:ignore="ButtonCase">取消</string>
     <string name="string_activity_crop_title">裁剪识别区域</string>
+    <string name="string_copy_suc">拷贝成功</string>
 </resources>

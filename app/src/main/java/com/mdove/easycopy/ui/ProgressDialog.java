@@ -22,21 +22,23 @@ import java.text.NumberFormat;
  * Material Design 风格的 ProgressDialog
  * 代码拷贝自Android源码，将继承的AlertDialog改为继承自AppCompat中的AlertDialog，
  * 其他部分基本未做修改
- *
+ * <p>
  * Created by yanfei on 2016/10/12.
- *
+ * <p>
  * <p>A dialog showing a progress indicator and an optional text message or view.
  * Only a text message or a view can be used at the same time.</p>
  * <p>The dialog can be made cancelable on back key press.</p>
  * <p>The progress range is 0..10000.</p>
  */
 public class ProgressDialog extends AlertDialog {
-    /** Creates a ProgressDialog with a circular, spinning progress
+    /**
+     * Creates a ProgressDialog with a circular, spinning progress
      * bar. This is the default.
      */
     public static final int STYLE_SPINNER = 0;
 
-    /** Creates a ProgressDialog with a horizontal progress bar.
+    /**
+     * Creates a ProgressDialog with a horizontal progress bar.
      */
     public static final int STYLE_HORIZONTAL = 1;
 
@@ -190,6 +192,14 @@ public class ProgressDialog extends AlertDialog {
         mHasStarted = true;
     }
 
+    public String getMessage() {
+        String message = "";
+        if (mMessageView != null) {
+            message = mMessageView.getText().toString();
+        }
+        return message;
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -314,9 +324,10 @@ public class ProgressDialog extends AlertDialog {
      * Change the format of the small text showing current and maximum units
      * of progress.  The default is "%1d/%2d".
      * Should not be called during the number is progressing.
+     *
      * @param format A string passed to {@link String#format String.format()};
-     * use "%1d" for the current number and "%2d" for the maximum.  If null,
-     * nothing will be shown.
+     *               use "%1d" for the current number and "%2d" for the maximum.  If null,
+     *               nothing will be shown.
      */
     public void setProgressNumberFormat(String format) {
         mProgressNumberFormat = format;
@@ -328,8 +339,9 @@ public class ProgressDialog extends AlertDialog {
      * The default is
      * {@link NumberFormat#getPercentInstance() NumberFormat.getPercentageInstnace().}
      * Should not be called during the number is progressing.
+     *
      * @param format An instance of a {@link NumberFormat} to generate the
-     * percentage text.  If null, nothing will be shown.
+     *               percentage text.  If null, nothing will be shown.
      */
     public void setProgressPercentFormat(NumberFormat format) {
         mProgressPercentFormat = format;
