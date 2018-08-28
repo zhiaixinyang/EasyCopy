@@ -3,24 +3,20 @@ package com.mdove.easycopy.home;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.util.Log;
+import android.widget.CompoundButton;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.base.BaseActivity;
+import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.databinding.ActivityMainBinding;
-import com.mdove.easycopy.home.model.AppUpdateModel;
 import com.mdove.easycopy.home.model.handle.MainHandler;
 import com.mdove.easycopy.home.presenter.MainPresenter;
 import com.mdove.easycopy.home.presenter.contract.MainContract;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
-import com.mdove.easycopy.ui.ResultOCRDialog;
-import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
+import com.mdove.easycopy.mainservice.BallWidgetService;
 import com.mdove.easycopy.utils.AppUtils;
-import com.mdove.easycopy.utils.DensityUtil;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.anim.AnimUtils;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
@@ -41,16 +37,30 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        initCircleWaveView();
 
         mPresenter = new MainPresenter();
         mPresenter.subscribe(this);
         mPresenter.checkUpdate(AppUtils.getAPPVersionCodeFromAPP(this));
 
         mBinding.setHandler(new MainHandler(mPresenter));
+
+        initView();
     }
 
-    private void initCircleWaveView() {
+    private void initView() {
+        boolean isSelect = MainConfigSP.isScreenShotSelect();
+
+        mBinding.switchScreenShot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mPresenter.switchScreenShot(isChecked);
+            }
+        });
+        mBinding.switchScreenShot.setChecked(isSelect);
+        if (isSelect) {
+            mPresenter.switchScreenShot(true);
+        }
+
         Observable.interval(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {

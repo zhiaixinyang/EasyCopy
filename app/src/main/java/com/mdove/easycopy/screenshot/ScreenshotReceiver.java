@@ -4,11 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.TextView;
 
+import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
-import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
+import com.mdove.easycopy.mainservice.BallWidgetService;
 
 public class ScreenshotReceiver extends BroadcastReceiver {
     public static final String ACTION_SCREEN_SHOT_HAS_NEW = "action_screen_shot_has_new";
@@ -24,7 +23,7 @@ public class ScreenshotReceiver extends BroadcastReceiver {
         switch (action) {
             case ACTION_SCREEN_SHOT_HAS_NEW: {
                 String path = intent.getStringExtra(EXTRA_SCREEN_SHOT_HAS_NEW_PATH);
-                if (TextUtils.isEmpty(path) || !BallWidgetService.isNeedOCR) {
+                if (TextUtils.isEmpty(path) || !MainConfigSP.isScreenShotSelect()) {
                     break;
                 }
                 ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_OCR);

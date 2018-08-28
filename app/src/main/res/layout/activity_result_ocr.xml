@@ -30,19 +30,25 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
-
-        <ImageView
-            android:id="@+id/iv_bg"
+        <FrameLayout
+            android:id="@+id/layout_bg"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
             android:layout_below="@+id/app_bar"
-            app:loadBgFormPath="@{vm.mPath}" />
+            android:background="@drawable/crop_texture"
+            android:layout_height="200dp">
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:loadBgFormPath="@{vm.mPath}" />
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/iv_bg"
+            android:layout_below="@+id/layout_bg"
             android:gravity="center"
             android:text="@{vm.mContent}"
             android:textColor="@color/black"

@@ -9,8 +9,10 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import com.mdove.easycopy.config.ImageConfig;
+import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.crop.Crop;
 import com.mdove.easycopy.history.HistoryResultOCRActivity;
+import com.mdove.easycopy.screenshot.ScreenshotObserverService;
 import com.mdove.easycopy.update.UpdateDialog;
 import com.mdove.easycopy.update.manager.UpdateStatusManager;
 import com.mdove.easycopy.home.model.AppUpdateModel;
@@ -87,6 +89,23 @@ public class MainPresenter implements MainContract.Presenter {
                 }
             }
         });
+    }
+
+    @Override
+    public void switchScreenShot(boolean isSelect) {
+        boolean isPreSelect = MainConfigSP.isScreenShotSelect();
+        if (isSelect) {
+            ScreenshotObserverService.start(mView.getContext());
+            if (isPreSelect) {
+                return;
+            }
+            MainConfigSP.setIsScreenShotSelect(true);
+        } else {
+            if (!isPreSelect) {
+                return;
+            }
+            MainConfigSP.setIsScreenShotSelect(false);
+        }
     }
 
     private void showUpgradeDialog(final AppUpdateModel result) {

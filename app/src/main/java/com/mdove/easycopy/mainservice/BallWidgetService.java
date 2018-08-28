@@ -1,13 +1,11 @@
-package com.mdove.easycopy.ui.floatview.service;
+package com.mdove.easycopy.mainservice;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.IBinder;
-import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,7 +37,6 @@ public class BallWidgetService extends Service {
     private WindowManager mWindowManager;
     private Point mScreenSize;
     private int mOrientation = Configuration.ORIENTATION_PORTRAIT;
-    public static boolean isNeedOCR = false;
 
     public static void showWeatherBall(@NonNull Context context) {
         Intent service = new Intent(context, BallWidgetService.class);
@@ -134,7 +131,6 @@ public class BallWidgetService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mFloatWidget.hide();
-        isNeedOCR = false;
         if (WidgetBallSp.isBallEnable()) {
             startService(new Intent(this, BallWidgetService.class));
         }

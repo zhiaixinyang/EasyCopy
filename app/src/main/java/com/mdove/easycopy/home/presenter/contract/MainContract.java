@@ -23,6 +23,8 @@ public interface MainContract {
         void onClickHistory();
 
         void checkUpdate(String curVersion);
+
+        void switchScreenShot(boolean isSelect);
     }
 
     interface MvpView extends BaseView<Presenter> {

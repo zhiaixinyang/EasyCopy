@@ -45,4 +45,7 @@
     <string name="string_update_err">更新包下载失败</string>
     <string name="string_download_err">下载失败</string>
     <string name="string_open_apk_err">没有找到打开此类文件的程序</string>
+    <string name="switch_off">关</string>
+    <string name="switch_on">开</string>
+    <string name="string_screenshot_service_switch">后台监听图片获取服务</string>
 </resources>

@@ -38,6 +38,17 @@ public class MainConfigSP implements IMainConfigKey {
         return preferences.getBoolean(MAIN_CONFIG_KEY_IS_OPEN_FLOAT, true);
     }
 
+    public static void setIsScreenShotSelect(boolean isSelect) {
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putBoolean(KEY_SCREEN_SHOT_SELECT, isSelect);
+        editor.apply();
+    }
+
+    public static boolean isScreenShotSelect() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getBoolean(KEY_SCREEN_SHOT_SELECT, false);
+    }
+
     public static void setAppOrderTodayTime(long time) {
         SharedPreferences.Editor editor = initSharedPreferences().edit();
         editor.putLong(KEY_ORDER_TODAY_TIME, time);
