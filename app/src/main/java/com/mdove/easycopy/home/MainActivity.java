@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.base.BaseActivity;
 import com.mdove.easycopy.databinding.ActivityMainBinding;
+import com.mdove.easycopy.home.model.AppUpdateModel;
 import com.mdove.easycopy.home.model.handle.MainHandler;
 import com.mdove.easycopy.home.presenter.MainPresenter;
 import com.mdove.easycopy.home.presenter.contract.MainContract;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.ui.ResultOCRDialog;
 import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
+import com.mdove.easycopy.utils.AppUtils;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
@@ -30,6 +32,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
 
         mPresenter = new MainPresenter();
         mPresenter.subscribe(this);
+        mPresenter.checkUpdate(AppUtils.getAPPVersionCodeFromAPP(this));
 
         mBinding.setHandler(new MainHandler(mPresenter));
     }
@@ -38,7 +41,6 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     protected boolean isNeedCustomLayout() {
         return true;
     }
-
 
     private void initBall() {
         boolean overlaysPermission = PermissionUtils.hasOverlaysPermission(this);
@@ -81,4 +83,5 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     public void onClickShowBall() {
         initBall();
     }
+
 }

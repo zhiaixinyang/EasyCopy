@@ -10,6 +10,9 @@ import com.baidu.ocr.sdk.model.AccessToken;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.greendao.DaoSession;
 import com.mdove.easycopy.greendao.utils.DaoManager;
+import com.mdove.easycopy.net.ApiServer;
+import com.mdove.easycopy.net.RetrofitUtil;
+import com.mdove.easycopy.net.UrlConstants;
 import com.mdove.easycopy.utils.ToastHelper;
 
 public class App extends Application {
@@ -20,6 +23,7 @@ public class App extends Application {
     private static final String APP_KEY = "pyCGpbqqDMSQt6AyUmAc4Tse";
     private static final String SECRET_KEY = "8ji4GQ9uKKOK8sCukXaPlkaGI3s1CCQL";
     private static App mInstance;
+    private static ApiServer mApiServer;
 
     @Override
     public void onCreate() {
@@ -91,4 +95,12 @@ public class App extends Application {
     public static Context getContext() {
         return mContext;
     }
+
+    public static ApiServer getApiServer() {
+        if (mApiServer == null) {
+            mApiServer = RetrofitUtil.create(UrlConstants.HOST_API_ONLINE, ApiServer.class);
+        }
+        return mApiServer;
+    }
+
 }

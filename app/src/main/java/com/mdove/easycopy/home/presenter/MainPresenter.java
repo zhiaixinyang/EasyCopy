@@ -7,30 +7,22 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.TextView;
 
-import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.crop.Crop;
 import com.mdove.easycopy.history.HistoryResultOCRActivity;
-import com.mdove.easycopy.home.TransparentActivity;
+import com.mdove.easycopy.update.UpdateDialog;
+import com.mdove.easycopy.update.manager.UpdateStatusManager;
+import com.mdove.easycopy.home.model.AppUpdateModel;
 import com.mdove.easycopy.home.presenter.contract.MainContract;
-import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
-import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
-import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
+import com.mdove.easycopy.net.ApiServerImpl;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
-import com.mdove.easycopy.utils.BitmapUtil;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.IntentUtils;
-import com.mdove.easycopy.utils.StringUtil;
 
 import java.io.File;
 
-import rx.Emitter;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import rx.Subscriber;
 
 public class MainPresenter implements MainContract.Presenter {
     public static final int TAKE_PHOTO_REQUEST_CODE = 111;
@@ -66,6 +58,39 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onClickHistory() {
         IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
+    }
+
+    @Override
+    public void checkUpdate(String curVersion) {
+        ApiServerImpl.checkUpdate(curVersion).subscribe(new Subscriber<AppUpdateModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(AppUpdateModel realUpdate) {
+                switch (realUpdate.check) {
+                    case "true": {
+                        if (UpdateStatusManager.isShowUpdateDialog()) {
+                            showUpgradeDialog(realUpdate);
+                        }
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void showUpgradeDialog(final AppUpdateModel result) {
+        new UpdateDialog(mView.getContext(), result.src).show();
     }
 
     private void openSystemCamera(Context context) {

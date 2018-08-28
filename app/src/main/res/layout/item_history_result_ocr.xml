@@ -44,7 +44,8 @@
                 android:layout_height="@dimen/_20dp"
                 android:layout_alignParentRight="true"
                 android:onClick="@{()->handler.onClickCopy(vm)}"
-                android:src="@mipmap/ic_launcher" />
+                android:tint="@color/black"
+                android:src="@mipmap/ic_copy" />
 
             <ImageView
                 android:id="@+id/btn_delete"
@@ -52,8 +53,9 @@
                 android:layout_height="@dimen/_20dp"
                 android:layout_below="@+id/tv_content"
                 android:layout_marginTop="@dimen/_5dp"
+                android:tint="@color/black"
                 android:onClick="@{()->handler.onClickDelete(vm)}"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_delete" />
 
             <TextView
                 android:id="@+id/tv_time"

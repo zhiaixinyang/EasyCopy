@@ -37,4 +37,15 @@ public class MainConfigSP implements IMainConfigKey {
         SharedPreferences preferences = initSharedPreferences();
         return preferences.getBoolean(MAIN_CONFIG_KEY_IS_OPEN_FLOAT, true);
     }
+
+    public static void setAppOrderTodayTime(long time) {
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putLong(KEY_ORDER_TODAY_TIME, time);
+        editor.apply();
+    }
+
+    public static long getAppOrderTodayTime() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getLong(KEY_ORDER_TODAY_TIME, 0);
+    }
 }

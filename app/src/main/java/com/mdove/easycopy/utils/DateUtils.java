@@ -74,6 +74,15 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static boolean isSameDay(long time1, long time2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(time1));
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+        calendar.setTime(new Date(time2));
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+        return day1 == day2;
+    }
+
 
     public static String getPersonalExpenseDetailDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm");

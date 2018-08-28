@@ -3,6 +3,7 @@ package com.mdove.easycopy.home.presenter.contract;
 
 import com.mdove.easycopy.base.BasePresenter;
 import com.mdove.easycopy.base.BaseView;
+import com.mdove.easycopy.home.model.AppUpdateModel;
 import com.mdove.easycopy.home.model.CopyDataModel;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface MainContract {
         void onClickOpenPhoto();
 
         void onClickHistory();
+
+        void checkUpdate(String curVersion);
     }
 
     interface MvpView extends BaseView<Presenter> {
@@ -30,5 +33,6 @@ public interface MainContract {
         void showResultOCR(String content);
 
         void onClickShowBall();
+
     }
 }
