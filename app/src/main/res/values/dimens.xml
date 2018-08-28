@@ -13,4 +13,6 @@
     <dimen name="crop_bar_height">56dp</dimen>
     <dimen name="_16sp">16sp</dimen>
     <dimen name="_5dp">5dp</dimen>
+    <dimen name="margin_item_history_result_ocr">8dp</dimen>
+    <dimen name="margin_activity_main_btn">12dp</dimen>
 </resources>

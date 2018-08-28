@@ -42,7 +42,7 @@ public class HistoryResultOCRActivity extends BaseActivity implements HistoryRes
     }
 
     private void initToolbar() {
-        mBinding.toolbar.setTitle(R.string.string_activity_result_ocr_title);
+        mBinding.toolbar.setTitle(R.string.string_activity_history_result_ocr_title);
         setSupportActionBar(mBinding.toolbar);
 
         if (getSupportActionBar() != null) {

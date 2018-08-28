@@ -26,20 +26,18 @@
 
         <TextView
             android:id="@+id/tv_tips"
-            android:text="听我一言，数据都是存在本地，清除数据请慎重~"
-            android:layout_below="@+id/app_bar"
-            android:textSize="14sp"
-            android:padding="@dimen/_5dp"
-            android:gravity="center"
-            android:textColor="@color/red"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar"
+            android:gravity="center"
+            android:padding="@dimen/_5dp"
+            android:text="听我一言，数据都是存在本地，清除数据请慎重~"
+            android:textColor="@color/red"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rlv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tv_tips" />
-
+            android:layout_height="match_parent" />
     </RelativeLayout>
 </layout>

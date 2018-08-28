@@ -3,8 +3,11 @@ package com.mdove.easycopy.home;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.base.BaseActivity;
@@ -17,6 +20,7 @@ import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.ui.ResultOCRDialog;
 import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
 import com.mdove.easycopy.utils.AppUtils;
+import com.mdove.easycopy.utils.DensityUtil;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
@@ -29,12 +33,25 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initCircleWaveView();
 
         mPresenter = new MainPresenter();
         mPresenter.subscribe(this);
         mPresenter.checkUpdate(AppUtils.getAPPVersionCodeFromAPP(this));
 
         mBinding.setHandler(new MainHandler(mPresenter));
+    }
+
+    private void initCircleWaveView() {
+//        mBinding.cwv.setInitialRadius(DensityUtil.dip2px(this, 88f))
+//                .setMaxRadius(DensityUtil.getScreenWidth(this) / 2)
+//                .setDuration(2000)
+//                .setSpeed(500)
+//                .setStyle(Paint.Style.FILL)
+//                .setColor(Color.WHITE)
+//                .setInitialAlpha(102)
+//                .setInterpolator(new AccelerateDecelerateInterpolator())
+//                .start();
     }
 
     @Override
