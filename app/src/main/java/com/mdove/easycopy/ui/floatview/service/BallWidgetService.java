@@ -104,7 +104,6 @@ public class BallWidgetService extends Service {
         @Override
         public void onWidgetStateChanged(@NonNull FloatWeatherWidget.State state) {
             if (state == FloatWeatherWidget.State.REMOVED) {
-                isNeedOCR = false;
             }
         }
 
@@ -127,7 +126,6 @@ public class BallWidgetService extends Service {
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         if (intent != null) {
             handleCommandIntent(intent);
-            isNeedOCR = true;
         }
         return START_STICKY;
     }

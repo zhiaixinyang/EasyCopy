@@ -25,6 +25,13 @@ import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.anim.AnimUtils;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 public class MainActivity extends BaseActivity implements MainContract.MvpView {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 100;
     private ActivityMainBinding mBinding;
@@ -44,6 +51,23 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     }
 
     private void initCircleWaveView() {
+        Observable.interval(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        if ((aLong % 3) != 0) {
+                            return;
+                        }
+                        int result = (int) (aLong / 3);
+
+                        if (result % 2 == 0) {
+                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoFirst, mBinding.viewTakePhotoLast, 500);
+                        } else {
+                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoLast, mBinding.viewTakePhotoFirst, 500);
+                        }
+                    }
+                });
 //        mBinding.cwv.setInitialRadius(DensityUtil.dip2px(this, 88f))
 //                .setMaxRadius(DensityUtil.getScreenWidth(this) / 2)
 //                .setDuration(2000)
