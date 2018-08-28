@@ -76,8 +76,8 @@
 
                     <ImageView
                         android:id="@+id/ic_take_photo_last"
-                        android:layout_width="@dimen/w_h_activity_main_iv_first"
-                        android:layout_height="@dimen/w_h_activity_main_iv_first"
+                        android:layout_width="@dimen/w_h_activity_main_iv_last"
+                        android:layout_height="@dimen/w_h_activity_main_iv_last"
                         android:layout_centerInParent="true"
                         android:src="@mipmap/ic_take_photo_last"
                         android:tint="@color/red" />
@@ -92,33 +92,65 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/layout_top">
 
-
-            <TextView
+            <RelativeLayout
                 android:id="@+id/btn_open_photo"
                 android:layout_width="@dimen/_0dp"
                 android:layout_height="200dp"
-                android:layout_margin="@dimen/margin_item_history_result_ocr"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
                 android:gravity="center"
-                android:onClick="@{()->handler.onClickOpenPhoto()}"
-                android:text="相册识别"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_activity_main_btn" />
+                android:onClick="@{()->handler.onClickOpenPhoto()}">
 
-            <TextView
+                <ImageView
+                    android:id="@+id/ic_open_photo"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_open_photo_first" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ic_open_photo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="相册识别"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/btn_history"
                 android:layout_width="@dimen/_0dp"
                 android:layout_height="200dp"
-                android:background="@drawable/bg_white_round"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
+                android:background="@drawable/bg_white_round"
                 android:gravity="center"
-                android:onClick="@{()->handler.onClickHistory()}"
-                android:text="历史识别记录"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_activity_main_btn" />
+                android:onClick="@{()->handler.onClickOpenPhoto()}">
+
+                <ImageView
+                    android:id="@+id/ic_history"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_centerInParent="true"
+                    android:tint="@color/black"
+                    android:src="@mipmap/ic_history_result_first" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ic_history"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="历史识别记录"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
         </LinearLayout>
 
 
