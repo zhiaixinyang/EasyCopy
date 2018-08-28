@@ -24,7 +24,7 @@ public class ScreenshotReceiver extends BroadcastReceiver {
         switch (action) {
             case ACTION_SCREEN_SHOT_HAS_NEW: {
                 String path = intent.getStringExtra(EXTRA_SCREEN_SHOT_HAS_NEW_PATH);
-                if (TextUtils.isEmpty(path)) {
+                if (TextUtils.isEmpty(path) || !BallWidgetService.isNeedOCR) {
                     break;
                 }
                 ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_OCR);

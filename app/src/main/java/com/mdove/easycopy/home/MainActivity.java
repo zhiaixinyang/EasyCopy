@@ -22,6 +22,7 @@ import com.mdove.easycopy.ui.floatview.service.BallWidgetService;
 import com.mdove.easycopy.utils.AppUtils;
 import com.mdove.easycopy.utils.DensityUtil;
 import com.mdove.easycopy.utils.ToastHelper;
+import com.mdove.easycopy.utils.anim.AnimUtils;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
 public class MainActivity extends BaseActivity implements MainContract.MvpView {

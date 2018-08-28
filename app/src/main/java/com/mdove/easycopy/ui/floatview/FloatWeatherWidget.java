@@ -23,7 +23,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.mdove.easycopy.R;
-import com.mdove.easycopy.ui.floatview.anim.AnimUtils;
+import com.mdove.easycopy.utils.anim.AnimUtils;
 import com.mdove.easycopy.ui.floatview.config.WidgetBallSp;
 import com.mdove.easycopy.utils.DensityUtil;
 import com.mdove.easycopy.utils.NavigationBarUtils;

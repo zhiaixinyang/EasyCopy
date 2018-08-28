@@ -39,6 +39,7 @@ public class BallWidgetService extends Service {
     private WindowManager mWindowManager;
     private Point mScreenSize;
     private int mOrientation = Configuration.ORIENTATION_PORTRAIT;
+    public static boolean isNeedOCR = false;
 
     public static void showWeatherBall(@NonNull Context context) {
         Intent service = new Intent(context, BallWidgetService.class);
@@ -103,6 +104,7 @@ public class BallWidgetService extends Service {
         @Override
         public void onWidgetStateChanged(@NonNull FloatWeatherWidget.State state) {
             if (state == FloatWeatherWidget.State.REMOVED) {
+                isNeedOCR = false;
             }
         }
 
@@ -125,6 +127,7 @@ public class BallWidgetService extends Service {
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         if (intent != null) {
             handleCommandIntent(intent);
+            isNeedOCR = true;
         }
         return START_STICKY;
     }
@@ -133,6 +136,7 @@ public class BallWidgetService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mFloatWidget.hide();
+        isNeedOCR = false;
         if (WidgetBallSp.isBallEnable()) {
             startService(new Intent(this, BallWidgetService.class));
         }

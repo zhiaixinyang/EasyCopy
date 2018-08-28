@@ -13,12 +13,19 @@ import android.text.TextUtils;
 
 public class ScreenshotObserverService extends Service {
     public static final String ACTION_START_SERVICE = "action_start_service";
+    public static final String ACTION_STOP_SERVICE = "action_stop_service";
     private ScreenshotContentObserver mScreenObserver;
     private ScreenshotReceiver mReceiver;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ScreenshotObserverService.class);
         intent.setAction(ACTION_START_SERVICE);
+        context.startService(intent);
+    }
+
+    public static void stop(Context context) {
+        Intent intent = new Intent(context, ScreenshotObserverService.class);
+        intent.setAction(ACTION_STOP_SERVICE);
         context.startService(intent);
     }
 
@@ -49,6 +56,10 @@ public class ScreenshotObserverService extends Service {
         if (!TextUtils.isEmpty(action)) {
             switch (action) {
                 case ACTION_START_SERVICE: {
+                    break;
+                }
+                case ACTION_STOP_SERVICE: {
+                    ScreenshotObserverService.this.stopSelf();
                     break;
                 }
                 default: {

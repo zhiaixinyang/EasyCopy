@@ -1,4 +1,9 @@
-package com.mdove.easycopy.ui.floatview.anim;
+package com.mdove.easycopy.utils.anim;
+
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 /**
  * @author wangwei on 2017/11/30.
@@ -35,4 +40,37 @@ public class AnimUtils {
         double angle = Math.toRadians(angleInDegrees);
         return (float) (Math.sin(angle) * (pX - cX) + Math.cos(angle) * (pY - cY) + cY);
     }
+
+    public static void flipAnimatorXViewShow(final View oldView, final View newView, final long time) {
+
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(oldView, "rotationX", 0, 90);
+        final ObjectAnimator animator2 = ObjectAnimator.ofFloat(newView, "rotationX", -90, 0);
+        animator2.setInterpolator(new OvershootInterpolator(2.0f));
+
+        animator1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                oldView.setVisibility(View.GONE);
+                animator2.setDuration(time).start();
+                newView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator1.setDuration(time).start();
+    }
+
 }

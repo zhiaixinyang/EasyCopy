@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.mdove.easycopy.ui.floatview.anim.AnimUtils;
+import com.mdove.easycopy.utils.anim.AnimUtils;
 
 /**
  * @author MDove on 2018/4/19.
