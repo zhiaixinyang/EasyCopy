@@ -102,7 +102,7 @@ int generateJPEG(BYTE *data, int w, int h, int quality, const char *name, boolea
 JNIEXPORT jint JNICALL Java_com_mdove_easycopy_utils_ImageUtil_compressBitmap
         (JNIEnv * env, jclass clazz, jobject bitmap, jint quality, jstring dstFile,jboolean optimize){
 
-    LOGE("%s", "===>Java_github_com_androidadvanced_1ndk_util_ImageUtil_compressBitmap");
+    LOGE("%s", "===>Java_com_mdove_easycopy_utils_ImageUtil_compressBitmap");
     int ret;
     AndroidBitmapInfo bitmapInfo;
     //像素点argb

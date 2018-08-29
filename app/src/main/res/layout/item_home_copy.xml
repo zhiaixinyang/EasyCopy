@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.mdove.easycopy.home.model.vm.CopyDataModelVM" />
+            type="com.mdove.easycopy.activity.home.model.vm.CopyDataModelVM" />
     </data>
 
     <RelativeLayout

@@ -61,7 +61,7 @@
             android:textSize="@dimen/_16sp" />
     </LinearLayout>
 
-    <com.mdove.easycopy.crop.CropImageView
+    <com.mdove.easycopy.activity.crop.CropImageView
         android:id="@+id/crop_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

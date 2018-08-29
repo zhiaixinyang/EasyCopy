@@ -1,6 +1,6 @@
 package com.mdove.easycopy.net;
 
-import com.mdove.easycopy.home.model.AppUpdateModel;
+import com.mdove.easycopy.activity.home.model.AppUpdateModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

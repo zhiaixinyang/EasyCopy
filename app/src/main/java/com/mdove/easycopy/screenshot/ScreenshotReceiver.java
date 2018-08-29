@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.mdove.easycopy.config.MainConfigSP;
-import com.mdove.easycopy.resultocr.ResultOCRActivity;
-import com.mdove.easycopy.mainservice.BallWidgetService;
+import com.mdove.easycopy.activity.resultocr.ResultOCRActivity;
 
 public class ScreenshotReceiver extends BroadcastReceiver {
     public static final String ACTION_SCREEN_SHOT_HAS_NEW = "action_screen_shot_has_new";

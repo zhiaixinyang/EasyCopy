@@ -6,7 +6,7 @@
 
         <variable
             name="handler"
-            type="com.mdove.easycopy.home.model.handle.MainHandler" />
+            type="com.mdove.easycopy.activity.home.model.handle.MainHandler" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -17,9 +17,9 @@
         <RelativeLayout
             android:id="@+id/layout_switch"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
@@ -53,10 +53,10 @@
 
         <RelativeLayout
             android:id="@+id/layout_silent_switch"
-            app:layout_constraintTop_toBottomOf="@+id/layout_switch"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            app:layout_constraintTop_toBottomOf="@+id/layout_switch">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/btn_float"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
                 android:layout_margin="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
@@ -113,7 +113,7 @@
             <FrameLayout
                 android:id="@+id/btn_take_photo"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
                 android:layout_margin="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:onClick="@{()->handler.onClickTakePhoto()}">
@@ -163,6 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -171,7 +172,7 @@
             <RelativeLayout
                 android:id="@+id/btn_open_photo"
                 android:layout_width="@dimen/_0dp"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
                 android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
@@ -201,7 +202,7 @@
             <RelativeLayout
                 android:id="@+id/btn_history"
                 android:layout_width="@dimen/_0dp"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
@@ -229,6 +230,71 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layout_two">
 
+            <RelativeLayout
+                android:id="@+id/btn_all_images"
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_round"
+                android:gravity="center"
+                android:onClick="@{()->handler.onClickAllImages()}">
+
+                <ImageView
+                    android:id="@+id/ic_all_images"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_all_images" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ic_all_images"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="全部照片"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="@dimen/w_h_activity_main_btn"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_round"
+                android:gravity="center"
+                android:onClick="@{()->handler.onClickHistory()}"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="@dimen/w_h_activity_main_iv_first"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_history_result_first"
+                    android:tint="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="历史识别记录"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
+        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

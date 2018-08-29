@@ -1,7 +1,7 @@
 package com.mdove.easycopy.net;
 
 import com.mdove.easycopy.App;
-import com.mdove.easycopy.home.model.AppUpdateModel;
+import com.mdove.easycopy.activity.home.model.AppUpdateModel;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

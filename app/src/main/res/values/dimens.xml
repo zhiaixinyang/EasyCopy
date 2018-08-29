@@ -18,4 +18,5 @@
     <dimen name="w_h_activity_main_iv_first">90dp</dimen>
     <dimen name="w_h_activity_main_iv_last">120dp</dimen>
     <dimen name="size_activity_main_btn">16sp</dimen>
+    <dimen name="w_h_activity_main_btn">160dp</dimen>
 </resources>

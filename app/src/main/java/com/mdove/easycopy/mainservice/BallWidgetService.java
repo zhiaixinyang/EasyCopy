@@ -13,7 +13,7 @@ import android.support.annotation.UiThread;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.mdove.easycopy.home.MainActivity;
+import com.mdove.easycopy.activity.home.MainActivity;
 import com.mdove.easycopy.screenshot.ScreenshotObserverService;
 import com.mdove.easycopy.ui.floatview.BallWidgetHelper;
 import com.mdove.easycopy.ui.floatview.FloatWeatherWidget;
