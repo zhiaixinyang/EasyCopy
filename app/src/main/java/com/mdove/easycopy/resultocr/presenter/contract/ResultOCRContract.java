@@ -11,7 +11,7 @@ import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 
 public interface ResultOCRContract {
     interface Presenter extends BasePresenter<MvpView> {
-        void startOCR(String path);
+        void startOCR(String path, int type);
     }
 
     interface MvpView extends BaseView<Presenter> {

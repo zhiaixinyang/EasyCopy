@@ -5,4 +5,5 @@ public interface IMainConfigKey {
     String MAIN_CONFIG_KEY_BAIDU_OCR_TOKEN="main_config_key_baidu_ocr_token";
     String KEY_ORDER_TODAY_TIME = "key_order_today_time";
     String KEY_SCREEN_SHOT_SELECT = "key_screen_shot_select";
+    String KEY_SCREEN_SHOT_SILENT_SELECT = "key_screen_shot_silent_select";
 }

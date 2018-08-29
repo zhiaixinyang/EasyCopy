@@ -23,10 +23,18 @@ public class ScreenshotReceiver extends BroadcastReceiver {
         switch (action) {
             case ACTION_SCREEN_SHOT_HAS_NEW: {
                 String path = intent.getStringExtra(EXTRA_SCREEN_SHOT_HAS_NEW_PATH);
-                if (TextUtils.isEmpty(path) || !MainConfigSP.isScreenShotSelect()) {
+                boolean isSelect = MainConfigSP.isScreenShotSelect();
+                boolean isSilent = MainConfigSP.isScreenShotSilentSelect();
+                //没开启后台/静默识别，直接return
+                if (TextUtils.isEmpty(path) || (!isSelect && !isSilent)) {
                     break;
                 }
-                ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_OCR);
+
+                if (isSilent) {
+                    ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_SILENT_OCR);
+                } else {
+                    ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_OCR);
+                }
                 break;
             }
             default: {

@@ -25,6 +25,10 @@ public interface MainContract {
         void checkUpdate(String curVersion);
 
         void switchScreenShot(boolean isSelect);
+
+        void switchScreenSilentShot(boolean isSelect);
+
+        void onClickScreenShotServiceKnow();
     }
 
     interface MvpView extends BaseView<Presenter> {

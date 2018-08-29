@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.base.BaseActivity;
@@ -18,7 +17,6 @@ import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.resultocr.presenter.ResultOCRPresenter;
 import com.mdove.easycopy.resultocr.presenter.contract.ResultOCRContract;
-import com.mdove.easycopy.utils.StatusBarUtils;
 import com.mdove.easycopy.utils.ToastHelper;
 
 import java.io.File;
@@ -26,13 +24,18 @@ import java.io.File;
 public class ResultOCRActivity extends BaseActivity implements ResultOCRContract.MvpView {
     public static final int INTENT_TYPE_RESULT_OCR = 1;
     public static final int INTENT_TYPE_START_OCR = 2;
+    //静默OCR，监听到图片后，直接试图和拍照
+    public static final int INTENT_TYPE_START_SILENT_OCR = 3;
     public static final String ACTION_RESULT_OCR_CONTENT = "action_result_ocr_content";
-    public static final String ACTION_START_OCR_IMAGE_PATH = "action_start_ocr_image_path";
+    public static final String ACTION_START_OCR = "action_start_ocr";
+    public static final String ACTION_START_SILENT_OCR = "action_start_silent_ocr";
     public static final String EXTRA_RESULT_OCR_CONTENT = "extra_result_ocr_content";
     public static final String EXTRA_START_OCR_IMAGE_PATH = "extra_start_ocr_image_path";
+    public static final String EXTRA_INTENT_TYPE = "extra_intent_type";
 
     private ActivityResultOcrBinding mBinding;
     private ResultOCRPresenter mPresenter;
+    private int mIntentType = -1;
 
     public static void start(Context context, String content, int intentType) {
         Intent intent = new Intent(context, ResultOCRActivity.class);
@@ -43,11 +46,19 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             case INTENT_TYPE_RESULT_OCR: {
                 intent.setAction(ACTION_RESULT_OCR_CONTENT);
                 intent.putExtra(EXTRA_RESULT_OCR_CONTENT, content);
+                intent.putExtra(EXTRA_INTENT_TYPE, intentType);
                 break;
             }
             case INTENT_TYPE_START_OCR: {
-                intent.setAction(ACTION_START_OCR_IMAGE_PATH);
+                intent.setAction(ACTION_START_OCR);
                 intent.putExtra(EXTRA_START_OCR_IMAGE_PATH, content);
+                intent.putExtra(EXTRA_INTENT_TYPE, intentType);
+                break;
+            }
+            case INTENT_TYPE_START_SILENT_OCR: {
+                intent.setAction(ACTION_START_SILENT_OCR);
+                intent.putExtra(EXTRA_START_OCR_IMAGE_PATH, content);
+                intent.putExtra(EXTRA_INTENT_TYPE, intentType);
                 break;
             }
             default: {
@@ -87,6 +98,7 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
         if (intent == null) {
             return;
         }
+        mIntentType = intent.getIntExtra(EXTRA_INTENT_TYPE, -1);
         String action = intent.getAction();
         switch (action) {
             case ACTION_RESULT_OCR_CONTENT: {
@@ -96,10 +108,15 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
                 }
                 break;
             }
-            case ACTION_START_OCR_IMAGE_PATH: {
+            case ACTION_START_OCR: {
                 String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
                 beginCrop(Uri.fromFile(new File(path)));
                 break;
+            }
+            case ACTION_START_SILENT_OCR: {
+                String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
+                mPresenter.startOCR(path, mIntentType);
+
             }
             default: {
 
@@ -124,10 +141,10 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-            mPresenter.startOCR(Crop.getOutput(result).getPath());
+            mPresenter.startOCR(Crop.getOutput(result).getPath(), mIntentType);
         } else if (resultCode == Crop.RESULT_ERROR) {
             ToastHelper.shortToast(Crop.getError(result).getMessage());
-        }else{
+        } else {
             finish();
         }
     }

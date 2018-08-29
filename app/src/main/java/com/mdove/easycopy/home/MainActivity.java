@@ -49,16 +49,34 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
 
     private void initView() {
         boolean isSelect = MainConfigSP.isScreenShotSelect();
+        boolean isSilent = MainConfigSP.isScreenShotSilentSelect();
 
         mBinding.switchScreenShot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switchStatus(true, false);
+                }
                 mPresenter.switchScreenShot(isChecked);
             }
         });
         mBinding.switchScreenShot.setChecked(isSelect);
         if (isSelect) {
-            mPresenter.switchScreenShot(true);
+            mPresenter.switchScreenSilentShot(true);
+        }
+
+        mBinding.switchScreenSilentShot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switchStatus(false, true);
+                }
+                mPresenter.switchScreenSilentShot(isChecked);
+            }
+        });
+        mBinding.switchScreenSilentShot.setChecked(isSilent);
+        if (isSilent) {
+            mPresenter.switchScreenSilentShot(true);
         }
 
         Observable.interval(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
@@ -110,6 +128,19 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
                     OVERLAY_PERMISSION_REQUEST_CODE);
         } else if (!overlaysPermission) {
             ToastHelper.shortToast("未授予悬浮权限");
+        }
+    }
+
+    private void switchStatus(boolean isSelect, boolean isSilent) {
+        if (isSelect && isSilent) {
+            return;
+        }
+        if (isSelect) {
+            mBinding.switchScreenSilentShot.setChecked(false);
+        }
+
+        if (isSilent) {
+            mBinding.switchScreenShot.setChecked(false);
         }
     }
 

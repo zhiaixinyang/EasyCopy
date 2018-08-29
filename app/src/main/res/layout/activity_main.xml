@@ -17,27 +17,75 @@
         <RelativeLayout
             android:id="@+id/layout_switch"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_toLeftOf="@+id/tv_screenshot_service"
+                android:onClick="@{()->handler.onClickScreenShotServiceKnow()}"
+                android:src="@mipmap/ic_screenshot_service_know" />
 
             <TextView
                 android:id="@+id/tv_screenshot_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_toLeftOf="@+id/switch_screen_shot"
-                android:layout_centerVertical="true"
                 android:text="@string/string_screenshot_service_switch" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_screen_shot"
                 android:layout_width="wrap_content"
-                android:theme="@style/SwitchStyle"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:textOff="@string/switch_off"
-                android:textOn="@string/switch_on" />
+                android:textOn="@string/switch_on"
+                android:theme="@style/SwitchStyle" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_silent_switch"
+            app:layout_constraintTop_toBottomOf="@+id/layout_switch"
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_toLeftOf="@+id/tv_screenshot_silent_service"
+                android:onClick="@{()->handler.onClickScreenShotServiceKnow()}"
+                android:src="@mipmap/ic_screenshot_service_know" />
+
+            <TextView
+                android:id="@+id/tv_screenshot_silent_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_toLeftOf="@+id/switch_screen_silent_shot"
+                android:text="@string/string_screenshot_service_silent_switch" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_screen_silent_shot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:textOff="@string/switch_off"
+                android:textOn="@string/switch_on"
+                android:theme="@style/SwitchStyle" />
         </RelativeLayout>
 
 
@@ -46,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/layout_switch">
+            app:layout_constraintTop_toBottomOf="@+id/layout_silent_switch">
 
             <TextView
                 android:id="@+id/btn_float"
@@ -59,14 +107,14 @@
                 android:onClick="@{()->handler.onClickShowBall()}"
                 android:text="悬浮窗"
                 android:textColor="@color/black"
-                android:textSize="@dimen/size_activity_main_btn" />
+                android:textSize="@dimen/size_activity_main_btn"
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/btn_take_photo"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+                android:layout_margin="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:onClick="@{()->handler.onClickTakePhoto()}">
 

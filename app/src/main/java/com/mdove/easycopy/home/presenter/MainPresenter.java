@@ -1,17 +1,26 @@
 package com.mdove.easycopy.home.presenter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.mdove.easycopy.R;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.crop.Crop;
 import com.mdove.easycopy.history.HistoryResultOCRActivity;
+import com.mdove.easycopy.loadimges.LocalMediaFolder;
+import com.mdove.easycopy.loadimges.LocalMediaLoader;
+import com.mdove.easycopy.loadimges.PictureConfig;
 import com.mdove.easycopy.screenshot.ScreenshotObserverService;
 import com.mdove.easycopy.update.UpdateDialog;
 import com.mdove.easycopy.update.manager.UpdateStatusManager;
@@ -21,8 +30,11 @@ import com.mdove.easycopy.net.ApiServerImpl;
 import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.IntentUtils;
+import com.mdove.easycopy.utils.StringUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -30,10 +42,20 @@ public class MainPresenter implements MainContract.Presenter {
     public static final int TAKE_PHOTO_REQUEST_CODE = 111;
     private MainContract.MvpView mView;
     private File mImageFile;
+    List<LocalMediaFolder> fileNames;
 
     @Override
     public void subscribe(MainContract.MvpView view) {
+        fileNames = new ArrayList<>();
         mView = view;
+        LocalMediaLoader loader = new LocalMediaLoader((FragmentActivity) mView.getContext(), PictureConfig.TYPE_IMAGE, false, 0, 0);
+        loader.loadAllMedia(new LocalMediaLoader.LocalMediaLoadListener() {
+            @Override
+            public void loadComplete(List<LocalMediaFolder> folders) {
+                Log.d("aaa", folders.size() + "!");
+                fileNames = folders;
+            }
+        });
     }
 
     @Override
@@ -106,6 +128,36 @@ public class MainPresenter implements MainContract.Presenter {
             }
             MainConfigSP.setIsScreenShotSelect(false);
         }
+    }
+
+    @Override
+    public void switchScreenSilentShot(boolean isSelect) {
+        boolean isPreSelect = MainConfigSP.isScreenShotSilentSelect();
+        if (isSelect) {
+            ScreenshotObserverService.start(mView.getContext());
+            if (isPreSelect) {
+                return;
+            }
+            MainConfigSP.setIsScreenShotSilentSelect(true);
+        } else {
+            if (!isPreSelect) {
+                return;
+            }
+            MainConfigSP.setIsScreenShotSilentSelect(false);
+        }
+    }
+
+    @Override
+    public void onClickScreenShotServiceKnow() {
+        new AlertDialog.Builder(mView.getContext())
+                .setTitle(StringUtil.getString(R.string.string_screenshot_service_know_title))
+                .setMessage(StringUtil.getString(R.string.string_screenshot_service_know))
+                .setPositiveButton(StringUtil.getString(R.string.string_screenshot_service_know_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void showUpgradeDialog(final AppUpdateModel result) {

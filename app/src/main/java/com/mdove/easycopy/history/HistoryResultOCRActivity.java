@@ -54,7 +54,7 @@ public class HistoryResultOCRActivity extends BaseActivity implements HistoryRes
 
     @Override
     public Context getContext() {
-        return null;
+        return this;
     }
 
     @Override

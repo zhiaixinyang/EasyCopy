@@ -24,4 +24,8 @@ public class MainHandler {
     public void onClickHistory() {
         mPresenter.onClickHistory();
     }
+
+    public void onClickScreenShotServiceKnow() {
+        mPresenter.onClickScreenShotServiceKnow();
+    }
 }

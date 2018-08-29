@@ -16,11 +16,14 @@ import com.mdove.easycopy.greendao.entity.ResultOCR;
 import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
 import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
 import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
+import com.mdove.easycopy.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.resultocr.presenter.contract.ResultOCRContract;
 import com.mdove.easycopy.utils.BitmapUtil;
+import com.mdove.easycopy.utils.ClipboardUtils;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.StringUtil;
+import com.mdove.easycopy.utils.ToastHelper;
 
 import java.io.File;
 import java.util.Date;
@@ -48,15 +51,17 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     }
 
     @Override
-    public void startOCR(final String path) {
+    public void startOCR(final String path, final int type) {
         mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
         PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
             @Override
             public void onRecognizeResult(RecognizeResultModel model) {
                 mView.dismissLoading();
+                boolean isCopy = true;
                 String content = ResultOCRHelper.getStringFromModel(model);
 
                 if (TextUtils.isEmpty(content)) {
+                    isCopy = false;
                     content = "很抱歉,此图片无法识别并提取出文字。";
                 }
                 ResultOCRModel realModel = new ResultOCRModel(content, path);
@@ -66,6 +71,13 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
                 resultOCR.mResultOCRTime = System.currentTimeMillis();
                 resultOCR.mPath = path;
                 mResultOCRDao.insert(resultOCR);
+
+                if (type == ResultOCRActivity.INTENT_TYPE_START_SILENT_OCR) {
+                    if (isCopy) {
+                        ClipboardUtils.copyToClipboard(mView.getContext(), content);
+                        ToastHelper.shortToast(StringUtil.getString(R.string.string_silent_ocr_suc));
+                    }
+                }
 
                 mView.showResult(realModel);
             }

@@ -47,5 +47,16 @@
     <string name="string_open_apk_err">没有找到打开此类文件的程序</string>
     <string name="switch_off">关</string>
     <string name="switch_on">开</string>
-    <string name="string_screenshot_service_switch">后台监听图片获取服务</string>
+    <string name="string_screenshot_service_switch">后台识别</string>
+    <string name="string_screenshot_service_silent_switch">静默识别</string>
+
+    <string name="picture_error">图片已损坏</string>
+    <string name="picture_video_error">视频已损坏</string>
+    <string name="picture_audio_error">音频已损坏</string>
+    <string name="picture_all_audio">所有音频</string>
+    <string name="picture_camera_roll">相机胶卷</string>
+    <string name="string_screenshot_service_know">开启之后，本App可以后台监听您最新获取得图片，并尝试拉起文字识别页面，帮您快速进行提取文字操作。</string>
+    <string name="string_screenshot_service_know_title">这个开关有什么用？</string>
+    <string name="string_screenshot_service_know_positive">了解了</string>
+    <string name="string_silent_ocr_suc">静默识别成功且复制到了粘贴板</string>
 </resources>
