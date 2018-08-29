@@ -57,11 +57,9 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
             @Override
             public void onRecognizeResult(RecognizeResultModel model) {
                 mView.dismissLoading();
-                boolean isCopy = true;
                 String content = ResultOCRHelper.getStringFromModel(model);
 
                 if (TextUtils.isEmpty(content)) {
-                    isCopy = false;
                     content = "很抱歉,此图片无法识别并提取出文字。";
                 }
                 ResultOCRModel realModel = new ResultOCRModel(content, path);
@@ -71,13 +69,6 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
                 resultOCR.mResultOCRTime = System.currentTimeMillis();
                 resultOCR.mPath = path;
                 mResultOCRDao.insert(resultOCR);
-
-                if (type == ResultOCRActivity.INTENT_TYPE_START_SILENT_OCR) {
-                    if (isCopy) {
-                        ClipboardUtils.copyToClipboard(mView.getContext(), content);
-                        ToastHelper.shortToast(StringUtil.getString(R.string.string_silent_ocr_suc));
-                    }
-                }
 
                 mView.showResult(realModel);
             }

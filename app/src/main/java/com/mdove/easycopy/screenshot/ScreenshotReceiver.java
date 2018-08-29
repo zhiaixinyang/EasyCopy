@@ -31,7 +31,7 @@ public class ScreenshotReceiver extends BroadcastReceiver {
                 }
 
                 if (isSilent) {
-                    ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_SILENT_OCR);
+                    ScreenshotObserverService.startSilent(context, path);
                 } else {
                     ResultOCRActivity.start(context, path, ResultOCRActivity.INTENT_TYPE_START_OCR);
                 }

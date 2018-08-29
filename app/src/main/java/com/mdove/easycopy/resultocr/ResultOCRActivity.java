@@ -24,8 +24,6 @@ import java.io.File;
 public class ResultOCRActivity extends BaseActivity implements ResultOCRContract.MvpView {
     public static final int INTENT_TYPE_RESULT_OCR = 1;
     public static final int INTENT_TYPE_START_OCR = 2;
-    //静默OCR，监听到图片后，直接试图和拍照
-    public static final int INTENT_TYPE_START_SILENT_OCR = 3;
     public static final String ACTION_RESULT_OCR_CONTENT = "action_result_ocr_content";
     public static final String ACTION_START_OCR = "action_start_ocr";
     public static final String ACTION_START_SILENT_OCR = "action_start_silent_ocr";
@@ -51,12 +49,6 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             }
             case INTENT_TYPE_START_OCR: {
                 intent.setAction(ACTION_START_OCR);
-                intent.putExtra(EXTRA_START_OCR_IMAGE_PATH, content);
-                intent.putExtra(EXTRA_INTENT_TYPE, intentType);
-                break;
-            }
-            case INTENT_TYPE_START_SILENT_OCR: {
-                intent.setAction(ACTION_START_SILENT_OCR);
                 intent.putExtra(EXTRA_START_OCR_IMAGE_PATH, content);
                 intent.putExtra(EXTRA_INTENT_TYPE, intentType);
                 break;
@@ -112,11 +104,6 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
                 String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
                 beginCrop(Uri.fromFile(new File(path)));
                 break;
-            }
-            case ACTION_START_SILENT_OCR: {
-                String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
-                mPresenter.startOCR(path, mIntentType);
-
             }
             default: {
 
