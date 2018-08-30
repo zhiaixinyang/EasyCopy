@@ -8,9 +8,11 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import com.mdove.easycopy.greendao.entity.AllImages;
 import com.mdove.easycopy.greendao.entity.CopyData;
 import com.mdove.easycopy.greendao.entity.ResultOCR;
 
+import com.mdove.easycopy.greendao.AllImagesDao;
 import com.mdove.easycopy.greendao.CopyDataDao;
 import com.mdove.easycopy.greendao.ResultOCRDao;
 
@@ -23,9 +25,11 @@ import com.mdove.easycopy.greendao.ResultOCRDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig allImagesDaoConfig;
     private final DaoConfig copyDataDaoConfig;
     private final DaoConfig resultOCRDaoConfig;
 
+    private final AllImagesDao allImagesDao;
     private final CopyDataDao copyDataDao;
     private final ResultOCRDao resultOCRDao;
 
@@ -33,22 +37,32 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
+        allImagesDaoConfig = daoConfigMap.get(AllImagesDao.class).clone();
+        allImagesDaoConfig.initIdentityScope(type);
+
         copyDataDaoConfig = daoConfigMap.get(CopyDataDao.class).clone();
         copyDataDaoConfig.initIdentityScope(type);
 
         resultOCRDaoConfig = daoConfigMap.get(ResultOCRDao.class).clone();
         resultOCRDaoConfig.initIdentityScope(type);
 
+        allImagesDao = new AllImagesDao(allImagesDaoConfig, this);
         copyDataDao = new CopyDataDao(copyDataDaoConfig, this);
         resultOCRDao = new ResultOCRDao(resultOCRDaoConfig, this);
 
+        registerDao(AllImages.class, allImagesDao);
         registerDao(CopyData.class, copyDataDao);
         registerDao(ResultOCR.class, resultOCRDao);
     }
     
     public void clear() {
+        allImagesDaoConfig.clearIdentityScope();
         copyDataDaoConfig.clearIdentityScope();
         resultOCRDaoConfig.clearIdentityScope();
+    }
+
+    public AllImagesDao getAllImagesDao() {
+        return allImagesDao;
     }
 
     public CopyDataDao getCopyDataDao() {

@@ -79,7 +79,7 @@ android {
 }
 
 greendao {
-    schemaVersion 1
+    schemaVersion 2
     daoPackage 'com.mdove.easycopy.greendao'
     targetGenDir 'src/main/java'
 }
@@ -88,6 +88,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     implementation files('libs/ocr-sdk.jar')
+    implementation project(path: ':filescanner')
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

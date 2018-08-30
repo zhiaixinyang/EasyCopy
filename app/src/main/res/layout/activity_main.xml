@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="handler"
             type="com.mdove.easycopy.activity.home.model.handle.MainHandler" />
+
+        <variable
+            name="vm"
+            type="com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -14,12 +19,50 @@
         android:layout_height="match_parent"
         android:background="@color/gray_light">
 
+        <TextView
+            android:id="@+id/tv_ocr_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            android:text="@{vm.mOcrCount}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="总识别提取次数：99" />
+
+        <TextView
+            android:id="@+id/tv_ocr_suc_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            android:text="@{vm.mOcrSucCount}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="成功识别提取次数：98" />
+
+        <TextView
+            android:id="@+id/tv_ocr_words_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+            android:text="@{vm.mOcrWordsCount}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ocr_count"
+            tools:text="识别提取出的文字数量：999" />
+
         <RelativeLayout
             android:id="@+id/layout_switch"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/layout_silent_switch">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
@@ -53,10 +96,10 @@
 
         <RelativeLayout
             android:id="@+id/layout_silent_switch"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            app:layout_constraintTop_toBottomOf="@+id/layout_switch">
+            android:layout_marginBottom="@dimen/margin_item_history_result_ocr"
+            app:layout_constraintBottom_toTopOf="parent">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
@@ -64,7 +107,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_toLeftOf="@+id/tv_screenshot_silent_service"
-                android:onClick="@{()->handler.onClickScreenShotServiceKnow()}"
+                android:onClick="@{()->handler.onClickScreenShotSilentServiceKnow()}"
                 android:src="@mipmap/ic_screenshot_service_know" />
 
             <TextView
@@ -94,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/layout_silent_switch">
+            app:layout_constraintTop_toBottomOf="@+id/tv_ocr_words_count">
 
             <TextView
                 android:id="@+id/btn_float"
@@ -172,7 +215,7 @@
             <RelativeLayout
                 android:id="@+id/btn_open_photo"
                 android:layout_width="@dimen/_0dp"
-                android:layout_height="@dimen/w_h_activity_main_btn"
+                android:layout_height="@dimen/w_h_activity_main_btn_linear"
                 android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
@@ -182,8 +225,8 @@
 
                 <ImageView
                     android:id="@+id/ic_open_photo"
-                    android:layout_width="@dimen/w_h_activity_main_iv_first"
-                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_centerInParent="true"
                     android:src="@mipmap/ic_open_photo_first" />
 
@@ -200,9 +243,38 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/btn_all_images"
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="@dimen/w_h_activity_main_btn_linear"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_round"
+                android:gravity="center"
+                android:onClick="@{()->handler.onClickAllImages()}">
+
+                <ImageView
+                    android:id="@+id/ic_all_images"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_all_images" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ic_all_images"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="全部照片"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/btn_history"
                 android:layout_width="@dimen/_0dp"
-                android:layout_height="@dimen/w_h_activity_main_btn"
+                android:layout_height="@dimen/w_h_activity_main_btn_linear"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
@@ -211,8 +283,8 @@
 
                 <ImageView
                     android:id="@+id/ic_history"
-                    android:layout_width="@dimen/w_h_activity_main_iv_first"
-                    android:layout_height="@dimen/w_h_activity_main_iv_first"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_centerInParent="true"
                     android:src="@mipmap/ic_history_result_first"
                     android:tint="@color/black" />
@@ -230,71 +302,6 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/layout_two">
 
-            <RelativeLayout
-                android:id="@+id/btn_all_images"
-                android:layout_width="@dimen/_0dp"
-                android:layout_height="@dimen/w_h_activity_main_btn"
-                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
-                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-                android:layout_weight="1"
-                android:background="@drawable/bg_white_round"
-                android:gravity="center"
-                android:onClick="@{()->handler.onClickAllImages()}">
-
-                <ImageView
-                    android:id="@+id/ic_all_images"
-                    android:layout_width="@dimen/w_h_activity_main_iv_first"
-                    android:layout_height="@dimen/w_h_activity_main_iv_first"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_all_images" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ic_all_images"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:gravity="center"
-                    android:text="全部照片"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_activity_main_btn" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="@dimen/_0dp"
-                android:layout_height="@dimen/w_h_activity_main_btn"
-                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_weight="1"
-                android:background="@drawable/bg_white_round"
-                android:gravity="center"
-                android:onClick="@{()->handler.onClickHistory()}"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:layout_width="@dimen/w_h_activity_main_iv_first"
-                    android:layout_height="@dimen/w_h_activity_main_iv_first"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_history_result_first"
-                    android:tint="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_8dp"
-                    android:gravity="center"
-                    android:text="历史识别记录"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_activity_main_btn" />
-            </RelativeLayout>
-        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

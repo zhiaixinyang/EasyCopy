@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.CompoundButton;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.base.BaseActivity;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.databinding.ActivityMainBinding;
@@ -44,6 +45,14 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         mBinding.setHandler(new MainHandler(mPresenter));
 
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPresenter!=null){
+            mPresenter.refreshStatistics();
+        }
     }
 
     private void initView() {
@@ -154,6 +163,13 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     @Override
     public void onClickShowBall() {
         initBall();
+    }
+
+    @Override
+    public void refreshStatistics(MainStatisticsModelVM mainModelVM) {
+        if (mBinding != null) {
+            mBinding.setVm(mainModelVM);
+        }
     }
 
 }

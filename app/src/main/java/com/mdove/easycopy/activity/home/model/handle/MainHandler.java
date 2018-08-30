@@ -29,6 +29,10 @@ public class MainHandler {
         mPresenter.onClickScreenShotServiceKnow();
     }
 
+    public void onClickScreenShotSilentServiceKnow() {
+        mPresenter.onClickScreenShotSilentServiceKnow();
+    }
+
     public void onClickAllImages() {
         mPresenter.onClickAllImages();
     }

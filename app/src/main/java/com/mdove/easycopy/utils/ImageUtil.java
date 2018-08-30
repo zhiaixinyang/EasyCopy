@@ -42,7 +42,7 @@ public class ImageUtil {
      * @param optimize  是否使用哈夫曼算法完成压缩（使用哈夫曼算法压缩，压缩率高10~25倍）
      * @return   是否压缩成功
      */
-    public static boolean compressImage(Bitmap bitmap,int quality,String dstFile,boolean  optimize){
+    public static boolean   compressImage(Bitmap bitmap,int quality,String dstFile,boolean  optimize){
 
         int ret = compressBitmap( bitmap, quality, dstFile,  optimize);
 

@@ -27,6 +27,7 @@ public class AllImagesActivity extends BaseActivity implements AllImagesContract
     private CoolViewPager mCVP;
     private AllImagesPresenter mPresenter;
     private AllImageVpAdapter mAdapter;
+    private List<ShowBitmap> mData;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AllImagesActivity.class);
@@ -52,7 +53,7 @@ public class AllImagesActivity extends BaseActivity implements AllImagesContract
 
         mCVP.setScrollMode(CoolViewPager.ScrollMode.HORIZONTAL);
         mCVP.setPageTransformer(true, new DepthPageTransformer());
-        mCVP.addOnPageChangeListener(new OnPageChangeAdapterListener(){
+        mCVP.addOnPageChangeListener(new OnPageChangeAdapterListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);

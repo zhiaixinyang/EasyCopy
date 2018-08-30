@@ -1,25 +1,26 @@
 package com.mdove.easycopy.activity.allimages.presenter;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.util.Log;
 
+import com.gerenvip.filescaner.FileInfo;
+import com.gerenvip.filescaner.FileScanner;
+import com.gerenvip.filescaner.FileScannerAdapterListener;
+import com.gerenvip.filescaner.FileScannerListener;
 import com.mdove.easycopy.App;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.allimages.model.ShowBitmap;
 import com.mdove.easycopy.activity.allimages.presenter.contract.AllImagesContract;
-import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.config.ImageConfig;
-import com.mdove.easycopy.greendao.ResultOCRDao;
-import com.mdove.easycopy.greendao.entity.ResultOCR;
+import com.mdove.easycopy.greendao.AllImagesDao;
+import com.mdove.easycopy.greendao.entity.AllImages;
 import com.mdove.easycopy.loadimges.LocalMedia;
 import com.mdove.easycopy.loadimges.LocalMediaFolder;
 import com.mdove.easycopy.loadimges.LocalMediaLoader;
 import com.mdove.easycopy.loadimges.PictureConfig;
-import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
-import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
-import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
 import com.mdove.easycopy.utils.ImageUtil;
 import com.mdove.easycopy.utils.StringUtil;
 import com.mdove.easycopy.utils.ToastHelper;
@@ -28,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -39,16 +38,29 @@ import rx.schedulers.Schedulers;
 public class AllImagesPresenter implements AllImagesContract.Presenter {
     private AllImagesContract.MvpView mView;
     private Subscription mSubscription;
-    private List<LocalMedia> mAllImages;
+    private List<LocalMedia> mAllImagesOld;
+    private List<FileInfo> mAllImages;
     private int mCurIndexStart = 0;
     private static final int COUNT_IMAGES = 10;
+    private AllImagesDao mAllImagesDao;
 
     public AllImagesPresenter() {
+        mAllImagesDao = App.getDaoSession().getAllImagesDao();
     }
 
     @Override
     public void subscribe(AllImagesContract.MvpView view) {
         mView = view;
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            data.add(i + "!");
+        }
+        List<String> i = data.subList(0, 10);
+        Log.d("aaa", i.get(9)+"!"+data.size());
+
+        List<String> ii = data.subList(0, 10);
+        Log.d("aaa", ii.get(9)+"!"+data.size());
+
     }
 
     @Override
@@ -59,17 +71,16 @@ public class AllImagesPresenter implements AllImagesContract.Presenter {
     @Override
     public void initImages() {
         showLoading();
-        LocalMediaLoader loader = new LocalMediaLoader((FragmentActivity) mView.getContext(), PictureConfig.TYPE_IMAGE, false, 0, 0);
-        loader.loadAllMedia(new LocalMediaLoader.LocalMediaLoadListener() {
+        FileScanner fileScanner = new FileScanner(mView.getContext(), FileScanner.SUPPORT_FILE_TYPE_IMAGE);
+        fileScanner.setFileScannerListener(new FileScannerAdapterListener() {
+
             @Override
-            public void loadComplete(List<LocalMediaFolder> folders) {
-                mAllImages = new ArrayList<>();
-                for (LocalMediaFolder localMediaFolder : folders) {
-                    mAllImages.addAll(localMediaFolder.getImages());
-                }
+            public void onScanEnd(@Nullable List<FileInfo> allFiles) {
+                mAllImages = allFiles;
                 preLoadImages();
             }
         });
+        fileScanner.scan(false);
     }
 
     @Override
@@ -140,18 +151,39 @@ public class AllImagesPresenter implements AllImagesContract.Presenter {
                 });
     }
 
-    private Observable<List<ShowBitmap>> createBitmaps(List<LocalMedia> datas) {
+    private Observable<List<ShowBitmap>> createBitmaps(List<FileInfo> datas) {
         return Observable.just(datas)
                 .subscribeOn(Schedulers.io())
-                .map(new Func1<List<LocalMedia>, List<ShowBitmap>>() {
+                .map(new Func1<List<FileInfo>, List<ShowBitmap>>() {
                     @Override
-                    public List<ShowBitmap> call(List<LocalMedia> localMedias) {
+                    public List<ShowBitmap> call(List<FileInfo> localMedias) {
                         List<ShowBitmap> data = new ArrayList<>();
-                        for (LocalMedia localMedia : localMedias) {
-                            Bitmap bitmap = ImageUtil.decodeFile(localMedia.getPath());
-                            String path = ImageConfig.CONSTANT_IMAGE_PATH + System.currentTimeMillis() + "copress_temp.png";
-                            ImageUtil.compressImage(bitmap, 65, path, true);
-                            data.add(new ShowBitmap(path, ImageUtil.decodeFile(path)));
+                        for (FileInfo fileInfo : localMedias) {
+                            String path = fileInfo.getFilePath();
+                            Bitmap bitmap = ImageUtil.decodeFile(path);
+                            String[] names = path.split("/");
+                            String tempPath = ImageConfig.CONSTANT_IMAGE_PATH + "copress_temp_" + names[names.length - 1];
+                            Bitmap compressBitmap;
+                            boolean isCompressSuc = false;
+                            if (!isExistCompressImage(tempPath)) {
+                                isCompressSuc = ImageUtil.compressImage(bitmap, 65, tempPath, true);
+                                bitmap.recycle();
+                                if (!isCompressSuc) {
+                                    compressBitmap = BitmapFactory.decodeFile(path);
+                                } else {
+                                    compressBitmap = BitmapFactory.decodeFile(tempPath);
+
+                                    AllImages allImages = new AllImages();
+                                    allImages.mPath = tempPath;
+                                    allImages.mHeight = compressBitmap.getHeight();
+                                    allImages.mWidth = compressBitmap.getWidth();
+                                    mAllImagesDao.insert(allImages);
+                                }
+                            } else {
+                                compressBitmap = BitmapFactory.decodeFile(tempPath);
+                            }
+
+                            data.add(new ShowBitmap(path, compressBitmap));
                         }
                         return data;
                     }
@@ -162,5 +194,14 @@ public class AllImagesPresenter implements AllImagesContract.Presenter {
                         return Observable.just(bitmaps);
                     }
                 });
+    }
+
+    private boolean isExistCompressImage(String tempPath) {
+        AllImages allImages = mAllImagesDao.queryBuilder().where(AllImagesDao.Properties.MPath.eq(tempPath)).unique();
+        if (allImages == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

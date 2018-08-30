@@ -1,0 +1,349 @@
+//
+// Created by wangwei on 2017/7/18.
+//
+
+#include "FilesScanner.h"
+#include <stdio.h>
+#include <android/log.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <string.h>
+#include <typeinfo>
+
+#define LOGE(...) \
+  ((void)__android_log_print(ANDROID_LOG_ERROR, "FileScanner::", __VA_ARGS__))
+
+jobject list_obj;//目录的list
+jmethodID list_add;//目录list的add方法
+jclass fileInfo_cls;//目录文件信息实体类
+jclass list_cls;
+jmethodID fileInfo_constructor;//目录文件实体类的构造方法
+jmethodID fileInfo_setFilePath;//目录文件实体类的setPath方法
+jmethodID fileInfo_setLastModifyTime;//目录文件实体类的setPath方法
+jmethodID fileInfo_setFileSize;//目录文件实体类的setFileSize方法
+
+jclass file_scanner_jni_java_cls;
+jmethodID fileScanner_isFileSizeSupport_method;
+jmethodID fileScanner_isFileExtensionSupport_method;
+
+/**
+ * 扫描文件夹
+ * @param env
+ * @param path
+ */
+void doScannerDirs(JNIEnv *env, char *path, bool skipHiddenDir) {
+    struct stat statBuffer;
+    if (stat(path, &statBuffer) != 0) { //读取stat信息
+        return;
+
+    }
+    if (!S_ISDIR(statBuffer.st_mode)) { //判断是否是目录
+        return;
+    }
+    jobject fileInfo_obj = env->NewObject(fileInfo_cls,
+                                          fileInfo_constructor);  //new一个FileInfo实体类对象
+    jstring str = env->NewStringUTF(path);
+    env->CallVoidMethod(fileInfo_obj, fileInfo_setFilePath, str);   //set地址
+    // LOGI("时间---%d",statBuffer.st_mtim);
+    jlong time = statBuffer.st_mtime;
+    env->CallVoidMethod(fileInfo_obj, fileInfo_setLastModifyTime, time);//set最后一次修改的时间
+    env->CallBooleanMethod(list_obj, list_add, fileInfo_obj);   //添加到目录list中
+    env->DeleteLocalRef(fileInfo_obj);  //释放fileinfo实体
+    env->DeleteLocalRef(str);//释放字符串
+    struct dirent *entry;
+    DIR *dir = opendir(path);
+    if (!dir) {
+        LOGE("Error opening directory '%s'", path);
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {//循环目录中的文件
+        const char *name = entry->d_name;
+        if (skipHiddenDir && name[0] == '.') {//跳过隐藏目录
+//            LOGE("skip all hide dir '%s'", name);
+            continue;
+        } else {
+            // skip "." and ".." dir may such as "1." will be skip
+            if ((name[0] == '.' && name[1] == '\0') ||
+                (name[1] == '.' && name[2] == '\0')) {// filter . or .. dir
+//                LOGE("only skip . or .. dir '%s'", name);
+                continue;
+            }
+        }
+
+        int type = entry->d_type;
+        if (type != DT_DIR) {
+            continue;
+        }
+        char dirPath[250];
+        strcpy(dirPath, path);
+        strcat(dirPath, "/");
+        strcat(dirPath, name);
+        doScannerDirs(env, dirPath, skipHiddenDir);//递归循环子目录
+    }
+    closedir(dir);
+}
+
+
+/**
+ * 扫描文件夹
+ * @param env
+ * @param path
+ */
+void doScannerUpdateDirs(JNIEnv *env, char *path) {
+    struct dirent *entry;
+    DIR *dir = opendir(path);
+    if (!dir) {
+        LOGE("Error opening directory '%s'", path);
+        return;
+    }
+    while ((entry = readdir(dir)) != NULL) {//循环目录中的文件
+        const char *name = entry->d_name;
+        if (name[0] == '.' || name[1] == '.') {
+            continue;
+        }
+        int type = entry->d_type;
+        if (type != DT_DIR) {
+            continue;
+        }
+        char dirPath[250];
+        strcpy(dirPath, path);
+        strcat(dirPath, "/");
+        strcat(dirPath, name);
+        struct stat statBuffer;
+        if (stat(dirPath, &statBuffer) != 0) { //读取stat信息
+            continue;
+
+        }
+        if (!S_ISDIR(statBuffer.st_mode)) { //判断是否是目录
+            continue;
+        }
+        jobject fileInfo_obj = env->NewObject(fileInfo_cls,
+                                              fileInfo_constructor);  //new一个FileInfo实体类对象
+        jstring str = env->NewStringUTF(path);
+        env->CallVoidMethod(fileInfo_obj, fileInfo_setFilePath, str);   //set地址
+        jlong time = statBuffer.st_mtime;
+        env->CallVoidMethod(fileInfo_obj, fileInfo_setLastModifyTime, time);//set最后一次修改的时间
+        env->CallBooleanMethod(list_obj, list_add, fileInfo_obj);   //添加到目录list中
+        env->DeleteLocalRef(fileInfo_obj);  //释放fileinfo实体
+        env->DeleteLocalRef(str);//释放字符串
+    }
+    closedir(dir);
+}
+
+
+/**
+ * 扫描文件
+ * @param env
+ * @param path
+ */
+void doScannerFiles(JNIEnv *env, char *path) {
+    struct dirent *entry;
+    DIR *dir = opendir(path);
+    if (!dir) {
+        LOGE("Error opening directory '%s'", path);
+        return;
+    }
+    while ((entry = readdir(dir)) != NULL) {
+        if (DT_REG != entry->d_type) {
+            continue;
+        }
+        char *name = entry->d_name;
+        if (name[0] == '.') {
+            continue;
+        }
+        //file名字小于5的忽略
+        if (strlen(name) < 5) {
+
+            continue;
+        }
+        //非.mp3格式的忽略
+        char *extension = strrchr(name, '.');
+        if (extension == NULL) {
+            continue;
+        }
+//        if (strcmp(typeStr, extension) != 0) {
+//            continue;
+//        }
+        jstring tmpExtension = env->NewStringUTF(extension);
+        if (tmpExtension == NULL) {
+            env->DeleteLocalRef(tmpExtension);
+            continue;
+        }
+        jboolean support = env->CallStaticBooleanMethod(file_scanner_jni_java_cls,
+                                                        fileScanner_isFileExtensionSupport_method,
+                                                        tmpExtension);
+        env->DeleteLocalRef(tmpExtension);
+        if (!support) {
+            continue;
+        }
+
+        char dirPath[250];
+        strcpy(dirPath, path);
+        strcat(dirPath, "/");
+        strcat(dirPath, name);
+        struct stat statBuffer;
+        if (stat(dirPath, &statBuffer) != 0) { //读取stat信息
+            continue;
+        }
+        if (!S_ISREG(statBuffer.st_mode)) {
+            continue;
+        }
+        jobject fileInfo_obj = env->NewObject(fileInfo_cls,
+                                              fileInfo_constructor);  //new一个FileInfo实体类对象
+        jstring str = env->NewStringUTF(dirPath);
+        jlong time = statBuffer.st_mtime;
+        jlong size = statBuffer.st_size;
+
+        LOGE("doScannerFiles method  %s",
+             fileScanner_isFileSizeSupport_method == NULL ? "false" : "true");
+
+        LOGE("doScannerFiles class  %s",
+             file_scanner_jni_java_cls == NULL ? "false" : "true");
+//        LOGE("doScannerFiles name=  '%s'", name);
+//        LOGE("doScannerFiles size=  '%d'", size);
+
+        jstring tmpName = env->NewStringUTF(name);
+        jlong tmpSize = size;
+        jboolean sizesupport = env->CallStaticBooleanMethod(file_scanner_jni_java_cls,
+                                                            fileScanner_isFileSizeSupport_method,
+                                                            tmpSize);
+        env->DeleteLocalRef(tmpName);
+        if (!sizesupport) {
+            env->DeleteLocalRef(fileInfo_obj);  //释放fileinfo实体
+            env->DeleteLocalRef(str);//释放字符串
+            continue;
+        }
+
+        env->CallVoidMethod(fileInfo_obj, fileInfo_setFilePath, str);   //set地址
+        env->CallVoidMethod(fileInfo_obj, fileInfo_setLastModifyTime, time);//set最后一次修改的时间
+        env->CallVoidMethod(fileInfo_obj, fileInfo_setFileSize, size);//set文件的大小
+        env->CallBooleanMethod(list_obj, list_add, fileInfo_obj);   //添加到目录list中
+        env->DeleteLocalRef(fileInfo_obj);  //释放fileinfo实体
+        env->DeleteLocalRef(str);//释放字符串
+    }
+    closedir(dir);
+}
+
+
+/**
+ * 扫描完成之后做的回收工作
+ * @param env
+ */
+void finish(JNIEnv *env) {
+    env->DeleteLocalRef(list_cls);
+    env->DeleteLocalRef(fileInfo_cls);
+}
+
+/**
+ * 初始化
+ * @param env
+ */
+void init(JNIEnv *env) {
+    list_cls = env->FindClass("java/util/ArrayList");//获得ArrayList类引用
+    jmethodID list_constructor = env->GetMethodID(list_cls, "<init>", "()V"); //获得构造函数
+    list_obj = env->NewObject(list_cls, list_constructor);//new一个arrayList对象
+    list_add = env->GetMethodID(list_cls, "add", "(Ljava/lang/Object;)Z");
+//    com_gerenvip_filescaner_FileScannerJni
+    fileInfo_cls = env->FindClass(
+            "com/gerenvip/filescaner/FileInfo");//获得FileInfo类引用
+    fileInfo_constructor = env->GetMethodID(fileInfo_cls, "<init>", "()V"); //获得构造函数
+    fileInfo_setFilePath = env->GetMethodID(fileInfo_cls, "setFilePath",
+                                            "(Ljava/lang/String;)V");
+    fileInfo_setLastModifyTime = env->GetMethodID(fileInfo_cls, "setLastModifyTime",
+                                                  "(J)V");
+    fileInfo_setFileSize = env->GetMethodID(fileInfo_cls, "setFileSize",
+                                            "(J)V");
+}
+
+void initJavaCallback(JNIEnv *env, jobject thiz) {
+    if (file_scanner_jni_java_cls == NULL) {
+//        LOGE("initJavaCallback 11111111 %s", file_scanner_jni_java_cls == NULL ? "false" : "true");
+//        com_gerenvip_filescaner_FileScannerJni
+        jclass tmp = env->FindClass("com/gerenvip/filescaner/FileScannerJni");
+        file_scanner_jni_java_cls = (jclass) env->NewGlobalRef(tmp);
+    }
+    if (fileScanner_isFileSizeSupport_method == NULL) {
+        fileScanner_isFileSizeSupport_method = env->GetStaticMethodID(file_scanner_jni_java_cls,
+                                                                      "isFileSizeSupport",
+                                                                      "(J)Z");
+    }
+    if (fileScanner_isFileExtensionSupport_method == NULL) {
+        fileScanner_isFileExtensionSupport_method = env->GetStaticMethodID(
+                file_scanner_jni_java_cls,
+                "isFileExtensionSupport",
+                "(Ljava/lang/String;)Z");
+    }
+}
+
+/**
+ * 扫描指定格式的文件
+ * @param env
+ * @param thiz
+ * @param str
+ * @return
+ */
+jobject JNICALL Java_com_gerenvip_filescaner_FileScannerJni_scanFiles
+        (JNIEnv *env, jobject thiz, jstring str) {
+    char *path = (char *) env->GetStringUTFChars(str, NULL);
+    init(env);
+    initJavaCallback(env, thiz);
+    doScannerFiles(env, path);
+    finish(env);
+    env->ReleaseStringUTFChars(str, path);
+    return list_obj;
+}
+
+
+/**
+ * JNI扫描文件夹
+ * @param env
+ * @param thiz
+ * @param str
+ * @return
+ */
+jobject JNICALL Java_com_gerenvip_filescaner_FileScannerJni_scanDirs
+        (JNIEnv *env, jclass thiz, jstring str, jboolean filterHiddenDir) {
+    char *path = (char *) env->GetStringUTFChars(str, NULL);
+    bool skip = filterHiddenDir;//skip hidden dir
+    init(env);
+    doScannerDirs(env, path, skip);
+    finish(env);
+    env->ReleaseStringUTFChars(str, path);
+    return list_obj;
+}
+
+
+/**
+ * JNI增量扫描文件夹
+ * @param env
+ * @param thiz
+ * @param str
+ * @return
+ */
+jobject JNICALL Java_com_gerenvip_filescaner_FileScannerJni_scanUpdateDirs
+        (JNIEnv *env, jclass thiz, jstring str) {
+    char *path = (char *) env->GetStringUTFChars(str, NULL);
+    init(env);
+    doScannerUpdateDirs(env, path);
+    finish(env);
+    env->ReleaseStringUTFChars(str, path);
+    return list_obj;
+}
+
+
+jlong JNICALL Java_com_gerenvip_filescaner_FileScannerJni_getFileLastModifiedTime
+        (JNIEnv *env, jclass thiz, jstring str) {
+    char *path = (char *) env->GetStringUTFChars(str, NULL);
+    struct stat statBuffer;
+    if (stat(path, &statBuffer) != 0) { //读取stat信息
+        return -1l;
+    }
+    jlong time = statBuffer.st_mtime;
+    env->ReleaseStringUTFChars(str, path);
+    return time;
+}
+
+
+
+

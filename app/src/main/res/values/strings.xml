@@ -57,9 +57,13 @@
     <string name="picture_all_audio">所有音频</string>
     <string name="picture_camera_roll">相机胶卷</string>
     <string name="string_screenshot_service_know">开启之后，本App可以后台监听您最新获取得图片，并尝试拉起文字识别页面，帮您快速进行提取文字操作。</string>
+    <string name="string_screenshot_silent_service_know">开启之后，本App可以后台监听您最新获取得图片，并直接后台提取文字，提取成功后将复制到您的粘贴板，并提示您。</string>
     <string name="string_screenshot_service_know_title">这个开关有什么用？</string>
     <string name="string_screenshot_service_know_positive">了解了</string>
     <string name="string_silent_ocr_suc">静默识别成功且复制到了粘贴板</string>
     <string name="string_no_more_images_err">没有更多的图片</string>
     <string name="string_is_first_images_err">已经是最开始的图片了</string>
+    <string name="string_ocr_words_count">识别提取出的文字数量：%1$s</string>
+    <string name="string_ocr_suc_count">成功识别提取次数：%1$s</string>
+    <string name="string_ocr_count">总识别提取次数：%1$s</string>
 </resources>
