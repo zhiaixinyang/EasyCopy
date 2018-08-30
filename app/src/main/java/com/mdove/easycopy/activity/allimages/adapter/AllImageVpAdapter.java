@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.mdove.easycopy.activity.allimages.model.ShowBitmap;
 import com.mdove.easycopy.loadimges.LocalMedia;
 import com.mdove.easycopy.ui.coolviewpager.CoolViewPager;
 import com.mdove.easycopy.utils.ImageUtil;
@@ -19,21 +20,20 @@ import java.util.List;
 import java.util.Map;
 
 public class AllImageVpAdapter extends PagerAdapter {
-    private List<LocalMedia> mData;
+    private List<ShowBitmap> mData;
     private List<View> mViews;
     private Context mContext;
-    private Map<String, Bitmap> mImageCaches = new HashMap<String, Bitmap>();
 
-    public AllImageVpAdapter(Context context, List<LocalMedia> items) {
-        mData = items.subList(0, 5);
+    public AllImageVpAdapter(Context context, List<ShowBitmap> items) {
+        mData = items;
         mContext = context;
         initView(mData);
     }
 
-    private void initView(List<LocalMedia> items) {
+    private void initView(List<ShowBitmap> items) {
         mViews = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            mViews.add(createImageView(items.get(i).getPath()));
+        for (ShowBitmap bitmap : items) {
+            mViews.add(createImageView(bitmap.mBitmap));
         }
     }
 
@@ -65,17 +65,16 @@ public class AllImageVpAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public View createImageView(String path) {
+    public View createImageView(Bitmap bitmap) {
         ImageView imageView = new ImageView(mContext);
         imageView.setLayoutParams(new CoolViewPager.LayoutParams());
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        if (mImageCaches.get(path) != null) {
-            imageView.setImageBitmap(mImageCaches.get(path));
-        } else {
-            Bitmap bitmap = ImageUtil.decodeFile(path);
-            mImageCaches.put(path, bitmap);
-            imageView.setImageBitmap(bitmap);
-        }
+        imageView.setImageBitmap(bitmap);
         return imageView;
+    }
+
+    public void setData(List<ShowBitmap> data) {
+        mData = data;
+        notifyDataSetChanged();
     }
 }

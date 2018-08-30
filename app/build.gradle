@@ -1,3 +1,6 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -15,6 +18,11 @@ def getVersionNameProperty() {
     return versionProps.getProperty('VERSION_NAME')
 }
 
+static def getDateTime() {
+    DateFormat df = new SimpleDateFormat("YYYYMMddHHmm")
+    return df.format(new Date())
+}
+
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -29,11 +37,40 @@ android {
 
     }
 
+    signingConfigs {
+        mdove {
+            storeFile file("$rootProject.projectDir/tool/keystore/PasswordGuard.jks")
+            storePassword "wjzj000"
+            keyAlias "passwordguard"
+            keyPassword "wjzj000"
+        }
+        debug {
+            storeFile file("$rootProject.projectDir/tool/keystore/debug/debug.keystore")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.mdove
         }
+
+//        applicationVariants.all { variant ->
+//            variant.outputs.all { output ->
+//                def outputFile = output.outputFile
+//                def fileName
+//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                    if (variant.buildType.name == 'release') {
+//                        fileName = "EasyCopy-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}-${getDateTime()}.apk"
+//                    } else {
+//                        fileName = "EasyCopy-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}.apk"
+//                    }
+//                    outputFileName = fileName
+//                }
+//            }
+//        }
     }
 
     dataBinding {
