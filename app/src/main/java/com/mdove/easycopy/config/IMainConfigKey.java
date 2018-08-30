@@ -6,4 +6,8 @@ public interface IMainConfigKey {
     String KEY_ORDER_TODAY_TIME = "key_order_today_time";
     String KEY_SCREEN_SHOT_SELECT = "key_screen_shot_select";
     String KEY_SCREEN_SHOT_SILENT_SELECT = "key_screen_shot_silent_select";
+
+    String KEY_OCR_SUC_COUNT= "key_ocr_suc_count";
+    String KEY_OCR_WORDS_COUNT= "key_ocr_words_count";
+    String KEY_OCR_COUNT= "key_ocr_count";
 }

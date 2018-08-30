@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.allimages.AllImagesActivity;
+import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.activity.crop.Crop;
@@ -58,6 +59,15 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onClickTakePhoto() {
         openSystemCamera(mView.getContext());
+    }
+
+    @Override
+    public void refreshStatistics() {
+        long ocrCount = MainConfigSP.getOCRCount();
+        long ocrWordsCount = MainConfigSP.getOCRWordsCount();
+        long ocrSucCount = MainConfigSP.getOCRSucCount();
+
+        mView.refreshStatistics(new MainStatisticsModelVM(ocrSucCount, ocrWordsCount, ocrCount));
     }
 
     @Override
@@ -143,6 +153,19 @@ public class MainPresenter implements MainContract.Presenter {
         new AlertDialog.Builder(mView.getContext())
                 .setTitle(StringUtil.getString(R.string.string_screenshot_service_know_title))
                 .setMessage(StringUtil.getString(R.string.string_screenshot_service_know))
+                .setPositiveButton(StringUtil.getString(R.string.string_screenshot_service_know_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    @Override
+    public void onClickScreenShotSilentServiceKnow() {
+        new AlertDialog.Builder(mView.getContext())
+                .setTitle(StringUtil.getString(R.string.string_screenshot_service_know_title))
+                .setMessage(StringUtil.getString(R.string.string_screenshot_silent_service_know))
                 .setPositiveButton(StringUtil.getString(R.string.string_screenshot_service_know_positive), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

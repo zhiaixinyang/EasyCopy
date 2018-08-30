@@ -70,4 +70,40 @@ public class MainConfigSP implements IMainConfigKey {
         SharedPreferences preferences = initSharedPreferences();
         return preferences.getLong(KEY_ORDER_TODAY_TIME, 0);
     }
+
+    public static void addOCRWordsCount(long addCount) {
+        long count = getOCRWordsCount();
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putLong(KEY_OCR_WORDS_COUNT, count + addCount);
+        editor.apply();
+    }
+
+    public static long getOCRWordsCount() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getLong(KEY_OCR_WORDS_COUNT, 0);
+    }
+
+    public static void addOCRCount() {
+        long count = getOCRCount();
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putLong(KEY_OCR_COUNT, count+1);
+        editor.apply();
+    }
+
+    public static long getOCRCount() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getLong(KEY_OCR_COUNT, 0);
+    }
+
+    public static void addOCRSucCount() {
+        long count = getOCRSucCount();
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putLong(KEY_OCR_SUC_COUNT, count+1);
+        editor.apply();
+    }
+
+    public static long getOCRSucCount() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getLong(KEY_OCR_SUC_COUNT, 0);
+    }
 }

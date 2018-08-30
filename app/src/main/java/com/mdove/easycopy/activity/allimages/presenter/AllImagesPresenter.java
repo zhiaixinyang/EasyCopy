@@ -1,23 +1,15 @@
 package com.mdove.easycopy.activity.allimages.presenter;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.mdove.easycopy.App;
-import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.allimages.presenter.contract.AllImagesContract;
-import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
-import com.mdove.easycopy.greendao.ResultOCRDao;
-import com.mdove.easycopy.greendao.entity.ResultOCR;
 import com.mdove.easycopy.loadimges.LocalMedia;
 import com.mdove.easycopy.loadimges.LocalMediaFolder;
 import com.mdove.easycopy.loadimges.LocalMediaLoader;
 import com.mdove.easycopy.loadimges.PictureConfig;
-import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
-import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
-import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
-import com.mdove.easycopy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;

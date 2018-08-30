@@ -1,6 +1,7 @@
 package com.mdove.easycopy.activity.home.presenter.contract;
 
 
+import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.base.BasePresenter;
 import com.mdove.easycopy.base.BaseView;
 
@@ -11,6 +12,8 @@ import com.mdove.easycopy.base.BaseView;
 public interface MainContract {
     interface Presenter extends BasePresenter<MvpView> {
         void onClickTakePhoto();
+
+        void refreshStatistics();
 
         void onClickShowBall();
 
@@ -25,6 +28,9 @@ public interface MainContract {
         void switchScreenSilentShot(boolean isSelect);
 
         void onClickScreenShotServiceKnow();
+
+        void onClickScreenShotSilentServiceKnow();
+
         void onClickAllImages();
     }
 
@@ -36,6 +42,8 @@ public interface MainContract {
         void showResultOCR(String content);
 
         void onClickShowBall();
+
+        void refreshStatistics(MainStatisticsModelVM mainModelVM);
 
     }
 }
