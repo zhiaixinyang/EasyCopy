@@ -1,6 +1,7 @@
 package com.mdove.easycopy.base;
 
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,5 +16,10 @@ public class DataBindingAdapter {
         }
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+    }
+
+    @BindingAdapter("loadBitmap")
+    public static void loadBitmap(ImageView imageView, Bitmap bitmap) {
+        imageView.setImageBitmap(bitmap);
     }
 }

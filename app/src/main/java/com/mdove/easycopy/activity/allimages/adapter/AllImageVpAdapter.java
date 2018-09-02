@@ -75,6 +75,5 @@ public class AllImageVpAdapter extends PagerAdapter {
 
     public void setData(List<ShowBitmap> data) {
         mData.addAll(data);
-        notifyDataSetChanged();
     }
 }

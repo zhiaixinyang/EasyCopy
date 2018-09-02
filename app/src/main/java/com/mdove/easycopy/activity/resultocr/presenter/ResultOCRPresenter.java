@@ -13,6 +13,8 @@ import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.activity.resultocr.presenter.contract.ResultOCRContract;
 import com.mdove.easycopy.utils.StringUtil;
 
+import java.util.List;
+
 public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     private ResultOCRContract.MvpView mView;
     private ResultOCRDao mResultOCRDao;
@@ -48,6 +50,30 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
                 resultOCR.mResultOCR = content;
                 resultOCR.mResultOCRTime = System.currentTimeMillis();
                 resultOCR.mPath = path;
+                mResultOCRDao.insert(resultOCR);
+
+                mView.showResult(realModel);
+            }
+        });
+    }
+
+    @Override
+    public void startOCRForList(List<String> paths) {
+        mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
+        PreOcrManager.baiduOcrFromPaths(mView.getContext(), paths, new PreOcrManager.ResultStringListener() {
+            @Override
+            public void onResultString(String content) {
+                mView.dismissLoading();
+
+                if (TextUtils.isEmpty(content)) {
+                    content = "很抱歉,此图片无法识别并提取出文字。";
+                }
+                ResultOCRModel realModel = new ResultOCRModel(content, "");
+
+                ResultOCR resultOCR = new ResultOCR();
+                resultOCR.mResultOCR = content;
+                resultOCR.mResultOCRTime = System.currentTimeMillis();
+                resultOCR.mPath = "";
                 mResultOCRDao.insert(resultOCR);
 
                 mView.showResult(realModel);

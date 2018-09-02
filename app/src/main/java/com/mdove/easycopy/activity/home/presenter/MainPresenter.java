@@ -7,21 +7,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.mdove.easycopy.R;
-import com.mdove.easycopy.activity.allimages.AllImagesActivity;
 import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
+import com.mdove.easycopy.activity.scaniamges.ScanImageActivity;
+import com.mdove.easycopy.activity.scaniamges.adapter.ScanImagesAdapter;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.activity.crop.Crop;
 import com.mdove.easycopy.activity.history.HistoryResultOCRActivity;
-import com.mdove.easycopy.loadimges.LocalMediaFolder;
-import com.mdove.easycopy.loadimges.LocalMediaLoader;
-import com.mdove.easycopy.loadimges.PictureConfig;
 import com.mdove.easycopy.screenshot.ScreenshotObserverService;
 import com.mdove.easycopy.update.UpdateDialog;
 import com.mdove.easycopy.update.manager.UpdateStatusManager;
@@ -35,7 +32,6 @@ import com.mdove.easycopy.utils.StringUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import rx.Subscriber;
 
@@ -176,7 +172,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickAllImages() {
-        AllImagesActivity.start(mView.getContext());
+        Intent toScan = new Intent(mView.getContext(), ScanImageActivity.class);
+        ((Activity) mView.getContext()).startActivityForResult(toScan, ScanImageActivity.REQUEST_CODE_SELECT_IAMGES);
     }
 
     private void showUpgradeDialog(final AppUpdateModel result) {
@@ -206,6 +203,17 @@ public class MainPresenter implements MainContract.Presenter {
                     path = path.replace("/raw/", "");
                     if (!TextUtils.isEmpty(path)) {
                         ResultOCRActivity.start(mView.getContext(), path, ResultOCRActivity.INTENT_TYPE_START_OCR);
+                    }
+                    break;
+                }
+                case ScanImageActivity.REQUEST_CODE_SELECT_IAMGES: {
+                    ArrayList<String> stringArrayList = data.getStringArrayListExtra(ScanImageActivity.EXTRA_SELECT_IMAGES);
+                    if (stringArrayList != null) {
+                        Intent ocr = new Intent(mView.getContext(), ResultOCRActivity.class);
+                        ocr.setAction(ResultOCRActivity.ACTION_START_OCR_SELECT_IMAGES);
+                        ocr.putExtra(ResultOCRActivity.EXTRA_INTENT_TYPE, ResultOCRActivity.INTENT_TYPE_START_OCR);
+                        ocr.putStringArrayListExtra(ResultOCRActivity.EXTRA_START_OCR_SELECT_IMAGES_PATH, stringArrayList);
+                        mView.getContext().startActivity(ocr);
                     }
                     break;
                 }

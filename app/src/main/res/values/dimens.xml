@@ -21,4 +21,5 @@
     <dimen name="size_activity_main_btn">16sp</dimen>
     <dimen name="w_h_activity_main_btn">160dp</dimen>
     <dimen name="w_h_activity_main_btn_linear">120dp</dimen>
+    <dimen name="_18sp">18sp</dimen>
 </resources>

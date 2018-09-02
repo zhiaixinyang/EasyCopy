@@ -1275,7 +1275,7 @@ public class CoolViewPager extends ViewGroup implements ICoolViewPagerFeature {
         return ii;
     }
 
-    void dataSetChanged() {
+    public void dataSetChanged() {
         // This method only gets called if our observer is attached, so mAdapter is non-null.
 
         final int adapterCount = mAdapter.getCount();

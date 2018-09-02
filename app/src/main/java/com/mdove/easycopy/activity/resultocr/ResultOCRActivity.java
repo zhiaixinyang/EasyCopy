@@ -20,15 +20,18 @@ import com.mdove.easycopy.activity.resultocr.presenter.contract.ResultOCRContrac
 import com.mdove.easycopy.utils.ToastHelper;
 
 import java.io.File;
+import java.util.List;
 
 public class ResultOCRActivity extends BaseActivity implements ResultOCRContract.MvpView {
     public static final int INTENT_TYPE_RESULT_OCR = 1;
     public static final int INTENT_TYPE_START_OCR = 2;
     public static final String ACTION_RESULT_OCR_CONTENT = "action_result_ocr_content";
     public static final String ACTION_START_OCR = "action_start_ocr";
+    public static final String ACTION_START_OCR_SELECT_IMAGES = "action_start_ocr_select_images";
     public static final String ACTION_START_SILENT_OCR = "action_start_silent_ocr";
     public static final String EXTRA_RESULT_OCR_CONTENT = "extra_result_ocr_content";
     public static final String EXTRA_START_OCR_IMAGE_PATH = "extra_start_ocr_image_path";
+    public static final String EXTRA_START_OCR_SELECT_IMAGES_PATH = "extra_start_ocr_select_images_path";
     public static final String EXTRA_INTENT_TYPE = "extra_intent_type";
 
     private ActivityResultOcrBinding mBinding;
@@ -103,6 +106,13 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
             case ACTION_START_OCR: {
                 String path = intent.getStringExtra(EXTRA_START_OCR_IMAGE_PATH);
                 beginCrop(Uri.fromFile(new File(path)));
+                break;
+            }
+            case ACTION_START_OCR_SELECT_IMAGES: {
+                List<String> selectImages = intent.getStringArrayListExtra(EXTRA_START_OCR_SELECT_IMAGES_PATH);
+                if (selectImages != null) {
+                    mPresenter.startOCRForList(selectImages);
+                }
                 break;
             }
             default: {

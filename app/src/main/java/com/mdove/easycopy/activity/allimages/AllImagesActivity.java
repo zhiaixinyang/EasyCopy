@@ -3,9 +3,7 @@ package com.mdove.easycopy.activity.allimages;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
@@ -97,14 +95,16 @@ public class AllImagesActivity extends BaseActivity implements AllImagesContract
 
     @Override
     public void showImages(List<ShowBitmap> allImages) {
-        mAdapter = new AllImageVpAdapter(this, allImages);
+        mData = allImages;
+        mAdapter = new AllImageVpAdapter(this, mData);
         mCVP.setAdapter(mAdapter);
     }
 
     @Override
     public void showMoreImages(List<ShowBitmap> allImages) {
-        if (mAdapter != null) {
-            mAdapter.setData(allImages);
-        }
+        mData.addAll(allImages);
+        mAdapter.setData(allImages);
+        mCVP.dataSetChanged();
+        mCVP.notifyDataSetChanged();
     }
 }
