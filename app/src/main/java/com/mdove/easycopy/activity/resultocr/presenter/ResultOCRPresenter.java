@@ -11,13 +11,17 @@ import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
 import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
 import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.activity.resultocr.presenter.contract.ResultOCRContract;
+import com.mdove.easycopy.utils.JsonUtil;
 import com.mdove.easycopy.utils.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     private ResultOCRContract.MvpView mView;
     private ResultOCRDao mResultOCRDao;
+    private List<OCRImages> mOCRImages;
+    private List<String> mImagePaths;
 
     public ResultOCRPresenter() {
         mResultOCRDao = App.getDaoSession().getResultOCRDao();
@@ -60,24 +64,71 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     @Override
     public void startOCRForList(List<String> paths) {
         mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
-        PreOcrManager.baiduOcrFromPaths(mView.getContext(), paths, new PreOcrManager.ResultStringListener() {
+        mOCRImages = new ArrayList<>();
+        mImagePaths = paths;
+        final List<String> mTempPaths = paths;
+        startOCRForPath(mImagePaths.get(0), new OnSucListener() {
             @Override
-            public void onResultString(String content) {
+            public void onSucOCRPaths() {
+                String content = "";
+                for (OCRImages ocrImages : mOCRImages) {
+                    content += ocrImages.mResult + "\n";
+                }
+                ResultOCR resultOCR = new ResultOCR();
+                resultOCR.mResultOCR = content;
+                resultOCR.mResultOCRTime = System.currentTimeMillis();
+                resultOCR.mPaths = JsonUtil.encode(mTempPaths);
+                mResultOCRDao.insert(resultOCR);
+
+                ResultOCRModel realModel = new ResultOCRModel(content, mImagePaths.get(0));
+
                 mView.dismissLoading();
+                mView.showResult(realModel);
+            }
+
+            @Override
+            public void onErrOCRPaths() {
+
+            }
+        });
+    }
+
+    private void startOCRForPath(final String path, final OnSucListener listener) {
+        PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
+            @Override
+            public void onRecognizeResult(RecognizeResultModel model) {
+                String content = ResultOCRHelper.getStringFromModel(model);
 
                 if (TextUtils.isEmpty(content)) {
                     content = "很抱歉,此图片无法识别并提取出文字。";
                 }
-                ResultOCRModel realModel = new ResultOCRModel(content, "");
+                mOCRImages.add(new OCRImages(path, content));
 
-                ResultOCR resultOCR = new ResultOCR();
-                resultOCR.mResultOCR = content;
-                resultOCR.mResultOCRTime = System.currentTimeMillis();
-                resultOCR.mPath = "";
-                mResultOCRDao.insert(resultOCR);
-
-                mView.showResult(realModel);
+                if (mImagePaths.size() >= 2) {
+                    mImagePaths.remove(0);
+                    startOCRForPath(mImagePaths.get(0), listener);
+                } else {
+                    if (listener != null) {
+                        listener.onSucOCRPaths();
+                    }
+                }
             }
         });
+    }
+
+    private interface OnSucListener {
+        void onSucOCRPaths();
+
+        void onErrOCRPaths();
+    }
+
+    private class OCRImages {
+        public String mPath;
+        public String mResult;
+
+        public OCRImages(String path, String result) {
+            mPath = path;
+            mResult = result;
+        }
     }
 }

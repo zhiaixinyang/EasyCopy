@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.feedback.FeedBackActivity;
 import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.activity.scaniamges.ScanImageActivity;
 import com.mdove.easycopy.activity.scaniamges.adapter.ScanImagesAdapter;
@@ -73,7 +74,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickOpenPhoto() {
-        Crop.pickImage((Activity) mView.getContext());
+//        Crop.pickImage((Activity) mView.getContext());
+    }
+
+    @Override
+    public void onClickFeedBack() {
+        FeedBackActivity.start(mView.getContext());
     }
 
     @Override

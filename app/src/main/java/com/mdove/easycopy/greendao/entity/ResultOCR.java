@@ -11,13 +11,15 @@ public class ResultOCR {
     public long mResultOCRTime;
     public String mResultOCR;
     public String mPath;
-    @Generated(hash = 1231086835)
-    public ResultOCR(Long id, long mResultOCRTime, String mResultOCR,
-            String mPath) {
+    public String mPaths;
+    @Generated(hash = 1198589439)
+    public ResultOCR(Long id, long mResultOCRTime, String mResultOCR, String mPath,
+            String mPaths) {
         this.id = id;
         this.mResultOCRTime = mResultOCRTime;
         this.mResultOCR = mResultOCR;
         this.mPath = mPath;
+        this.mPaths = mPaths;
     }
     @Generated(hash = 1472249724)
     public ResultOCR() {
@@ -46,6 +48,11 @@ public class ResultOCR {
     public void setMPath(String mPath) {
         this.mPath = mPath;
     }
-
+    public String getMPaths() {
+        return this.mPaths;
+    }
+    public void setMPaths(String mPaths) {
+        this.mPaths = mPaths;
+    }
 
 }

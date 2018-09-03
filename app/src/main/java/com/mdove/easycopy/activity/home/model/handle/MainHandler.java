@@ -21,6 +21,10 @@ public class MainHandler {
         mPresenter.onClickOpenPhoto();
     }
 
+    public void onClickFeedBack() {
+        mPresenter.onClickFeedBack();
+    }
+
     public void onClickHistory() {
         mPresenter.onClickHistory();
     }

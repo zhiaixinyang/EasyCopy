@@ -181,7 +181,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/_8dp"
                         android:gravity="center"
-                        android:text="拍照识别"
+                        android:text="@string/string_btn_take_photo"
                         android:textColor="@color/black"
                         android:textSize="@dimen/size_activity_main_btn" />
                 </RelativeLayout>
@@ -213,7 +213,7 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_top">
 
             <RelativeLayout
-                android:id="@+id/btn_open_photo"
+                android:id="@+id/btn_feedback"
                 android:layout_width="@dimen/_0dp"
                 android:layout_height="@dimen/w_h_activity_main_btn_linear"
                 android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
@@ -221,14 +221,14 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
                 android:gravity="center"
-                android:onClick="@{()->handler.onClickOpenPhoto()}">
+                android:onClick="@{()->handler.onClickFeedBack()}">
 
                 <ImageView
                     android:id="@+id/ic_open_photo"
                     android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_open_photo_first" />
+                    android:src="@mipmap/ic_feedback_first" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,7 +237,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/_8dp"
                     android:gravity="center"
-                    android:text="相册识别"
+                    android:text="@string/string_btn_feedback"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_activity_main_btn" />
             </RelativeLayout>
@@ -266,7 +266,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/_8dp"
                     android:gravity="center"
-                    android:text="全部照片"
+                    android:text="@string/string_btn_all_images"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_activity_main_btn" />
             </RelativeLayout>
@@ -296,7 +296,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/_8dp"
                     android:gravity="center"
-                    android:text="历史识别记录"
+                    android:text="@string/string_btn_history_result"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_activity_main_btn" />
             </RelativeLayout>

@@ -6,5 +6,5 @@ package com.mdove.easycopy.net;
  */
 public class UrlConstants {
 
-    public static final String HOST_API_ONLINE = "https://www.ohonor.xyz/PasswordGuard/";
+    public static final String HOST_API_ONLINE = "https://www.ohonor.xyz/";
 }

@@ -26,26 +26,6 @@ public class PreOcrManager {
                 });
     }
 
-    public static void baiduOcrFromPaths(Context context, List<String> paths, final ResultStringListener listener) {
-        mContent = "";
-        for (String path : paths) {
-            RecognizeManager.recGeneralBasic(context, path,
-                    new RecognizeManager.ServiceListener() {
-                        @Override
-                        public void onResult(String result) {
-                            RecognizeResultModel model = JsonUtil.decode(result, RecognizeResultModel.class);
-                            boolean isAdd = configStatistics(model);
-                            if (isAdd) {
-                                mContent += ResultOCRHelper.getStringFromModel(model) + "\n";
-                            }
-                        }
-                    });
-        }
-        if (listener != null) {
-            listener.onResultString(mContent);
-        }
-    }
-
     private static boolean configStatistics(RecognizeResultModel model) {
         boolean isAdd = false;
         MainConfigSP.addOCRCount();

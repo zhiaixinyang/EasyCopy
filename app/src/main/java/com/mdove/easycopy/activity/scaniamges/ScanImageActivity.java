@@ -123,7 +123,7 @@ public class ScanImageActivity extends BaseActivity implements ListImageDirPopup
     }
 
     private void initToolbar() {
-        mToolbar.setTitle(getString(R.string.string_activity_result_ocr_title));
+        mToolbar.setTitle(getString(R.string.string_activity_scan_images_title));
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -287,7 +287,7 @@ public class ScanImageActivity extends BaseActivity implements ListImageDirPopup
             @Override
             public void onClick(View v) {
                 Intent result = new Intent();
-                result.putStringArrayListExtra(EXTRA_SELECT_IMAGES, (ArrayList<String>) mAdapter.mSelectedImage);
+                result.putStringArrayListExtra(EXTRA_SELECT_IMAGES, (ArrayList<String>) mAdapter.getSelectImage());
                 setResult(RESULT_OK, result);
                 finish();
             }

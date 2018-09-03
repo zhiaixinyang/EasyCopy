@@ -25,6 +25,7 @@
     </string>
     <string name="string_result_ocr_title">提取文字结果</string>
     <string name="string_activity_result_ocr_title">提取文字结果</string>
+    <string name="string_activity_scan_images_title">图片多选</string>
     <string name="string_activity_history_result_ocr_title">历史提取记录</string>
 
     <string name="crop__saving">正在保存照片…</string>
@@ -66,4 +67,11 @@
     <string name="string_ocr_words_count">识别提取出的文字数量：%1$s</string>
     <string name="string_ocr_suc_count">成功识别提取次数：%1$s</string>
     <string name="string_ocr_count">总识别提取次数：%1$s</string>
+    <string name="string_sendback_content_is_empty">吐槽/反馈不能为空呐</string>
+    <string name="string_feedback_suc">反馈成功，我们的开发帅逼，已经开始关注咯</string>
+    <string name="string_feedback_err">反馈失败，请重试一下~</string>
+    <string name="string_btn_feedback">吐槽/反馈</string>
+    <string name="string_btn_all_images">全部照片</string>
+    <string name="string_btn_history_result">历史识别记录</string>
+    <string name="string_btn_take_photo">拍照识别</string>
 </resources>

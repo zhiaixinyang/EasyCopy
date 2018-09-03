@@ -21,7 +21,7 @@ public class ScanImagesAdapter extends CommonAdapter<String> {
     /**
      * 用户选择的图片，存储为图片的完整路径
      */
-    public static List<String> mSelectedImage = new ArrayList<>();
+    private List<String> mSelectedImage = new ArrayList<>();
 
     /**
      * 文件夹路径
@@ -76,15 +76,8 @@ public class ScanImagesAdapter extends CommonAdapter<String> {
         }
     }
 
-    public SelectedImage getSelectImage() {
-        return new SelectedImage(mSelectedImage);
+    public List<String> getSelectImage() {
+        return mSelectedImage;
     }
 
-    public class SelectedImage implements Serializable {
-        public List<String> mSelectImages;
-
-        public SelectedImage(List<String> selectImages) {
-            mSelectImages = selectImages;
-        }
-    }
 }

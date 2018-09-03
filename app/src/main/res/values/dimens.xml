@@ -22,4 +22,5 @@
     <dimen name="w_h_activity_main_btn">160dp</dimen>
     <dimen name="w_h_activity_main_btn_linear">120dp</dimen>
     <dimen name="_18sp">18sp</dimen>
+    <dimen name="margin_feedback">8dp</dimen>
 </resources>

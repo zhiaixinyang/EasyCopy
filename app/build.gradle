@@ -79,7 +79,7 @@ android {
 }
 
 greendao {
-    schemaVersion 2
+    schemaVersion 3
     daoPackage 'com.mdove.easycopy.greendao'
     targetGenDir 'src/main/java'
 }

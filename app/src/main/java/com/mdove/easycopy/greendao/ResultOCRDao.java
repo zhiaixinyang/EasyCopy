@@ -28,6 +28,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
         public final static Property MResultOCRTime = new Property(1, long.class, "mResultOCRTime", false, "M_RESULT_OCRTIME");
         public final static Property MResultOCR = new Property(2, String.class, "mResultOCR", false, "M_RESULT_OCR");
         public final static Property MPath = new Property(3, String.class, "mPath", false, "M_PATH");
+        public final static Property MPaths = new Property(4, String.class, "mPaths", false, "M_PATHS");
     }
 
 
@@ -46,7 +47,8 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"M_RESULT_OCRTIME\" INTEGER NOT NULL ," + // 1: mResultOCRTime
                 "\"M_RESULT_OCR\" TEXT," + // 2: mResultOCR
-                "\"M_PATH\" TEXT);"); // 3: mPath
+                "\"M_PATH\" TEXT," + // 3: mPath
+                "\"M_PATHS\" TEXT);"); // 4: mPaths
     }
 
     /** Drops the underlying database table. */
@@ -74,6 +76,11 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
         if (mPath != null) {
             stmt.bindString(4, mPath);
         }
+ 
+        String mPaths = entity.getMPaths();
+        if (mPaths != null) {
+            stmt.bindString(5, mPaths);
+        }
     }
 
     @Override
@@ -95,6 +102,11 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
         if (mPath != null) {
             stmt.bindString(4, mPath);
         }
+ 
+        String mPaths = entity.getMPaths();
+        if (mPaths != null) {
+            stmt.bindString(5, mPaths);
+        }
     }
 
     @Override
@@ -108,7 +120,8 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // mResultOCRTime
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mResultOCR
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // mPath
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // mPath
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // mPaths
         );
         return entity;
     }
@@ -119,6 +132,7 @@ public class ResultOCRDao extends AbstractDao<ResultOCR, Long> {
         entity.setMResultOCRTime(cursor.getLong(offset + 1));
         entity.setMResultOCR(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setMPath(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setMPaths(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override

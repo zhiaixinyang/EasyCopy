@@ -18,6 +18,7 @@ public interface MainContract {
         void onClickShowBall();
 
         void onClickOpenPhoto();
+        void onClickFeedBack();
 
         void onClickHistory();
 

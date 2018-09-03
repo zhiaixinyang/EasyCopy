@@ -3,6 +3,7 @@ package com.mdove.easycopy.net;
 import com.mdove.easycopy.App;
 import com.mdove.easycopy.activity.home.model.AppUpdateModel;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -20,5 +21,9 @@ public class ApiServerImpl {
 
     public static Observable<AppUpdateModel> checkUpdate(String version) {
         return wrapper(App.getApiServer().checkUpdate(version));
+    }
+
+    public static Observable<ResponseBody> feedBack(String version) {
+        return wrapper(App.getApiServer().feedBack(version));
     }
 }
