@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         });
         mBinding.switchScreenShot.setChecked(isSelect);
         if (isSelect) {
-            mPresenter.switchScreenSilentShot(true);
+            mPresenter.switchScreenShot(true);
         }
 
         mBinding.switchScreenSilentShot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
