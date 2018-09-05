@@ -74,7 +74,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickOpenPhoto() {
-//        Crop.pickImage((Activity) mView.getContext());
+        Crop.pickImage((Activity) mView.getContext());
     }
 
     @Override
@@ -120,16 +120,16 @@ public class MainPresenter implements MainContract.Presenter {
     public void switchScreenShot(boolean isSelect) {
         boolean isPreSelect = MainConfigSP.isScreenShotSelect();
         if (isSelect) {
+            MainConfigSP.setIsScreenShotSelect(true);
             ScreenshotObserverService.start(mView.getContext());
             if (isPreSelect) {
                 return;
             }
-            MainConfigSP.setIsScreenShotSelect(true);
         } else {
+            MainConfigSP.setIsScreenShotSelect(false);
             if (!isPreSelect) {
                 return;
             }
-            MainConfigSP.setIsScreenShotSelect(false);
         }
     }
 
@@ -137,16 +137,16 @@ public class MainPresenter implements MainContract.Presenter {
     public void switchScreenSilentShot(boolean isSelect) {
         boolean isPreSelect = MainConfigSP.isScreenShotSilentSelect();
         if (isSelect) {
+            MainConfigSP.setIsScreenShotSilentSelect(true);
             ScreenshotObserverService.start(mView.getContext());
             if (isPreSelect) {
                 return;
             }
-            MainConfigSP.setIsScreenShotSilentSelect(true);
         } else {
+            MainConfigSP.setIsScreenShotSilentSelect(false);
             if (!isPreSelect) {
                 return;
             }
-            MainConfigSP.setIsScreenShotSilentSelect(false);
         }
     }
 

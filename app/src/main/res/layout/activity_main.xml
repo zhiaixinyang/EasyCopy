@@ -224,7 +224,7 @@
                 android:onClick="@{()->handler.onClickFeedBack()}">
 
                 <ImageView
-                    android:id="@+id/ic_open_photo"
+                    android:id="@+id/ic_feedback"
                     android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
                     android:layout_centerInParent="true"
@@ -233,11 +233,40 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ic_open_photo"
+                    android:layout_below="@+id/ic_feedback"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/_8dp"
                     android:gravity="center"
                     android:text="@string/string_btn_feedback"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_activity_main_btn" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_open_photo"
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="@dimen/w_h_activity_main_btn_linear"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_round"
+                android:gravity="center"
+                android:onClick="@{()->handler.onClickOpenPhoto()}">
+
+                <ImageView
+                    android:id="@+id/ic_open_photo"
+                    android:layout_width="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_height="@dimen/w_h_activity_main_iv_first_linear"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_all_images" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ic_open_photo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:gravity="center"
+                    android:text="@string/string_btn_open_photo"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_activity_main_btn" />
             </RelativeLayout>
@@ -250,6 +279,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
                 android:gravity="center"
+                android:visibility="gone"
                 android:onClick="@{()->handler.onClickAllImages()}">
 
                 <ImageView

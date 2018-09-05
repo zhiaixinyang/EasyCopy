@@ -74,4 +74,5 @@
     <string name="string_btn_all_images">全部照片</string>
     <string name="string_btn_history_result">历史识别记录</string>
     <string name="string_btn_take_photo">拍照识别</string>
+    <string name="string_btn_open_photo">打开相册</string>
 </resources>

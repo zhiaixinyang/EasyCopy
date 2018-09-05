@@ -84,6 +84,7 @@ public class Crop {
 
     /**
      * Set whether to save the result as a PNG or not. Helpful to preserve alpha.
+     *
      * @param asPng whether to save the result as a PNG or not
      */
     public Crop asPng(boolean asPng) {
@@ -258,7 +259,7 @@ public class Crop {
     }
 
     private static Intent getImagePicker() {
-        return new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+        return new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).setType("image/*");
     }
 
     private static void showImagePickerError(Context context) {

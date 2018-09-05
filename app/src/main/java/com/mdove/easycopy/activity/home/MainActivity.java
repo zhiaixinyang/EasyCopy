@@ -24,6 +24,7 @@ import com.mdove.easycopy.utils.permission.PermissionUtils;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -32,6 +33,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 100;
     private ActivityMainBinding mBinding;
     private MainPresenter mPresenter;
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,44 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPresenter!=null){
+        initSwitch();
+
+        if (mPresenter != null) {
             mPresenter.refreshStatistics();
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
+    }
+
     private void initView() {
+        initSwitch();
+        mSubscription = Observable.interval(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        if ((aLong % 3) != 0) {
+                            return;
+                        }
+                        int result = (int) (aLong / 3);
+
+                        if (result % 2 == 0) {
+                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoFirst, mBinding.viewTakePhotoLast, 500);
+                        } else {
+                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoLast, mBinding.viewTakePhotoFirst, 500);
+                        }
+                    }
+                });
+
+    }
+
+    private void initSwitch() {
         boolean isSelect = MainConfigSP.isScreenShotSelect();
         boolean isSilent = MainConfigSP.isScreenShotSilentSelect();
 
@@ -86,29 +120,40 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         if (isSilent) {
             mPresenter.switchScreenSilentShot(true);
         }
-
-        Observable.interval(3, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-                        if ((aLong % 3) != 0) {
-                            return;
-                        }
-                        int result = (int) (aLong / 3);
-
-                        if (result % 2 == 0) {
-                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoFirst, mBinding.viewTakePhotoLast, 500);
-                        } else {
-                            AnimUtils.flipAnimatorXViewShow(mBinding.viewTakePhotoLast, mBinding.viewTakePhotoFirst, 500);
-                        }
-                    }
-                });
     }
 
     @Override
     protected boolean isNeedCustomLayout() {
         return true;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void showResultOCR(String content) {
+        ResultOCRActivity.start(this, content, ResultOCRActivity.INTENT_TYPE_RESULT_OCR);
+    }
+
+    @Override
+    public void onClickShowBall() {
+        initBall();
+    }
+
+    @Override
+    public void refreshStatistics(MainStatisticsModelVM mainModelVM) {
+        if (mBinding != null) {
+            mBinding.setVm(mainModelVM);
+        }
     }
 
     private void initBall() {
@@ -140,35 +185,6 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
 
         if (isSilent) {
             mBinding.switchScreenShot.setChecked(false);
-        }
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    @Override
-    public void showResultOCR(String content) {
-        ResultOCRActivity.start(this, content, ResultOCRActivity.INTENT_TYPE_RESULT_OCR);
-    }
-
-    @Override
-    public void onClickShowBall() {
-        initBall();
-    }
-
-    @Override
-    public void refreshStatistics(MainStatisticsModelVM mainModelVM) {
-        if (mBinding != null) {
-            mBinding.setVm(mainModelVM);
         }
     }
 
