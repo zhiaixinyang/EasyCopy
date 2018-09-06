@@ -9,13 +9,12 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.feedback.FeedBackActivity;
 import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.activity.scaniamges.ScanImageActivity;
-import com.mdove.easycopy.activity.scaniamges.adapter.ScanImagesAdapter;
+import com.mdove.easycopy.activity.setting.SettingActivity;
 import com.mdove.easycopy.config.ImageConfig;
 import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.activity.crop.Crop;
@@ -180,6 +179,11 @@ public class MainPresenter implements MainContract.Presenter {
     public void onClickAllImages() {
         Intent toScan = new Intent(mView.getContext(), ScanImageActivity.class);
         ((Activity) mView.getContext()).startActivityForResult(toScan, ScanImageActivity.REQUEST_CODE_SELECT_IAMGES);
+    }
+
+    @Override
+    public void onClickSetting() {
+        SettingActivity.start(mView.getContext());
     }
 
     private void showUpgradeDialog(final AppUpdateModel result) {

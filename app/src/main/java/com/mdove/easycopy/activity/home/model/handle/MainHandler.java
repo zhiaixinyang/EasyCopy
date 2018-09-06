@@ -40,4 +40,8 @@ public class MainHandler {
     public void onClickAllImages() {
         mPresenter.onClickAllImages();
     }
+
+    public void onClickSetting() {
+        mPresenter.onClickSetting();
+    }
 }

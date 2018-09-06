@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         mBinding.setHandler(new MainHandler(mPresenter));
 
         initView();
+        initToolbar();
     }
 
     @Override
@@ -87,6 +88,11 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
                     }
                 });
 
+    }
+
+    private void initToolbar() {
+        mBinding.toolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(mBinding.toolbar);
     }
 
     private void initSwitch() {

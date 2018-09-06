@@ -25,6 +25,7 @@
     </string>
     <string name="string_result_ocr_title">提取文字结果</string>
     <string name="string_activity_result_ocr_title">提取文字结果</string>
+    <string name="string_activity_setting">系统设置</string>
     <string name="string_activity_scan_images_title">图片多选</string>
     <string name="string_activity_history_result_ocr_title">历史提取记录</string>
 
@@ -75,4 +76,6 @@
     <string name="string_btn_history_result">历史识别记录</string>
     <string name="string_btn_take_photo">拍照识别</string>
     <string name="string_btn_open_photo">打开相册</string>
+    <string name="string_btn_clear">清理识别的图片资源</string>
+    <string name="string_clear_suc">清理图片资源完成</string>
 </resources>

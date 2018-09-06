@@ -8,16 +8,23 @@ import java.util.Calendar;
 
 public class FileUtils {
 
-    /**文档类型*/
+    /**
+     * 文档类型
+     */
     public static final int TYPE_DOC = 0;
-    /**apk类型*/
+    /**
+     * apk类型
+     */
     public static final int TYPE_APK = 1;
-    /**压缩包类型*/
+    /**
+     * 压缩包类型
+     */
     public static final int TYPE_ZIP = 2;
 
 
     /**
      * 判断文件是否存在
+     *
      * @param path 文件的路径
      * @return
      */
@@ -31,12 +38,24 @@ public class FileUtils {
         if (path.endsWith(".doc") || path.endsWith(".docx") || path.endsWith(".xls") || path.endsWith(".xlsx")
                 || path.endsWith(".ppt") || path.endsWith(".pptx")) {
             return TYPE_DOC;
-        }else if (path.endsWith(".apk")) {
+        } else if (path.endsWith(".apk")) {
             return TYPE_APK;
-        }else if (path.endsWith(".zip") || path.endsWith(".rar") || path.endsWith(".tar") || path.endsWith(".gz")) {
+        } else if (path.endsWith(".zip") || path.endsWith(".rar") || path.endsWith(".tar") || path.endsWith(".gz")) {
             return TYPE_ZIP;
-        }else{
+        } else {
             return -1;
+        }
+    }
+
+    public static void deleteFile(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                deleteFile(f);
+            }
+        } else {
+            file.delete();
         }
     }
 
@@ -61,17 +80,21 @@ public class FileUtils {
 ////        return iconId;
 //    }
 
-    /**是否是图片文件*/
-    public static boolean isPicFile(String path){
+    /**
+     * 是否是图片文件
+     */
+    public static boolean isPicFile(String path) {
         path = path.toLowerCase();
-        if (path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".png")){
+        if (path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".png")) {
             return true;
         }
         return false;
     }
 
 
-    /** 判断SD卡是否挂载 */
+    /**
+     * 判断SD卡是否挂载
+     */
     public static boolean isSDCardAvailable() {
         if (Environment.MEDIA_MOUNTED.equals(Environment
                 .getExternalStorageState())) {
@@ -94,6 +117,7 @@ public class FileUtils {
         }
         return "";
     }
+
     /**
      * 读取文件的修改时间
      *

@@ -34,6 +34,8 @@ public interface MainContract {
         void onClickScreenShotSilentServiceKnow();
 
         void onClickAllImages();
+
+        void onClickSetting();
     }
 
     interface MvpView extends BaseView<Presenter> {

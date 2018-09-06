@@ -23,4 +23,6 @@
     <dimen name="w_h_activity_main_btn_linear">120dp</dimen>
     <dimen name="_18sp">18sp</dimen>
     <dimen name="margin_feedback">8dp</dimen>
+    <dimen name="margin_activity_setting_btn">8dp</dimen>
+    <dimen name="padding_activity_setting_btn">12dp</dimen>
 </resources>

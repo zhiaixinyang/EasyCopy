@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.mdove.easycopy.activity.setting.model.SettingHandler" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_light">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppBarLayout">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/black"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </android.support.design.widget.AppBarLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:onClick="@{()->handler.onClickClear()}"
+            android:layout_margin="@dimen/margin_activity_setting_btn"
+            android:background="@drawable/bg_white_round"
+            android:gravity="fill_vertical"
+            android:paddingLeft="@dimen/padding_activity_setting_btn"
+            android:text="@string/string_btn_clear"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sp"
+            android:layout_below="@+id/app_bar" />
+    </RelativeLayout>
+</layout>

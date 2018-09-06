@@ -19,6 +19,35 @@
         android:layout_height="match_parent"
         android:background="@color/gray_light">
 
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppBarLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/black"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <ImageView
+                    android:layout_width="@dimen/_24dp"
+                    android:layout_height="@dimen/_24dp"
+                    android:layout_gravity="right|fill_vertical"
+                    android:layout_marginRight="@dimen/_12dp"
+                    android:src="@mipmap/ic_btn_setting"
+                    android:onClick="@{()->handler.onClickSetting()}"
+                    android:tint="@color/white" />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
         <TextView
             android:id="@+id/tv_ocr_count"
             android:layout_width="wrap_content"
@@ -29,7 +58,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/app_bar"
             tools:text="总识别提取次数：99" />
 
         <TextView
@@ -279,8 +308,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_white_round"
                 android:gravity="center"
-                android:visibility="gone"
-                android:onClick="@{()->handler.onClickAllImages()}">
+                android:onClick="@{()->handler.onClickAllImages()}"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ic_all_images"
