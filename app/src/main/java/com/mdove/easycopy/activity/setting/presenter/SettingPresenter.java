@@ -71,6 +71,7 @@ public class SettingPresenter implements SettingContract.Presenter {
                                     @Override
                                     public void call(String integer) {
                                         ToastHelper.shortToast(integer);
+
                                     }
                                 });
                     }
