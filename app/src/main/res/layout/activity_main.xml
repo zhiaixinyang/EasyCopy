@@ -58,7 +58,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/app_bar"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
             tools:text="总识别提取次数：99" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
             tools:text="成功识别提取次数：98" />
 
         <TextView
