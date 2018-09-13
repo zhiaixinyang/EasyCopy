@@ -78,4 +78,8 @@
     <string name="string_btn_open_photo">打开相册</string>
     <string name="string_btn_clear">清理识别的图片资源</string>
     <string name="string_clear_suc">清理图片资源完成</string>
+    <string name="string_delete_file_title">确定要删除么？</string>
+    <string name="string_delete_file_content">此功能将删除，本App压缩缓存的图片资源。</string>
+    <string name="string_delete_file_btn_ok">删！</string>
+    <string name="string_delete_file_btn_cancel">不删</string>
 </resources>

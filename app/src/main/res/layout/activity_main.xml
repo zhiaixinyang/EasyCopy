@@ -42,50 +42,63 @@
                     android:layout_height="@dimen/_24dp"
                     android:layout_gravity="right|fill_vertical"
                     android:layout_marginRight="@dimen/_12dp"
-                    android:src="@mipmap/ic_btn_setting"
                     android:onClick="@{()->handler.onClickSetting()}"
+                    android:src="@mipmap/ic_btn_setting"
                     android:tint="@color/white" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
-        <TextView
-            android:id="@+id/tv_ocr_count"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout_ocr_order"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            android:text="@{vm.mOcrCount}"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_margin="@dimen/margin_item_history_result_ocr"
+            android:background="@drawable/bg_white_round"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar"
-            tools:text="总识别提取次数：99" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
-        <TextView
-            android:id="@+id/tv_ocr_suc_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            android:text="@{vm.mOcrSucCount}"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar"
-            tools:text="成功识别提取次数：98" />
+            <TextView
+                android:id="@+id/tv_ocr_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+                android:text="@{vm.mOcrCount}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:text="总识别提取次数：99" />
 
-        <TextView
-            android:id="@+id/tv_ocr_words_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
-            android:layout_marginTop="@dimen/margin_item_history_result_ocr"
-            android:text="@{vm.mOcrWordsCount}"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ocr_count"
-            tools:text="识别提取出的文字数量：999" />
+            <TextView
+                android:id="@+id/tv_ocr_suc_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+                android:text="@{vm.mOcrSucCount}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:text="成功识别提取次数：98" />
+
+            <TextView
+                android:id="@+id/tv_ocr_words_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_item_history_result_ocr"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+                android:layout_marginTop="@dimen/margin_item_history_result_ocr"
+                android:text="@{vm.mOcrWordsCount}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ocr_count"
+                tools:text="识别提取出的文字数量：999" />
+        </android.support.constraint.ConstraintLayout>
+
 
         <RelativeLayout
             android:id="@+id/layout_switch"
@@ -166,7 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ocr_words_count">
+            app:layout_constraintTop_toBottomOf="@+id/layout_ocr_order">
 
             <TextView
                 android:id="@+id/btn_float"
