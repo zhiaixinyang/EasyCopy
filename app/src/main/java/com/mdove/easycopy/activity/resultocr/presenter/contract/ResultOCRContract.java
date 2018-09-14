@@ -5,6 +5,7 @@ import com.mdove.easycopy.activity.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.base.BasePresenter;
 import com.mdove.easycopy.base.BaseView;
 import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
+import com.mdove.easycopy.greendao.entity.ResultOCR;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public interface ResultOCRContract {
 
         void onClickCopy(ResultOCRModelVM vm);
 
+        void updateHistoryOCR(ResultOCRModelVM vm);
     }
 
     interface MvpView extends BaseView<Presenter> {

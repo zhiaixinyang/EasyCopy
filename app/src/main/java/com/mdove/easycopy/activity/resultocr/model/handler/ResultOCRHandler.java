@@ -14,4 +14,8 @@ public class ResultOCRHandler {
     public void onClickCopy(ResultOCRModelVM vm) {
         mPresenter.onClickCopy(vm);
     }
+
+    public void onClickUpdate(ResultOCRModelVM vm) {
+        mPresenter.updateHistoryOCR(vm);
+    }
 }

@@ -39,7 +39,7 @@
         <FrameLayout
             android:id="@+id/layout_bg"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:layout_below="@+id/app_bar"
             android:background="@drawable/crop_texture">
 
@@ -59,6 +59,19 @@
             android:layout_gravity="right|fill_vertical"
             android:layout_marginRight="@dimen/_8dp"
             android:onClick="@{()->handler.onClickCopy(vm)}"
+            android:layout_marginTop="@dimen/_8dp"
+            android:src="@mipmap/ic_copy"
+            android:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/btn_update"
+            android:layout_width="@dimen/_24dp"
+            android:layout_height="@dimen/_24dp"
+            android:layout_below="@+id/layout_bg"
+            android:layout_gravity="right|fill_vertical"
+            android:layout_marginRight="@dimen/_8dp"
+            android:layout_toLeftOf="@+id/btn_copy"
+            android:onClick="@{()->handler.onClickUpdate(vm)}"
             android:layout_marginTop="@dimen/_8dp"
             android:src="@mipmap/ic_copy"
             android:tint="@color/black" />

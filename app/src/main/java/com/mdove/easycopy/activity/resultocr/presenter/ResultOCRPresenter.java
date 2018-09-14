@@ -108,6 +108,16 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
         ToastHelper.shortToast(StringUtil.getString(R.string.string_copy_suc));
     }
 
+    @Override
+    public void updateHistoryOCR(ResultOCRModelVM vm) {
+        ResultOCR resultOCR = mResultOCRDao.queryBuilder().where(ResultOCRDao.Properties.Id.eq(vm.mId.get())).unique();
+        if (resultOCR != null) {
+            resultOCR.mResultOCR = vm.mContent.get();
+            mResultOCRDao.update(resultOCR);
+            ToastHelper.shortToast(R.string.string_toast_update_history_result_ocr);
+        }
+    }
+
     private void startOCRForPath(final String path, final OnSucListener listener) {
         PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
             @Override
