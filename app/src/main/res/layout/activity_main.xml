@@ -100,20 +100,31 @@
         </android.support.constraint.ConstraintLayout>
 
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/layout_switch"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/layout_silent_switch">
+            android:layout_marginBottom="@dimen/margin_item_history_result_ocr"
+            android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+            android:background="@drawable/bg_white_round_8"
+            android:paddingBottom="@dimen/padding_activity_main_switch"
+            android:paddingTop="@dimen/padding_activity_main_switch"
+            app:layout_constraintBottom_toTopOf="@+id/layout_silent_switch"
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
                 android:layout_height="@dimen/_20dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_toLeftOf="@+id/tv_screenshot_service"
                 android:onClick="@{()->handler.onClickScreenShotServiceKnow()}"
-                android:src="@mipmap/ic_screenshot_service_know" />
+                android:src="@mipmap/ic_screenshot_service_know"
+                android:tint="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_screenshot_service"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_screenshot_service"
@@ -121,36 +132,50 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_toLeftOf="@+id/switch_screen_shot"
-                android:text="@string/string_screenshot_service_switch" />
+                android:text="@string/string_screenshot_service_switch"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/switch_screen_shot"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_screen_shot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:textOff="@string/switch_off"
                 android:textOn="@string/switch_on"
-                android:theme="@style/SwitchStyle" />
-        </RelativeLayout>
+                android:theme="@style/SwitchStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/layout_silent_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_item_history_result_ocr"
-            app:layout_constraintBottom_toTopOf="parent">
+            android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+            android:background="@drawable/bg_white_round_8"
+            android:paddingBottom="@dimen/padding_activity_main_switch"
+            android:paddingTop="@dimen/padding_activity_main_switch"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <ImageView
                 android:layout_width="@dimen/_20dp"
                 android:layout_height="@dimen/_20dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_toLeftOf="@+id/tv_screenshot_silent_service"
                 android:onClick="@{()->handler.onClickScreenShotSilentServiceKnow()}"
-                android:src="@mipmap/ic_screenshot_service_know" />
+                android:src="@mipmap/ic_screenshot_service_know"
+                android:tint="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_screenshot_silent_service"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_screenshot_silent_service"
@@ -158,20 +183,24 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
-                android:layout_toLeftOf="@+id/switch_screen_silent_shot"
-                android:text="@string/string_screenshot_service_silent_switch" />
+                android:text="@string/string_screenshot_service_silent_switch"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintRight_toLeftOf="@+id/switch_screen_silent_shot"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_screen_silent_shot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_item_history_result_ocr"
                 android:textOff="@string/switch_off"
                 android:textOn="@string/switch_on"
-                android:theme="@style/SwitchStyle" />
-        </RelativeLayout>
+                android:theme="@style/SwitchStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
 
         <LinearLayout
