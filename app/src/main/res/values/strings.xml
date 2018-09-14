@@ -29,7 +29,7 @@
     <string name="string_activity_scan_images_title">图片多选</string>
     <string name="string_activity_history_result_ocr_title">历史提取记录</string>
 
-    <string name="crop__saving">正在保存照片…</string>
+    <string name="crop__saving">正在截取、压缩图片…</string>
     <string name="crop__wait">请等待…</string>
     <string name="crop__pick_error">无效的图片</string>
 
@@ -79,7 +79,8 @@
     <string name="string_btn_clear">清理识别的图片资源</string>
     <string name="string_clear_suc">清理图片资源完成</string>
     <string name="string_delete_file_title">确定要删除么？</string>
-    <string name="string_delete_file_content">此功能将删除，本App压缩缓存的图片资源。</string>
+    <string name="string_delete_file_content">此功能将删除本App压缩缓存的图片资源。</string>
     <string name="string_delete_file_btn_ok">删！</string>
     <string name="string_delete_file_btn_cancel">不删</string>
+    <string name="string_toast_ocr_suc">文字识别成功，并插入历史识别记录中。</string>
 </resources>

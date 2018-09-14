@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.resultocr.model.handler.ResultOCRHandler;
 import com.mdove.easycopy.base.BaseActivity;
 import com.mdove.easycopy.activity.crop.Crop;
 import com.mdove.easycopy.databinding.ActivityResultOcrBinding;
@@ -75,6 +76,7 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
         initToolbar();
         mPresenter = new ResultOCRPresenter();
         mPresenter.subscribe(this);
+        mBinding.setHandler(new ResultOCRHandler(mPresenter));
         intentHandle(getIntent());
     }
 

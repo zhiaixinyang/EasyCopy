@@ -8,12 +8,16 @@
         <variable
             name="vm"
             type="com.mdove.easycopy.activity.resultocr.model.ResultOCRModelVM" />
+
+        <variable
+            name="handler"
+            type="com.mdove.easycopy.activity.resultocr.model.handler.ResultOCRHandler" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.home.MainActivity">
+        android:background="@color/gray_light">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -29,13 +33,16 @@
                 android:background="@color/black"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
         </android.support.design.widget.AppBarLayout>
+
         <FrameLayout
             android:id="@+id/layout_bg"
             android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_below="@+id/app_bar"
-            android:background="@drawable/crop_texture"
-            android:layout_height="200dp">
+            android:background="@drawable/crop_texture">
+
             <ImageView
                 android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
@@ -43,17 +50,32 @@
                 app:loadBgFormPath="@{vm.mPath}" />
         </FrameLayout>
 
+        <ImageView
+            android:id="@+id/btn_copy"
+            android:layout_width="@dimen/_24dp"
+            android:layout_height="@dimen/_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/layout_bg"
+            android:layout_gravity="right|fill_vertical"
+            android:layout_marginRight="@dimen/_8dp"
+            android:onClick="@{()->handler.onClickCopy(vm)}"
+            android:layout_marginTop="@dimen/_8dp"
+            android:src="@mipmap/ic_copy"
+            android:tint="@color/black" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/layout_bg"
-            android:gravity="center"
+            android:layout_below="@+id/btn_copy"
+            android:layout_margin="@dimen/_8dp"
+            android:background="@drawable/bg_white_round"
+            android:padding="@dimen/_8dp"
             android:text="@{vm.mContent}"
+            android:gravity="top"
             android:textColor="@color/black"
-            android:textIsSelectable="true"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:onTextChanged="@{vm.onTextChanged}"/>
 
     </RelativeLayout>
 </layout>

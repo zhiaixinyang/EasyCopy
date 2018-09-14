@@ -1,6 +1,7 @@
 package com.mdove.easycopy.activity.resultocr.presenter.contract;
 
 
+import com.mdove.easycopy.activity.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.base.BasePresenter;
 import com.mdove.easycopy.base.BaseView;
 import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
@@ -16,6 +17,9 @@ public interface ResultOCRContract {
         void startOCR(String path, int type);
 
         void startOCRForList(List<String> paths);
+
+        void onClickCopy(ResultOCRModelVM vm);
+
     }
 
     interface MvpView extends BaseView<Presenter> {
