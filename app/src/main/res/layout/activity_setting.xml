@@ -30,17 +30,33 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:onClick="@{()->handler.onClickClear()}"
+            android:layout_height="50dp"
+            android:layout_below="@+id/app_bar"
             android:layout_margin="@dimen/margin_activity_setting_btn"
             android:background="@drawable/bg_white_round"
-            android:gravity="fill_vertical"
-            android:paddingLeft="@dimen/padding_activity_setting_btn"
-            android:text="@string/string_btn_clear"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16sp"
-            android:layout_below="@+id/app_bar" />
+            android:onClick="@{()->handler.onClickClear()}"
+            android:paddingLeft="@dimen/padding_activity_setting_btn">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_activity_setting_btn"
+                android:text="@string/string_btn_clear"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp" />
+
+            <ImageView
+                android:layout_width="@dimen/_24dp"
+                android:layout_height="@dimen/_24dp"
+                android:tint="@color/black"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_activity_setting_btn"
+                android:src="@mipmap/ic_btn_right"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 </layout>

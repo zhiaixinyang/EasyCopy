@@ -39,9 +39,9 @@ android {
 
     signingConfigs {
         mdove {
-            storeFile file("$rootProject.projectDir/tool/keystore/PasswordGuard.jks")
+            storeFile file("$rootProject.projectDir/tool/keystore/EasyCopy.jks")
             storePassword "wjzj000"
-            keyAlias "passwordguard"
+            keyAlias "easycopy"
             keyPassword "wjzj000"
         }
         debug {
@@ -57,20 +57,27 @@ android {
             signingConfig signingConfigs.mdove
         }
 
-//        applicationVariants.all { variant ->
-//            variant.outputs.all { output ->
-//                def outputFile = output.outputFile
-//                def fileName
-//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                    if (variant.buildType.name == 'release') {
-//                        fileName = "EasyCopy-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}-${getDateTime()}.apk"
-//                    } else {
-//                        fileName = "EasyCopy-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}.apk"
-//                    }
-//                    outputFileName = fileName
-//                }
-//            }
-//        }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def outputFile = output.outputFile
+                def fileName
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    if (variant.buildType.name == 'release') {
+                        fileName = "趣识别-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}.apk"
+                    } else {
+                        fileName = "趣识别-$variant.buildType.name-v${defaultConfig.versionName}-${defaultConfig.versionCode}.apk"
+                    }
+                    outputFileName = fileName
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+        disable 'ExtraTranslation'
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     dataBinding {
@@ -79,7 +86,7 @@ android {
 }
 
 greendao {
-    schemaVersion 3
+    schemaVersion 1
     daoPackage 'com.mdove.easycopy.greendao'
     targetGenDir 'src/main/java'
 }
@@ -108,4 +115,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:10.0.1'
 
     implementation 'org.greenrobot:greendao:3.2.0'
+
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_light">
@@ -11,21 +12,40 @@
         android:layout_marginLeft="@dimen/margin_feedback"
         android:layout_marginRight="@dimen/margin_feedback"
         android:layout_marginTop="@dimen/margin_feedback"
-        android:padding="@dimen/margin_feedback"
         android:background="@drawable/bg_white_round"
-        android:hint="说出你的，吐槽/反馈~"
         android:gravity="top"
-        android:textSize="@dimen/_16sp" />
+        android:hint="说出你的，吐槽/反馈~"
+        android:padding="@dimen/margin_feedback"
+        android:textSize="@dimen/_16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/et_content"
         android:layout_margin="@dimen/margin_feedback"
         android:background="@drawable/bg_white_round"
         android:gravity="center"
-        android:text="吐槽/反馈"
+        android:text="@string/string_feedback_btn_ok"
         android:textColor="@color/black"
-        android:textSize="@dimen/_16sp" />
-</RelativeLayout>
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_content"
+        android:layout_margin="@dimen/margin_feedback"
+        android:background="@drawable/bg_white_round"
+        android:padding="@dimen/_8dp"
+        android:text="@string/string_feedback_our"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>

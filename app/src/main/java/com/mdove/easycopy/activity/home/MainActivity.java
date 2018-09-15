@@ -2,7 +2,9 @@ package com.mdove.easycopy.activity.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 
@@ -16,6 +18,7 @@ import com.mdove.easycopy.activity.home.presenter.MainPresenter;
 import com.mdove.easycopy.activity.home.presenter.contract.MainContract;
 import com.mdove.easycopy.activity.resultocr.ResultOCRActivity;
 import com.mdove.easycopy.mainservice.BallWidgetService;
+import com.mdove.easycopy.receiver.NetworkConnectChangedReceiver;
 import com.mdove.easycopy.utils.AppUtils;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.anim.AnimUtils;
@@ -34,6 +37,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     private ActivityMainBinding mBinding;
     private MainPresenter mPresenter;
     private Subscription mSubscription;
+    private NetworkConnectChangedReceiver mNetworkConnectChangedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     protected void onResume() {
         super.onResume();
         initSwitch();
-
+        registerNetwork();
         if (mPresenter != null) {
             mPresenter.refreshStatistics();
         }
@@ -65,6 +69,9 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         super.onDestroy();
         if (mSubscription != null) {
             mSubscription.unsubscribe();
+        }
+        if (mNetworkConnectChangedReceiver != null) {
+            unregisterReceiver(mNetworkConnectChangedReceiver);
         }
     }
 
@@ -194,4 +201,13 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         }
     }
 
+    private void registerNetwork() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+            filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+            filter.addAction("android.net.wifi.STATE_CHANGE");
+            registerReceiver(mNetworkConnectChangedReceiver, filter);
+        }
+    }
 }

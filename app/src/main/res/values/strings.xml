@@ -84,4 +84,10 @@
     <string name="string_delete_file_btn_cancel">不删</string>
     <string name="string_toast_ocr_suc">文字识别成功，并插入历史识别记录中。</string>
     <string name="string_toast_update_history_result_ocr">更新历史识别记录成功。</string>
+    <string name="string_feedback_btn_ok">吐槽/反馈</string>
+    <string name="string_feedback_our">因为这是一个工具类的应用，所以更多的是为了解决日常中的需要。\n所以各位小伙伴有什么问题、有什么吐槽，欢迎写下来~</string>
+    <string name="string_register_ocr_error">图像识别服务注册失败，请保持网络退出重试。</string>
+    <string name="string_register_ocr_suc">图像识别服务注册成功，随时准备待命~</string>
+    <string name="string_register_ocr_no_network">图像识别需要借助网络，请保持网络畅通~</string>
+    <string name="string_no_network">无网络，请保证网络畅通~</string>
 </resources>
