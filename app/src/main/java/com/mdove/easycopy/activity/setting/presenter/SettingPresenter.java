@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.setting.presenter.contract.SettingContract;
 import com.mdove.easycopy.config.ImageConfig;
+import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.utils.FileUtils;
 import com.mdove.easycopy.utils.StringUtil;
 import com.mdove.easycopy.utils.ToastHelper;
@@ -41,6 +42,20 @@ public class SettingPresenter implements SettingContract.Presenter {
     @Override
     public void clear() {
         deleteFile(new File(ImageConfig.CONSTANT_IMAGE_PATH));
+    }
+
+    @Override
+    public void initSwitchCompress() {
+        boolean isCheck = MainConfigSP.isImageCompress();
+        mView.initSwitchCompress(isCheck);
+    }
+
+    @Override
+    public void switchCompress(boolean isCheck) {
+        boolean isCheckSp = MainConfigSP.isImageCompress();
+        if (isCheckSp != isCheck) {
+            MainConfigSP.setIsImageCompress(isCheck);
+        }
     }
 
     private void deleteFile(final File file) {

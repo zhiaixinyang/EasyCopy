@@ -35,6 +35,14 @@ android {
         versionName getVersionNameProperty()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+            }
+        }
+        ndk{
+            abiFilters "armeabi-v7a" ,"armeabi"
+        }
     }
 
     signingConfigs {
@@ -70,6 +78,12 @@ android {
                     outputFileName = fileName
                 }
             }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
     }
 

@@ -402,7 +402,5 @@
                     android:textSize="@dimen/size_activity_main_btn" />
             </RelativeLayout>
         </LinearLayout>
-
-
     </android.support.constraint.ConstraintLayout>
 </layout>

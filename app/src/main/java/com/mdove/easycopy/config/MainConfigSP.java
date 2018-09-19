@@ -106,4 +106,15 @@ public class MainConfigSP implements IMainConfigKey {
         SharedPreferences preferences = initSharedPreferences();
         return preferences.getLong(KEY_OCR_SUC_COUNT, 0);
     }
+
+    public static void setIsImageCompress(boolean isOpen) {
+        SharedPreferences.Editor editor = initSharedPreferences().edit();
+        editor.putBoolean(KEY_IMAGE_COMPRESS, isOpen);
+        editor.apply();
+    }
+
+    public static boolean isImageCompress() {
+        SharedPreferences preferences = initSharedPreferences();
+        return preferences.getBoolean(KEY_IMAGE_COMPRESS, true);
+    }
 }

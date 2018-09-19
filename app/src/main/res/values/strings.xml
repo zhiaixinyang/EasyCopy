@@ -90,4 +90,6 @@
     <string name="string_register_ocr_suc">图像识别服务注册成功，随时准备待命~</string>
     <string name="string_register_ocr_no_network">图像识别需要借助网络，请保持网络畅通~</string>
     <string name="string_no_network">无网络，请保证网络畅通~</string>
+    <string name="string_compress_switch">识别时开启图片压缩</string>
+    <string name="string_compress_switch_sub">开启有助于提高识别速度和降低流量消耗，但是有可能会降低识别精度。</string>
 </resources>

@@ -26,4 +26,5 @@
     <dimen name="margin_activity_setting_btn">8dp</dimen>
     <dimen name="padding_activity_setting_btn">12dp</dimen>
     <dimen name="padding_activity_main_switch">3dp</dimen>
+    <dimen name="_14sp">14sp</dimen>
 </resources>
