@@ -186,6 +186,16 @@ public class MainPresenter implements MainContract.Presenter {
         SettingActivity.start(mView.getContext());
     }
 
+    @Override
+    public void updateRegisterStatus() {
+        String token = MainConfigSP.getBaiduOcrToken();
+        boolean isSuc = false;
+        if (!TextUtils.isEmpty(token)) {
+            isSuc = true;
+        }
+        mView.registerSuc(isSuc);
+    }
+
     private void showUpgradeDialog(final AppUpdateModel result) {
         new UpdateDialog(mView.getContext(), result.src).show();
     }

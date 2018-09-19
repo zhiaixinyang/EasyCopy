@@ -13,7 +13,9 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.hwangjr.rxbus.RxBus;
 import com.mdove.easycopy.config.MainConfigSP;
+import com.mdove.easycopy.event.RegisterEvent;
 import com.mdove.easycopy.greendao.DaoSession;
 import com.mdove.easycopy.greendao.utils.DaoManager;
 import com.mdove.easycopy.net.ApiServer;
@@ -88,16 +90,22 @@ public class App extends Application {
             OCR.getInstance(this).initAccessTokenWithAkSk(new OnResultListener<AccessToken>() {
                 @Override
                 public void onResult(AccessToken result) {
+                    RxBus.get().post(new RegisterEvent());
+
                     String token = result.getAccessToken();
                     MainConfigSP.setBaiduOcrToken(token);
                     hasGotToken = true;
                     ToastHelper.shortToast(R.string.string_register_ocr_suc);
+                    RxBus.get().post(new RegisterEvent());
                 }
 
                 @Override
                 public void onError(OCRError error) {
+                    RxBus.get().post(new RegisterEvent());
+
+                    MainConfigSP.setBaiduOcrToken(null);
                     error.printStackTrace();
-                    ToastHelper.shortToast(R.string.string_register_ocr_error+":"+error.getMessage());
+                    ToastHelper.shortToast(R.string.string_register_ocr_error + ":" + error.getMessage());
                 }
             }, getApplicationContext(), APP_KEY, SECRET_KEY);
         } else {

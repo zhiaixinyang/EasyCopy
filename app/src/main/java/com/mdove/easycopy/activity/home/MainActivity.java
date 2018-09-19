@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 
+import com.hwangjr.rxbus.RxBus;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.base.BaseActivity;
@@ -17,6 +19,7 @@ import com.mdove.easycopy.activity.home.model.handle.MainHandler;
 import com.mdove.easycopy.activity.home.presenter.MainPresenter;
 import com.mdove.easycopy.activity.home.presenter.contract.MainContract;
 import com.mdove.easycopy.activity.resultocr.ResultOCRActivity;
+import com.mdove.easycopy.event.RegisterEvent;
 import com.mdove.easycopy.mainservice.BallWidgetService;
 import com.mdove.easycopy.receiver.NetworkConnectChangedReceiver;
 import com.mdove.easycopy.utils.AppUtils;
@@ -45,8 +48,10 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         mPresenter = new MainPresenter();
+        RxBus.get().register(this);
         mPresenter.subscribe(this);
         mPresenter.checkUpdate(AppUtils.getAPPVersionCodeFromAPP(this));
+        mPresenter.updateRegisterStatus();
 
         mBinding.setHandler(new MainHandler(mPresenter));
 
@@ -73,6 +78,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         if (mNetworkConnectChangedReceiver != null) {
             unregisterReceiver(mNetworkConnectChangedReceiver);
         }
+        RxBus.get().unregister(this);
     }
 
     private void initView() {
@@ -163,10 +169,24 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     }
 
     @Override
+    public void registerSuc(boolean isSuc) {
+        if (isSuc){
+            AnimUtils.flipAnimatorXViewShow(mBinding.tvRegisterErr, mBinding.tvRegisterSuc, 500);
+        }else{
+            AnimUtils.flipAnimatorXViewShow(mBinding.tvRegisterSuc, mBinding.tvRegisterErr, 500);
+        }
+    }
+
+    @Override
     public void refreshStatistics(MainStatisticsModelVM mainModelVM) {
         if (mBinding != null) {
             mBinding.setVm(mainModelVM);
         }
+    }
+
+    @Subscribe()
+    public void onEventRegister(RegisterEvent event) {
+        mPresenter.updateRegisterStatus();
     }
 
     private void initBall() {

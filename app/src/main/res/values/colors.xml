@@ -39,4 +39,8 @@
     <color name="gray_light">#e2e2e2</color>
     <color name="gray_50">#80cccacc</color>
     <color name="gray_new_home">#EEF2F3</color>
+
+    <color name="register_suc">#58d456</color>
+    <color name="register_error">#d13b3b</color>
+
 </resources>
