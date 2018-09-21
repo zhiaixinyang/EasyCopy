@@ -44,7 +44,7 @@ public class App extends Application {
         mDaoManager = DaoManager.getInstance();
 
         registerNetwork();
-        initAccessTokenWithAkSk();
+        initAccessToken();
 
         CrashReport.setIsDevelopmentDevice(this, true);
         CrashReport.initCrashReport(getApplicationContext(), "6b29b73dba", false);
@@ -71,12 +71,18 @@ public class App extends Application {
             @Override
             public void onResult(AccessToken accessToken) {
                 String token = accessToken.getAccessToken();
+                MainConfigSP.setBaiduOcrToken(token);
                 hasGotToken = true;
+                ToastHelper.shortToast(R.string.string_register_ocr_suc);
+                RxBus.get().post(new RegisterEvent());
             }
 
             @Override
             public void onError(OCRError error) {
                 error.printStackTrace();
+                RxBus.get().post(new RegisterEvent());
+
+                MainConfigSP.setBaiduOcrToken(null);
                 ToastHelper.shortToast("licence方式获取token失败" + error.getMessage());
             }
         }, getApplicationContext());
