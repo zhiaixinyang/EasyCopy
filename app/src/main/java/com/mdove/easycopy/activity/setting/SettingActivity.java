@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.CompoundButton;
 
 import com.mdove.easycopy.R;
 import com.mdove.easycopy.activity.setting.model.SettingHandler;
 import com.mdove.easycopy.activity.setting.presenter.SettingPresenter;
 import com.mdove.easycopy.activity.setting.presenter.contract.SettingContract;
 import com.mdove.easycopy.base.BaseActivity;
+import com.mdove.easycopy.config.MainConfigSP;
 import com.mdove.easycopy.databinding.ActivitySettingBinding;
 
 public class SettingActivity extends BaseActivity implements SettingContract.MvpView {
@@ -38,8 +40,20 @@ public class SettingActivity extends BaseActivity implements SettingContract.Mvp
         initToolbar();
         mPresenter = new SettingPresenter();
         mPresenter.subscribe(this);
+        mPresenter.initSwitchCompress();
 
         mBinding.setHandler(new SettingHandler(mPresenter));
+
+        initSwitch();
+    }
+
+    private void initSwitch() {
+        mBinding.switchCompress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mPresenter.switchCompress(isChecked);
+            }
+        });
     }
 
     private void initToolbar() {
@@ -56,5 +70,10 @@ public class SettingActivity extends BaseActivity implements SettingContract.Mvp
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void initSwitchCompress(boolean isCheck) {
+        mBinding.switchCompress.setChecked(isCheck);
     }
 }

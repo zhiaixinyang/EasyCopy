@@ -45,6 +45,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 public class CropImageActivity extends MonitoredActivity {
@@ -293,11 +294,13 @@ public class CropImageActivity extends MonitoredActivity {
 
     private void onQuickOCR() {
         Bitmap bitmap = ImageUtil.decodeFile(sourceUri.getPath());
-        String path = ImageConfig.CONSTANT_IMAGE_PATH + "copress_temp.jpg";
+        String path = ImageConfig.CONSTANT_IMAGE_PATH + UUID.randomUUID().toString() + "copress_temp.jpg";
         if (ImageUtil.compressImage(bitmap, 65, path, true)) {
             setResultUri(Uri.fromFile(new File(path)));
-            finish();
+        }else{
+            setResultUri(sourceUri);
         }
+        finish();
     }
 
     private void onSaveClicked() {
@@ -415,28 +418,32 @@ public class CropImageActivity extends MonitoredActivity {
     }
 
     private void saveOutput(Bitmap croppedImage) {
-        if (saveUri != null) {
-            OutputStream outputStream = null;
-            try {
-                outputStream = getContentResolver().openOutputStream(saveUri);
-                if (outputStream != null) {
-                    croppedImage.compress(saveAsPng ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG,
-                            90,     // note: quality is ignored when using PNG
-                            outputStream);
-                }
-            } catch (IOException e) {
-                setResultException(e);
-                Log.e("Cannot open file: " + saveUri, e);
-            } finally {
-                CropUtil.closeSilently(outputStream);
-            }
+        String path = ImageConfig.CONSTANT_IMAGE_PATH + UUID.randomUUID().toString() + "copress_temp.jpg";
 
+        if (saveUri != null) {
+            boolean isSuc = ImageUtil.compressImage(croppedImage, 65, path, true);
+            if (!isSuc){
+                OutputStream outputStream = null;
+                try {
+                    outputStream = getContentResolver().openOutputStream(saveUri);
+                    if (outputStream != null) {
+                        croppedImage.compress(saveAsPng ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG,
+                                90,     // note: quality is ignored when using PNG
+                                outputStream);
+                    }
+                } catch (IOException e) {
+                    setResultException(e);
+                    Log.e("Cannot open file: " + saveUri, e);
+                } finally {
+                    CropUtil.closeSilently(outputStream);
+                }
+            }
             CropUtil.copyExifRotation(
                     CropUtil.getFromMediaUri(this, getContentResolver(), sourceUri),
                     CropUtil.getFromMediaUri(this, getContentResolver(), saveUri)
             );
 
-            setResultUri(saveUri);
+            setResultUri(Uri.fromFile(new File(path)));
         }
 
         final Bitmap b = croppedImage;

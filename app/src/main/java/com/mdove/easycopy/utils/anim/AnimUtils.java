@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
 /**
- * @author wangwei on 2017/11/30.
- *         wangwei@jiandaola.com
+ * @author zhaojing on 2017/11/30.
  */
 public class AnimUtils {
 

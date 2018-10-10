@@ -3,6 +3,8 @@ package com.mdove.easycopy.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.mdove.easycopy.config.MainConfigSP;
+
 /**
  * Email  1562363326@qq.com
  * Github https://github.com/skcodestack
@@ -36,38 +38,50 @@ public class ImageUtil {
     /**
      * 使用libjpeg进行压缩
      * 压缩前最好进行降采样率压缩先进行一次压缩，来固定图片宽度
+     *
      * @param bitmap   压缩的图片
-     * @param quality   质量
-     * @param dstFile   新的图片路径
-     * @param optimize  是否使用哈夫曼算法完成压缩（使用哈夫曼算法压缩，压缩率高10~25倍）
-     * @return   是否压缩成功
+     * @param quality  质量
+     * @param dstFile  新的图片路径
+     * @param optimize 是否使用哈夫曼算法完成压缩（使用哈夫曼算法压缩，压缩率高10~25倍）
+     * @return 是否压缩成功
      */
-    public static boolean   compressImage(Bitmap bitmap,int quality,String dstFile,boolean  optimize){
+    public static boolean compressImage(Bitmap bitmap, int quality, String dstFile, boolean optimize) {
+        boolean isSuc = false;
+        int ret = -1;
+        boolean isCompress = MainConfigSP.isImageCompress();
+        if (!isCompress) {
+            return isSuc;
+        }
+        try {
+            ret = compressBitmap(bitmap, quality, dstFile, optimize);
+        } catch (Exception e) {
 
-        int ret = compressBitmap( bitmap, quality, dstFile,  optimize);
+        }
+        if (ret == 1) {
+            isSuc = true;
+        }
 
-        return  ret==1;
+        return isSuc;
     }
 
-    public static native int compressBitmap(Bitmap bitmap, int quality, String dstFile,boolean  optimize);
+    public static native int compressBitmap(Bitmap bitmap, int quality, String dstFile, boolean optimize);
 
     /**
-     *
      * @param path
      * @return
      */
-    public static Bitmap decodeFile(String path){
+    public static Bitmap decodeFile(String path) {
 
         int finalWidth = 960;
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, o);
-        o.inSampleSize = calculateSize(o.outWidth,finalWidth);
+        o.inSampleSize = calculateSize(o.outWidth, finalWidth);
         o.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(path, o);
     }
 
-    private static int calculateSize(int originalWidth,int newWidth) {
-        return originalWidth/newWidth;
+    private static int calculateSize(int originalWidth, int newWidth) {
+        return originalWidth / newWidth;
     }
 }

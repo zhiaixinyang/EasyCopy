@@ -11,6 +11,7 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.allimages.AllImagesActivity;
 import com.mdove.easycopy.activity.feedback.FeedBackActivity;
 import com.mdove.easycopy.activity.home.model.vm.MainStatisticsModelVM;
 import com.mdove.easycopy.activity.scaniamges.ScanImageActivity;
@@ -83,7 +84,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickHistory() {
-        IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
+//        IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
+        ScanImageActivity.start(mView.getContext());
     }
 
     @Override
@@ -184,6 +186,16 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onClickSetting() {
         SettingActivity.start(mView.getContext());
+    }
+
+    @Override
+    public void updateRegisterStatus() {
+        String token = MainConfigSP.getBaiduOcrToken();
+        boolean isSuc = false;
+        if (!TextUtils.isEmpty(token)) {
+            isSuc = true;
+        }
+        mView.registerSuc(isSuc);
     }
 
     private void showUpgradeDialog(final AppUpdateModel result) {

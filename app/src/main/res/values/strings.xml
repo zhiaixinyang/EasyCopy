@@ -92,4 +92,6 @@
     <string name="string_no_network">无网络，请保证网络畅通~</string>
     <string name="string_error_register_ocr">错误信息已经复制粘贴板</string>
     <string name="string_permission_camera_error">未授予拍照权限。</string>
+    <string name="string_compress_switch">识别时开启图片压缩</string>
+    <string name="string_compress_switch_sub">开启有助于提高识别速度和降低流量消耗，但是有可能会降低识别精度。</string>
 </resources>

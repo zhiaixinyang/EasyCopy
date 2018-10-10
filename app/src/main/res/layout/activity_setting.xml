@@ -31,13 +31,13 @@
         </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_clear"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@+id/app_bar"
             android:layout_margin="@dimen/margin_activity_setting_btn"
             android:background="@drawable/bg_white_round"
-            android:onClick="@{()->handler.onClickClear()}"
-            android:paddingLeft="@dimen/padding_activity_setting_btn">
+            android:onClick="@{()->handler.onClickClear()}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,12 +51,60 @@
             <ImageView
                 android:layout_width="@dimen/_24dp"
                 android:layout_height="@dimen/_24dp"
-                android:tint="@color/black"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_activity_setting_btn"
-                android:src="@mipmap/ic_btn_right"/>
+                android:src="@mipmap/ic_btn_right"
+                android:tint="@color/black" />
         </RelativeLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_round"
+            android:layout_below="@+id/layout_clear"
+            android:layout_marginLeft="@dimen/margin_activity_setting_btn"
+            android:layout_marginRight="@dimen/margin_activity_setting_btn">
+
+            <TextView
+                android:id="@+id/tv_screenshot_silent_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/margin_item_history_result_ocr"
+                android:layout_toLeftOf="@+id/switch_compress"
+                android:text="@string/string_compress_switch"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_screenshot_silent_service_sub"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_item_history_result_ocr"
+                android:layout_marginRight="@dimen/margin_item_history_result_ocr"
+                android:layout_marginBottom="@dimen/margin_item_history_result_ocr"
+                android:text="@string/string_compress_switch_sub"
+                android:textColor="@color/gray"
+                app:layout_constraintTop_toBottomOf="@+id/tv_screenshot_silent_service"
+                app:layout_constraintRight_toLeftOf="@+id/switch_compress"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="@dimen/_14sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_compress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_activity_setting_btn"
+                android:textOff="@string/switch_off"
+                android:textOn="@string/switch_on"
+                android:theme="@style/SwitchStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </layout>

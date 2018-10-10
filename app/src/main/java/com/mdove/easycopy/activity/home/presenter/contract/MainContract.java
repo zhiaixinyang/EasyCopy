@@ -36,6 +36,8 @@ public interface MainContract {
         void onClickAllImages();
 
         void onClickSetting();
+
+        void updateRegisterStatus();
     }
 
     interface MvpView extends BaseView<Presenter> {
@@ -46,6 +48,8 @@ public interface MainContract {
         void showResultOCR(String content);
 
         void onClickShowBall();
+
+        void registerSuc(boolean isSuc);
 
         void refreshStatistics(MainStatisticsModelVM mainModelVM);
 

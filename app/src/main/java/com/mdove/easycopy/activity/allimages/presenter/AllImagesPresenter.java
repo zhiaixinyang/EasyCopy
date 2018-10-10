@@ -46,16 +46,6 @@ public class AllImagesPresenter implements AllImagesContract.Presenter {
     @Override
     public void subscribe(AllImagesContract.MvpView view) {
         mView = view;
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            data.add(i + "!");
-        }
-        List<String> i = data.subList(0, 10);
-        Log.d("aaa", i.get(9)+"!"+data.size());
-
-        List<String> ii = data.subList(0, 10);
-        Log.d("aaa", ii.get(9)+"!"+data.size());
-
     }
 
     @Override

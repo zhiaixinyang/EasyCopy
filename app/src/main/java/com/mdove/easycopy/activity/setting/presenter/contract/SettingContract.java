@@ -14,8 +14,13 @@ import java.util.List;
 public interface SettingContract {
     interface Presenter extends BasePresenter<MvpView> {
         void clear();
+
+        void initSwitchCompress();
+
+        void switchCompress(boolean isCheck);
     }
 
     interface MvpView extends BaseView<Presenter> {
+        void initSwitchCompress(boolean isCheck);
     }
 }
