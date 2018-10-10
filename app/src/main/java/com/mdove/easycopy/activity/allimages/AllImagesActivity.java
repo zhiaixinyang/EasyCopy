@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 
 import com.mdove.easycopy.R;
@@ -18,7 +17,6 @@ import com.mdove.easycopy.base.BaseActivity;
 import com.mdove.easycopy.ui.coolviewpager.CoolViewPager;
 import com.mdove.easycopy.ui.coolviewpager.transformer.DepthPageTransformer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllImagesActivity extends BaseActivity implements AllImagesContract.MvpView {

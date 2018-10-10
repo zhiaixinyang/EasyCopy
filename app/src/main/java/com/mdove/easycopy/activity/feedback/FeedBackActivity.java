@@ -11,14 +11,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.feedback.adapter.TopBannerAdapter;
 import com.mdove.easycopy.activity.feedback.presenter.FeedBackPresenter;
 import com.mdove.easycopy.activity.feedback.presenter.contract.FeedBackContract;
-import com.mdove.easycopy.activity.scaniamges.ScanImageActivity;
 import com.mdove.easycopy.base.BaseActivity;
+import com.mdove.easycopy.ui.marqueeview.MarqueeView;
 import com.mdove.easycopy.utils.ToastHelper;
+
+import java.util.List;
 
 public class FeedBackActivity extends BaseActivity implements FeedBackContract.MvpView {
     private TextView mBtnOk;
+    private MarqueeView mMarqueeView;
     private EditText mEtContent;
     private FeedBackPresenter mPresenter;
 
@@ -42,9 +46,11 @@ public class FeedBackActivity extends BaseActivity implements FeedBackContract.M
 
         mBtnOk = findViewById(R.id.btn_ok);
         mEtContent = findViewById(R.id.et_content);
+        mMarqueeView = findViewById(R.id.mv);
 
         mPresenter = new FeedBackPresenter();
         mPresenter.subscribe(this);
+        mPresenter.initTopBanner();
 
         mBtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +81,11 @@ public class FeedBackActivity extends BaseActivity implements FeedBackContract.M
         } else if (status == 0) {
             ToastHelper.shortToast(getString(R.string.string_feedback_err));
         }
+    }
+
+    @Override
+    public void initTopBanner(List<String> bannerList) {
+        mMarqueeView.setAdapter(new TopBannerAdapter(this, bannerList));
     }
 
     @Override

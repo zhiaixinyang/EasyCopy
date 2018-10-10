@@ -1,5 +1,6 @@
 package com.mdove.easycopy.activity.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,6 +23,8 @@ import com.mdove.easycopy.receiver.NetworkConnectChangedReceiver;
 import com.mdove.easycopy.utils.AppUtils;
 import com.mdove.easycopy.utils.ToastHelper;
 import com.mdove.easycopy.utils.anim.AnimUtils;
+import com.mdove.easycopy.utils.permission.PermissionGrantCallback;
+import com.mdove.easycopy.utils.permission.PermissionRequest;
 import com.mdove.easycopy.utils.permission.PermissionUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -34,6 +37,7 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements MainContract.MvpView {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 100;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
     private ActivityMainBinding mBinding;
     private MainPresenter mPresenter;
     private Subscription mSubscription;
@@ -58,6 +62,7 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     protected void onResume() {
         super.onResume();
         initSwitch();
+        checkCameraPermission();
         registerNetwork();
         if (mPresenter != null) {
             mPresenter.refreshStatistics();
@@ -188,6 +193,24 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
         }
     }
 
+    private void checkCameraPermission() {
+        boolean permission = PermissionUtils.hasPermissions(this, Manifest.permission.CAMERA);
+        if (!permission) {
+            PermissionUtils.requestPermission(this, CAMERA_PERMISSION_REQUEST_CODE, Manifest.permission.CAMERA,
+                    new PermissionGrantCallback() {
+
+                        @Override
+                        public void permissionGranted(int requestCode) {
+                        }
+
+                        @Override
+                        public void permissionRefused(int requestCode) {
+                            ToastHelper.shortToast(R.string.string_permission_camera_error);
+                        }
+                    });
+        }
+    }
+
     private void switchStatus(boolean isSelect, boolean isSilent) {
         if (isSelect && isSilent) {
             return;
@@ -202,12 +225,12 @@ public class MainActivity extends BaseActivity implements MainContract.MvpView {
     }
 
     private void registerNetwork() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
-            filter.addAction("android.net.wifi.STATE_CHANGE");
-            registerReceiver(mNetworkConnectChangedReceiver, filter);
-        }
+        mNetworkConnectChangedReceiver = new NetworkConnectChangedReceiver();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        filter.addAction("android.net.wifi.STATE_CHANGE");
+        registerReceiver(mNetworkConnectChangedReceiver, filter);
     }
 }

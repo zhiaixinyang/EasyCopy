@@ -90,4 +90,6 @@
     <string name="string_register_ocr_suc">图像识别服务注册成功，随时准备待命~</string>
     <string name="string_register_ocr_no_network">图像识别需要借助网络，请保持网络畅通~</string>
     <string name="string_no_network">无网络，请保证网络畅通~</string>
+    <string name="string_error_register_ocr">错误信息已经复制粘贴板</string>
+    <string name="string_permission_camera_error">未授予拍照权限。</string>
 </resources>

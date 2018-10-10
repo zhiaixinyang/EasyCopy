@@ -29,6 +29,8 @@ public interface ResultOCRContract {
 
         void showLoading(String content);
 
+        void registerOcrError(String content);
+
         void dismissLoading();
     }
 }

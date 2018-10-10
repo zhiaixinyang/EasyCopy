@@ -14,9 +14,13 @@ import java.util.List;
 public interface FeedBackContract {
     interface Presenter extends BasePresenter<MvpView> {
         void sendFeedBack(String content);
+
+        void initTopBanner();
     }
 
     interface MvpView extends BaseView<Presenter> {
         void sendFeedBackReturn(int status);
+
+        void initTopBanner(List<String> bannerList);
     }
 }

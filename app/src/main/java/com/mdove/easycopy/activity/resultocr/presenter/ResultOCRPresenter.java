@@ -49,7 +49,7 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
                 String content = ResultOCRHelper.getStringFromModel(model);
                 boolean isSuc = true;
 
-                if (TextUtils.isEmpty(content)) {
+                if (TextUtils.isEmpty(content) || TextUtils.equals(content, StringUtil.getString(R.string.string_result_ocr_error))) {
                     content = "很抱歉,此图片无法识别并提取出文字。";
                     isSuc = false;
                 }
@@ -67,39 +67,52 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
 
                 mView.showResult(realModel);
             }
+
+            @Override
+            public void onRegisterOCR(String path, final int type) {
+                mView.dismissLoading();
+                startOCR(path, type);
+            }
+
+            @Override
+            public void onRegisterOCRError(String error) {
+                mView.dismissLoading();
+                mView.registerOcrError(error);
+            }
         });
     }
 
     @Override
     public void startOCRForList(List<String> paths) {
-        mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
-        mOCRImages = new ArrayList<>();
-        mImagePaths = paths;
-        final List<String> mTempPaths = paths;
-        startOCRForPath(mImagePaths.get(0), new OnSucListener() {
-            @Override
-            public void onSucOCRPaths() {
-                String content = "";
-                for (OCRImages ocrImages : mOCRImages) {
-                    content += ocrImages.mResult + "\n";
-                }
-                ResultOCR resultOCR = new ResultOCR();
-                resultOCR.mResultOCR = content;
-                resultOCR.mResultOCRTime = System.currentTimeMillis();
-                resultOCR.mPaths = JsonUtil.encode(mTempPaths);
-                mResultOCRDao.insert(resultOCR);
-
-                ResultOCRModel realModel = new ResultOCRModel(content, mImagePaths.get(0));
-
-                mView.dismissLoading();
-                mView.showResult(realModel);
-            }
-
-            @Override
-            public void onErrOCRPaths() {
-
-            }
-        });
+//        mView.showLoading(StringUtil.getString(R.string.string_start_ocr));
+//        mOCRImages = new ArrayList<>();
+//        mImagePaths = paths;
+//        final List<String> mTempPaths = paths;
+//        startOCRForPath(mImagePaths.get(0), new OnSucListener() {
+//            @Override
+//            public void onSucOCRPaths() {
+//                String content = "";
+//                for (OCRImages ocrImages : mOCRImages) {
+//                    content += ocrImages.mResult + "\n";
+//                }
+//                ResultOCR resultOCR = new ResultOCR();
+//                resultOCR.mResultOCR = content;
+//                resultOCR.mResultOCRTime = System.currentTimeMillis();
+//                resultOCR.mPaths = JsonUtil.encode(mTempPaths);
+//                mResultOCRDao.insert(resultOCR);
+//
+//                ResultOCRModel realModel = new ResultOCRModel(content, mImagePaths.get(0));
+//
+//                mView.dismissLoading();
+//                mView.showResult(realModel);
+//            }
+//
+//            @Override
+//            public void onErrOCRPaths() {
+//                mView.dismissLoading();
+//
+//            }
+//        });
     }
 
     @Override
@@ -119,26 +132,31 @@ public class ResultOCRPresenter implements ResultOCRContract.Presenter {
     }
 
     private void startOCRForPath(final String path, final OnSucListener listener) {
-        PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
-            @Override
-            public void onRecognizeResult(RecognizeResultModel model) {
-                String content = ResultOCRHelper.getStringFromModel(model);
-
-                if (TextUtils.isEmpty(content)) {
-                    content = "很抱歉,此图片无法识别并提取出文字。";
-                }
-                mOCRImages.add(new OCRImages(path, content));
-
-                if (mImagePaths.size() >= 2) {
-                    mImagePaths.remove(0);
-                    startOCRForPath(mImagePaths.get(0), listener);
-                } else {
-                    if (listener != null) {
-                        listener.onSucOCRPaths();
-                    }
-                }
-            }
-        });
+//        PreOcrManager.baiduOcrFromPath(mView.getContext(), path, new PreOcrManager.RecognizeResultListener() {
+//            @Override
+//            public void onRecognizeResult(RecognizeResultModel model) {
+//                String content = ResultOCRHelper.getStringFromModel(model);
+//
+//                if (TextUtils.isEmpty(content)) {
+//                    content = "很抱歉,此图片无法识别并提取出文字。";
+//                }
+//                mOCRImages.add(new OCRImages(path, content));
+//
+//                if (mImagePaths.size() >= 2) {
+//                    mImagePaths.remove(0);
+//                    startOCRForPath(mImagePaths.get(0), listener);
+//                } else {
+//                    if (listener != null) {
+//                        listener.onSucOCRPaths();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onRegisterOCR(String path, final int type) {
+//
+//            }
+//        });
     }
 
     private interface OnSucListener {

@@ -7,9 +7,12 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.mdove.easycopy.R;
+import com.mdove.easycopy.activity.feedback.FeedBackActivity;
 import com.mdove.easycopy.activity.resultocr.model.handler.ResultOCRHandler;
 import com.mdove.easycopy.base.BaseActivity;
 import com.mdove.easycopy.activity.crop.Crop;
@@ -18,6 +21,8 @@ import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
 import com.mdove.easycopy.activity.resultocr.model.ResultOCRModelVM;
 import com.mdove.easycopy.activity.resultocr.presenter.ResultOCRPresenter;
 import com.mdove.easycopy.activity.resultocr.presenter.contract.ResultOCRContract;
+import com.mdove.easycopy.utils.ClipboardUtils;
+import com.mdove.easycopy.utils.StringUtil;
 import com.mdove.easycopy.utils.ToastHelper;
 
 import java.io.File;
@@ -151,6 +156,25 @@ public class ResultOCRActivity extends BaseActivity implements ResultOCRContract
     @Override
     public void showResult(ResultOCRModel model) {
         mBinding.setVm(new ResultOCRModelVM(model));
+    }
+
+    @Override
+    public void registerOcrError(final String content) {
+        Snackbar.make(mBinding.getRoot(), content, Snackbar.LENGTH_LONG).setAction("反馈", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardUtils.copyToClipboard(ResultOCRActivity.this, content);
+                FeedBackActivity.start(ResultOCRActivity.this);
+                ToastHelper.showToastCenter(StringUtil.getString(R.string.string_error_register_ocr));
+                finish();
+            }
+        }).addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                finish();
+            }
+        }).show();
     }
 
     @Override

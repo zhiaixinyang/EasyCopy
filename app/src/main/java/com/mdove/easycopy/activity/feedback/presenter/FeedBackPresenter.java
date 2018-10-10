@@ -70,8 +70,19 @@ public class FeedBackPresenter implements FeedBackContract.Presenter {
                     ToastHelper.shortToast(R.string.string_feedback_err);
                 }
             });
-        }else{
+        } else {
             ToastHelper.shortToast(R.string.string_no_network);
         }
+    }
+
+    @Override
+    public void initTopBanner() {
+        List<String> arr = new ArrayList<>();
+        arr.add("这是一个工具类的应用~");
+        arr.add("这个应用是我们工作之余开发的~");
+        arr.add("更多的是为了解决日常中的需要~");
+        arr.add("欢迎反馈：任何问题、吐槽、建议~");
+        arr.add("我们会不断改进哒~");
+        mView.initTopBanner(arr);
     }
 }

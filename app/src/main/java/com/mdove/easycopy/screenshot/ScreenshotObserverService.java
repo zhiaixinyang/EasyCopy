@@ -16,6 +16,7 @@ import com.mdove.easycopy.R;
 import com.mdove.easycopy.greendao.ResultOCRDao;
 import com.mdove.easycopy.greendao.entity.ResultOCR;
 import com.mdove.easycopy.ocr.baiduocr.PreOcrManager;
+import com.mdove.easycopy.ocr.baiduocr.RecognizeResultAdapterListener;
 import com.mdove.easycopy.ocr.baiduocr.model.RecognizeResultModel;
 import com.mdove.easycopy.ocr.baiduocr.utils.ResultOCRHelper;
 import com.mdove.easycopy.activity.resultocr.model.ResultOCRModel;
@@ -90,7 +91,7 @@ public class ScreenshotObserverService extends Service {
                     if (TextUtils.isEmpty(path)) {
                         break;
                     }
-                    PreOcrManager.baiduOcrFromPath(this, path, new PreOcrManager.RecognizeResultListener() {
+                    PreOcrManager.baiduOcrFromPath(this, path, new RecognizeResultAdapterListener() {
                         @Override
                         public void onRecognizeResult(RecognizeResultModel model) {
                             boolean isCopy = true;
@@ -113,7 +114,6 @@ public class ScreenshotObserverService extends Service {
                                 ToastHelper.shortToast(StringUtil.getString(R.string.string_silent_ocr_suc));
                             }
                         }
-
                     });
                     break;
                 }

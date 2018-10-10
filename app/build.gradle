@@ -55,6 +55,16 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.mdove
+
+            ndk {
+                abiFilters "armeabi","armeabi-v7a"
+            }
+        }
+
+        debug {
+            ndk {
+                abiFilters "armeabi","armeabi-v7a"
+            }
         }
 
         applicationVariants.all { variant ->
