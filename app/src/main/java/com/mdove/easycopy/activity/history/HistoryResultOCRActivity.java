@@ -13,10 +13,11 @@ import com.mdove.easycopy.activity.history.adapter.HistoryResultOCRAdapter;
 import com.mdove.easycopy.activity.history.model.HistoryResultOCRModel;
 import com.mdove.easycopy.activity.history.presenter.HistoryResultOCRPresenter;
 import com.mdove.easycopy.activity.history.presenter.contract.HistoryResultOCRContract;
+import com.mdove.easycopy.ui.swipeback.SwipeBackActivity;
 
 import java.util.List;
 
-public class HistoryResultOCRActivity extends BaseActivity implements HistoryResultOCRContract.MvpView {
+public class HistoryResultOCRActivity extends SwipeBackActivity implements HistoryResultOCRContract.MvpView {
     private ActivityHistoryResultOcrBinding mBinding;
     private HistoryResultOCRAdapter mAdapter;
     private HistoryResultOCRPresenter mPresenter;

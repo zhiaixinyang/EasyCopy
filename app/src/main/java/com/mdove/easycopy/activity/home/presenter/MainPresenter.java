@@ -84,8 +84,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onClickHistory() {
-//        IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
-        ScanImageActivity.start(mView.getContext());
+        IntentUtils.startActivity(mView.getContext(), HistoryResultOCRActivity.class);
+//        ScanImageActivity.start(mView.getContext());
     }
 
     @Override
